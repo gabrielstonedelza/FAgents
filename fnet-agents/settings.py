@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'abiskitchen.urls'
+ROOT_URLCONF = 'fnet-agents.urls'
 
 TEMPLATES = [
     {
@@ -68,7 +68,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'abiskitchen.wsgi.application'
+WSGI_APPLICATION = 'fnet-agents.wsgi.application'
 
 
 # Database
