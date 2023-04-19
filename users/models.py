@@ -17,7 +17,7 @@ class User(AbstractUser):
     full_name = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=30, unique=True)
     user_blocked = models.BooleanField(default=False)
-    supervisor = models.ForeignKey(DeUser, on_delete=models.CASCADE, default=1)
+    supervisor = models.ForeignKey(DeUser, on_delete=models.CASCADE)
     agent_unique_code = models.CharField(max_length=500, default='')
 
     def save(self, *args, **kwargs):
@@ -43,7 +43,7 @@ class AdminProfile(models.Model):
 
     def get_profile_pic(self):
         if self.profile_pic:
-            return "http://127.0.0.1:8000" + self.profile_pic.url
+            return "https://fnetagents.xyz" + self.profile_pic.url
         return ''
 
     def get_email(self):
@@ -68,7 +68,7 @@ class SupervisorProfile(models.Model):
 
     def get_profile_pic(self):
         if self.profile_pic:
-            return "http://127.0.0.1:8000" + self.profile_pic.url
+            return "https://fnetagents.xyz" + self.profile_pic.url
         return ''
 
     def get_email(self):
@@ -86,7 +86,7 @@ class AgentProfile(models.Model):
     profile_pic = models.ImageField(upload_to="profile_pics", default="default_user.png")
 
     def get_supervisor(self):
-        return self.supervisor.username
+        return self.user.supervisor.username
 
     def get_username(self):
         return self.user.username
@@ -96,7 +96,7 @@ class AgentProfile(models.Model):
 
     def get_profile_pic(self):
         if self.profile_pic:
-            return "http://127.0.0.1:8000" + self.profile_pic.url
+            return "https://fnetagents.xyz" + self.profile_pic.url
         return ''
 
     def get_email(self):
