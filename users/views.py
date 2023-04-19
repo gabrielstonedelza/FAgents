@@ -89,3 +89,20 @@ class GetAllAgents(generics.ListAPIView):
 
     def get_queryset(self):
         return User.objects.exclude(id=1).order_by('-date_joined')
+
+
+# get all supervisors
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_all_supervisors(request):
+    supervisors = User.objects.filter(user_type="Supervisor")
+    serializer = UsersSerializer(supervisors, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_all_agents(request):
+    agents = User.objects.filter(user_type="Agent")
+    serializer = UsersSerializer(agents, many=True)
+    return Response(serializer.data)

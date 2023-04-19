@@ -11,6 +11,8 @@ urlpatterns = [
     # path('email/reset/confirm/<uid>/<token>/', TemplateView.as_view(template_name="index.html")),
     path('get_user_details/', views.get_user),
     path('get_supervisors_profile/', views.get_supervisors_profile),
+    path('get_all_supervisors/', views.get_all_supervisors),
+    path('get_all_agents/', views.get_all_agents),
     path('get_agents_profile/', views.get_agents_profile),
     path('get_admins_profile/', views.get_admins_profile),
     path('update_supervisor_profile/', views.update_supervisor_profile),
