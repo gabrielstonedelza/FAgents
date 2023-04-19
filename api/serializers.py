@@ -58,7 +58,7 @@ class AddToBlockListSerializer(serializers.ModelSerializer):
 class AuthenticatePhoneSerializer(serializers.ModelSerializer):
     class Meta:
         model = AuthenticatedPhoneAddress
-        fields = ['id','agent','phones_imei','authenticated_phone','date_authenticated','get_username']
+        fields = ['id','agent','phones_id','phone_model','phone_brand','finger_print','authenticated_phone','date_authenticated','get_username']
         read_only_fields = ['agent']
 
 class NotificationSerializer(serializers.ModelSerializer):
