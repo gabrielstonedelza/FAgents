@@ -576,14 +576,16 @@ def get_my_re_balancing_requests(request):
 
 # authenticate agents phones
 
-@api_view(['POST'])
+@api_view(['GET','POST'])
 @permission_classes([permissions.IsAuthenticated])
 def authenticate_phone(request):
     serializer = AuthenticatePhoneSerializer(data=request.data)
     if serializer.is_valid():
-        serializer.save(agent=request.user)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        if not AuthenticatedPhoneAddress.objects.filter(agent=request.user).exists():
+            serializer.save(agent=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
 def authenticated_phone_details(request, pk):
