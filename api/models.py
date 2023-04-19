@@ -383,9 +383,9 @@ class AgentReBalancing(models.Model):
 class AuthenticatedPhoneAddress(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE)
     phones_id = models.CharField(max_length=100, unique=True)
-    phone_model = models.CharField(max_length=100,default="")
-    phone_brand = models.CharField(max_length=100,default="")
-    finger_print = models.CharField(max_length=200,default="")
+    phone_model = models.CharField(max_length=100, unique=True)
+    phone_brand = models.CharField(max_length=100, unique=True)
+    finger_print = models.CharField(max_length=200, unique=True)
     authenticated_phone = models.BooleanField(default=False)
     date_authenticated = models.DateTimeField(auto_now_add=True)
 
