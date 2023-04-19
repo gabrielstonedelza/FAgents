@@ -93,7 +93,7 @@ class GetAllAgents(generics.ListAPIView):
 
 # get all supervisors
 @api_view(['GET'])
-@permission_classes([permissions.IsAuthenticated])
+@permission_classes([permissions.AllowAny])
 def get_all_supervisors(request):
     supervisors = User.objects.filter(user_type="Supervisor")
     serializer = UsersSerializer(supervisors, many=True)
@@ -101,7 +101,7 @@ def get_all_supervisors(request):
 
 
 @api_view(['GET'])
-@permission_classes([permissions.IsAuthenticated])
+@permission_classes([permissions.AllowAny])
 def get_all_agents(request):
     agents = User.objects.filter(user_type="Agent")
     serializer = UsersSerializer(agents, many=True)
