@@ -116,4 +116,6 @@ urlpatterns = [
     path("get_user_float_requests/<str:username>/",views.get_user_float_requests),
     path("get_all_floats/",views.get_all_floats),
     path("get_my_float_requests/",views.get_my_float_requests),
+
+    path("get_all_my_agents/", views.get_all_my_agents)
 ]

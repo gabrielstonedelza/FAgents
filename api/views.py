@@ -748,3 +748,11 @@ def get_my_float_requests(request):
     floats = AgentsFloat.objects.filter(agent=request.user).order_by('-date_added')
     serializer = AgentsFloatSerializer(floats, many=True)
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_all_my_agents(request):
+    agents = User.objects.filter(supervisor=request.user)
+    serializer = UsersSerializer(agents, many=True)
+    return Response(serializer.data)
