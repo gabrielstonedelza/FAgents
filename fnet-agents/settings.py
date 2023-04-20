@@ -142,7 +142,7 @@ EMAIL_PORT = config('EMAIL_PORT', default=25, cast=int)
 
 AUTH_USER_MODEL = 'users.User'
 DJOSER = {
-    'LOGIN_FIELD': 'email',
+    'LOGIN_FIELD': 'agent_unique_code',
     'USER_CREATE_PASSWORD_RETYPE': True,
     'PASSWORD_CHANGED_EMAIL_CONFIRMATION': True,
     'SEND_CONFIRMATION_EMAIL': True,
