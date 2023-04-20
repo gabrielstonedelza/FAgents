@@ -17,14 +17,14 @@ class User(AbstractUser):
     full_name = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=30, unique=True)
     user_blocked = models.BooleanField(default=False)
-    supervisor = models.ForeignKey(DeUser, on_delete=models.CASCADE)
+    supervisor = models.CharField(max_length=100, default="admin", blank=True)
     agent_unique_code = models.CharField(max_length=15,unique=True)
 
-    def save(self, *args, **kwargs):
-        self.agent_unique_code = self.username[:5] + str(random.randint(1, 500))
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     self.agent_unique_code = self.username[:5] + str(random.randint(1, 500))
+    #     super().save(*args, **kwargs)
 
-    REQUIRED_FIELDS = ['email','user_type', 'username', 'full_name', 'phone_number']
+    REQUIRED_FIELDS = ['email','user_type', 'username', 'full_name', 'phone_number',]
     USERNAME_FIELD = 'agent_unique_code'
 
     def get_username(self):
@@ -59,6 +59,7 @@ class AdminProfile(models.Model):
 class SupervisorProfile(models.Model):
     user = models.OneToOneField(DeUser, on_delete=models.CASCADE, related_name="supervisor_profile")
     profile_pic = models.ImageField(upload_to="profile_pics", default="default_user.png")
+    supervisor = models.CharField(max_length=100, default="admin", blank=True)
 
     def get_username(self):
         return self.user.username
@@ -84,6 +85,7 @@ class SupervisorProfile(models.Model):
 class AgentProfile(models.Model):
     user = models.OneToOneField(DeUser, on_delete=models.CASCADE, related_name="agent_profile")
     profile_pic = models.ImageField(upload_to="profile_pics", default="default_user.png")
+    supervisor = models.CharField(max_length=100, default="", blank=True)
 
     def get_supervisor(self):
         return self.user.supervisor.username
@@ -107,3 +109,7 @@ class AgentProfile(models.Model):
 
     def get_full_name(self):
         return self.user.full_name
+
+    def save(self, *args, **kwargs):
+        self.supervisor = self.user.supervisor
+        super().save(*args, **kwargs)
