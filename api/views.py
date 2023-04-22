@@ -7,8 +7,87 @@ from users.serializers import UsersSerializer
 from rest_framework import filters
 from django.http import Http404
 from datetime import datetime, date, time
-from .models import Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, AuthenticatedPhoneAddress, Notifications, AgentAccounts, AgentsFloat
-from .serializers import CustomerSerializer, CustomerAccountsSerializer, BankDepositSerializer, MomoDepositSerializer, MomoWithdrawalSerializer, BankWithdrawalSerializer, PaymentForReBalancingSerializer, ReportSerializer, AddToBlockListSerializer, AuthenticatePhoneSerializer, NotificationSerializer,AgentReBalancingSerializer , AgentAccountsSerializer,AgentsFloatSerializer,FraudSerializer
+from .models import Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, \
+    PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, AgentsFloat, \
+    GroupMessage, PrivateUserMessage,AgentPreregistration
+from .serializers import CustomerSerializer, CustomerAccountsSerializer, BankDepositSerializer, MomoDepositSerializer, \
+    MomoWithdrawalSerializer, BankWithdrawalSerializer, PaymentForReBalancingSerializer, ReportSerializer, \
+    AddToBlockListSerializer, NotificationSerializer, AgentReBalancingSerializer, AgentAccountsSerializer, \
+    AgentsFloatSerializer, FraudSerializer, GroupMessageSerializer, PrivateUserMessageSerializer, AgentPreregistrationSerializer
+
+# agent pre registration
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def add_agent_pre_reg(request):
+    serializer = AgentPreregistrationSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(user=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_agents_pre_registrations(request):
+    agents_requesting = AgentPreregistration.objects.all().order_by('-date_registered')
+    serializer = AgentPreregistrationSerializer(agents_requesting, many=True)
+    return Response(serializer.data)
+# private and public messages
+# group message post and get request
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def send_group_message(request):
+    serializer = GroupMessageSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(user=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_all_group_message(request):
+    messages = GroupMessage.objects.all().order_by('-timestamp')
+    serializer = GroupMessageSerializer(messages, many=True)
+    return Response(serializer.data)
+
+
+# private messages
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def send_private_message(request):
+    serializer = PrivateUserMessageSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_private_message(request, user1, user2):
+    all_messages = []
+    messages1 = PrivateUserMessage.objects.filter(sender=user1, receiver=user2).order_by('-timestamp')
+    messages2 = PrivateUserMessage.objects.filter(sender=user2, receiver=user1).order_by('-timestamp')
+    for i in messages1:
+        all_messages.append(i)
+
+    for m in messages2:
+        all_messages.append(m)
+    serializer = PrivateUserMessageSerializer(all_messages, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([permissions.AllowAny])
+def private_message_detail(request, user1, user2):
+    message = PrivateUserMessage.objects.get(sender=user1, receiver=user2)
+    if message:
+        message.read = True
+        message.save()
+    serializer = PrivateUserMessageSerializer(message, many=False)
+    return Response(serializer.data)
+
 
 # for customers
 @api_view(['POST'])
@@ -573,39 +652,6 @@ def get_my_re_balancing_requests(request):
     serializer = AgentReBalancingSerializer(balancing, many=True)
     return Response(serializer.data)
 
-
-# authenticate agents phones
-
-@api_view(['GET','POST'])
-@permission_classes([permissions.IsAuthenticated])
-def authenticate_phone(request):
-    serializer = AuthenticatePhoneSerializer(data=request.data)
-    if serializer.is_valid():
-        if not AuthenticatedPhoneAddress.objects.filter(agent=request.user).exists():
-            serializer.save(agent=request.user)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-@api_view(['GET'])
-@permission_classes([permissions.IsAuthenticated])
-def authenticated_phone_details(request, pk):
-    auth_phone = AuthenticatedPhoneAddress.objects.get(pk=pk)
-    serializer = AuthenticatePhoneSerializer(auth_phone, many=False)
-    return Response(serializer.data)
-
-@api_view(['GET'])
-@permission_classes([permissions.IsAuthenticated])
-def get_all_authenticated_phones(request):
-    authentications = AuthenticatedPhoneAddress.objects.all().order_by('-date_authenticated')
-    serializer = AuthenticatePhoneSerializer(authentications, many=True)
-    return Response(serializer.data)
-
-@api_view(['GET'])
-@permission_classes([permissions.IsAuthenticated])
-def get_my_authenticated_phone_details(request):
-    auth_details = AuthenticatedPhoneAddress.objects.filter(agent=request.user).order_by('-date_authenticated')
-    serializer = AuthenticatePhoneSerializer(auth_details, many=True)
-    return Response(serializer.data)
 
 # agents accounts registration
 @api_view(['POST'])

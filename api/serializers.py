@@ -1,5 +1,24 @@
 from rest_framework import serializers
-from .models import Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, AuthenticatedPhoneAddress, Notifications, AgentAccounts, AgentsFloat
+from .models import Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, AgentsFloat,PrivateChatId,PrivateUserMessage,GroupMessage,AgentPreregistration
+
+class AgentPreregistrationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AgentPreregistration
+        fields = ['id','name','phone_name','digital_address','date_registered']
+
+class GroupMessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GroupMessage
+        fields = ['id','user','get_username','get_phone_number','get_date']
+        read_only_fields = ['user']
+class PrivateUserMessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PrivateUserMessage
+        fields = ['id','sender','receiver','private_chat_id','message','read','isSender','isReceiver','timestamp','get_senders_username','get_receivers_username']
+class PrivateChatIdSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PrivateChatId
+        fields = ['id','chat_id','date_created']
 
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -16,25 +35,25 @@ class CustomerAccountsSerializer(serializers.ModelSerializer):
 class BankDepositSerializer(serializers.ModelSerializer):
     class Meta:
         model = BankDeposit
-        fields = ['id','agent','customer','bank','account_number','account_name','amount','get_customer_name','get_customer_phone','get_agents_phone','get_agent_username','date_added']
+        fields = ['id','agent','customer','bank','account_number','account_name','amount','depositor_name','get_customer_name','get_customer_phone','get_agents_phone','get_agent_username','date_added','deposited_month','deposited_year','d_200','d_100','d_50','d_20','d_10','d_5','d_2','d_1','total']
         read_only_fields = ['agent']
 
 class MomoDepositSerializer(serializers.ModelSerializer):
     class Meta:
         model = MobileMoneyDeposit
-        fields = ['id','agent','customer','network','amount','charges','agent_commission','date_deposited','get_customer_name','get_customer_phone','get_agents_phone','get_agent_username']
+        fields = ['id','agent','customer','network','amount','date_deposited','get_customer_name','get_customer_phone','get_agents_phone','get_agent_username','type','d_200','d_100','d_50','d_20','d_10','d_5','d_2','d_1','total']
         read_only_fields = ['agent']
 
 class MomoWithdrawalSerializer(serializers.ModelSerializer):
     class Meta:
         model = MobileMoneyWithdraw
-        fields = ['id','agent','customer','network','id_type','id_number','amount','charges','cash_out_commission','agent_commission','mtn_commission','date_of_withdrawal','get_customer_name','get_customer_phone','get_agents_phone','get_agent_username']
+        fields = ['id','agent','customer','network','id_type','id_number','amount','date_of_withdrawal','get_customer_name','get_customer_phone','get_agents_phone','get_agent_username','d_200','d_100','d_50','d_20','d_10','d_5','d_2','d_1','total']
         read_only_fields = ['agent']
 
 class BankWithdrawalSerializer(serializers.ModelSerializer):
     class Meta:
         model = BankWithdrawal
-        fields = ['id','agent','customer','bank','withdrawal_type','id_type','id_number','amount','date_of_withdrawal','get_customer_name','get_customer_phone','get_agents_phone','get_agent_username']
+        fields = ['id','agent','customer','bank','withdrawal_type','id_type','id_number','amount','date_of_withdrawal','get_customer_name','get_customer_phone','get_agents_phone','get_agent_username','d_200','d_100','d_50','d_20','d_10','d_5','d_2','d_1','total']
         read_only_fields = ['agent']
 
 
@@ -54,12 +73,6 @@ class AddToBlockListSerializer(serializers.ModelSerializer):
     class Meta:
         model = AddToBlockList
         fields = ['id','user','date_blocked','get_username']
-
-class AuthenticatePhoneSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AuthenticatedPhoneAddress
-        fields = ['id','agent','phones_id','phone_model','phone_brand','finger_print','authenticated_phone','date_authenticated','get_username']
-        read_only_fields = ['agent']
 
 class NotificationSerializer(serializers.ModelSerializer):
     class Meta:

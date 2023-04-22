@@ -7,6 +7,7 @@ from decimal import Decimal
 from django.utils.text import slugify
 from datetime import datetime
 from users.models import DeUser, SupervisorProfile, AdminProfile, AgentProfile
+from django.contrib.humanize.templatetags import humanize
 
 User = settings.AUTH_USER_MODEL
 
@@ -168,12 +169,41 @@ class CustomerAccounts(models.Model):
 
 class BankDeposit(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE, related_name="agent_requesting_bank")
-    customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="bank_customer")
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="bank_customer")
     bank = models.CharField(max_length=50, choices=BANKS, blank=True, default="")
     account_number = models.TextField(blank=True, max_length=17)
     account_name = models.CharField(max_length=100, blank=True, default="")
     amount = models.DecimalField(max_digits=19, decimal_places=2, blank=True)
+    total = models.DecimalField(decimal_places=2, max_digits=19, default=0.0)
+    d_200 = models.IntegerField(default=0, blank=True)
+    d_100 = models.IntegerField(default=0, blank=True)
+    d_50 = models.IntegerField(default=0, blank=True)
+    d_20 = models.IntegerField(default=0, blank=True)
+    d_10 = models.IntegerField(default=0, blank=True)
+    d_5 = models.IntegerField(default=0, blank=True)
+    d_2 = models.IntegerField(default=0, blank=True)
+    d_1 = models.IntegerField(default=0, blank=True)
+    depositor_name = models.CharField(max_length=50, blank=True, default="")
+    deposited_month = models.CharField(max_length=10, blank=True, default="")
+    deposited_year = models.CharField(max_length=10, blank=True, default="")
     date_added = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        two_h_cedis_values = self.d_200 * 200
+        one_h_cedis_values = self.d_100 * 100
+        fifty_cedis_values = self.d_50 * 50
+        twenty_cedis_values = self.d_20 * 20
+        ten_cedis_values = self.d_10 * 10
+        five_cedis_values = self.d_5 * 5
+        two_cedis_values = self.d_2 * 2
+        one_cedi_values = self.d_1 * 1
+
+        amount_total = Decimal(two_h_cedis_values) + Decimal(one_h_cedis_values) + Decimal(
+            fifty_cedis_values) + Decimal(
+            twenty_cedis_values) + Decimal(ten_cedis_values) + Decimal(five_cedis_values) + Decimal(
+            two_cedis_values) + Decimal(one_cedi_values)
+        self.total = Decimal(amount_total)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.customer.name
@@ -194,13 +224,38 @@ class BankDeposit(models.Model):
 class MobileMoneyDeposit(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE, related_name="agent_requesting")
     customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="momo_deposit_customer")
-    # customer_name = models.CharField(max_length=30, blank=True)
+    depositor_name = models.CharField(max_length=30, blank=True, default="")
+    depositor_number = models.CharField(max_length=30, blank=True, default="")
+    reference = models.CharField(max_length=100, blank=True, default="")
     network = models.CharField(max_length=20, choices=NETWORKS, blank=True, default="Select Network")
-    # type = models.CharField(max_length=20, blank=True, choices=MOBILE_MONEY_DEPOSIT_TYPE)
-    amount = models.DecimalField(max_digits=19, decimal_places=2, blank=True)
-    charges = models.DecimalField(max_digits=19, decimal_places=2, default=0.0)
-    agent_commission = models.DecimalField(max_digits=19, decimal_places=2, default=0.0)
+    type = models.CharField(max_length=20, blank=True, choices=MOBILE_MONEY_DEPOSIT_TYPE)
+    total = models.DecimalField(decimal_places=2, max_digits=19, default=0.0)
+    d_200 = models.IntegerField(default=0, blank=True)
+    d_100 = models.IntegerField(default=0, blank=True)
+    d_50 = models.IntegerField(default=0, blank=True)
+    d_20 = models.IntegerField(default=0, blank=True)
+    d_10 = models.IntegerField(default=0, blank=True)
+    d_5 = models.IntegerField(default=0, blank=True)
+    d_2 = models.IntegerField(default=0, blank=True)
+    d_1 = models.IntegerField(default=0, blank=True)
     date_deposited = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        two_h_cedis_values = self.d_200 * 200
+        one_h_cedis_values = self.d_100 * 100
+        fifty_cedis_values = self.d_50 * 50
+        twenty_cedis_values = self.d_20 * 20
+        ten_cedis_values = self.d_10 * 10
+        five_cedis_values = self.d_5 * 5
+        two_cedis_values = self.d_2 * 2
+        one_cedi_values = self.d_1 * 1
+
+        amount_total = Decimal(two_h_cedis_values) + Decimal(one_h_cedis_values) + Decimal(
+            fifty_cedis_values) + Decimal(
+            twenty_cedis_values) + Decimal(ten_cedis_values) + Decimal(five_cedis_values) + Decimal(
+            two_cedis_values) + Decimal(one_cedi_values)
+        self.total = Decimal(amount_total)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Mobile money request made for {self.amount}"
@@ -226,11 +281,35 @@ class MobileMoneyWithdraw(models.Model):
     id_type = models.CharField(max_length=30, choices=ID_TYPES)
     id_number = models.CharField(max_length=20)
     amount = models.DecimalField(max_digits=19, decimal_places=2, blank=True)
-    charges = models.DecimalField(max_digits=19, decimal_places=2, default=0.0)
-    cash_out_commission = models.DecimalField(max_digits=19, decimal_places=2, default=0.0)
-    agent_commission = models.DecimalField(max_digits=19, decimal_places=2, default=0.0)
-    mtn_commission = models.DecimalField(max_digits=19, decimal_places=2, default=0.0)
+
+    total = models.DecimalField(decimal_places=2, max_digits=19, default=0.0)
+    d_200 = models.IntegerField(default=0, blank=True)
+    d_100 = models.IntegerField(default=0, blank=True)
+    d_50 = models.IntegerField(default=0, blank=True)
+    d_20 = models.IntegerField(default=0, blank=True)
+    d_10 = models.IntegerField(default=0, blank=True)
+    d_5 = models.IntegerField(default=0, blank=True)
+    d_2 = models.IntegerField(default=0, blank=True)
+    d_1 = models.IntegerField(default=0, blank=True)
     date_of_withdrawal = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        two_h_cedis_values = self.d_200 * 200
+        one_h_cedis_values = self.d_100 * 100
+        fifty_cedis_values = self.d_50 * 50
+        twenty_cedis_values = self.d_20 * 20
+        ten_cedis_values = self.d_10 * 10
+        five_cedis_values = self.d_5 * 5
+        two_cedis_values = self.d_2 * 2
+        one_cedi_values = self.d_1 * 1
+
+        amount_total = Decimal(two_h_cedis_values) + Decimal(one_h_cedis_values) + Decimal(
+            fifty_cedis_values) + Decimal(
+            twenty_cedis_values) + Decimal(ten_cedis_values) + Decimal(five_cedis_values) + Decimal(
+            two_cedis_values) + Decimal(one_cedi_values)
+        self.total = Decimal(amount_total)
+        super().save(*args, **kwargs)
+
 
     def __str__(self):
         return f"Withdrawal made for {self.amount}"
@@ -256,7 +335,33 @@ class BankWithdrawal(models.Model):
     id_type = models.CharField(max_length=20, choices=ID_TYPES)
     id_number = models.CharField(max_length=20, default="0")
     amount = models.DecimalField(max_digits=19, decimal_places=2)
+    total = models.DecimalField(decimal_places=2, max_digits=19, default=0.0)
+    d_200 = models.IntegerField(default=0, blank=True)
+    d_100 = models.IntegerField(default=0, blank=True)
+    d_50 = models.IntegerField(default=0, blank=True)
+    d_20 = models.IntegerField(default=0, blank=True)
+    d_10 = models.IntegerField(default=0, blank=True)
+    d_5 = models.IntegerField(default=0, blank=True)
+    d_2 = models.IntegerField(default=0, blank=True)
+    d_1 = models.IntegerField(default=0, blank=True)
     date_of_withdrawal = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        two_h_cedis_values = self.d_200 * 200
+        one_h_cedis_values = self.d_100 * 100
+        fifty_cedis_values = self.d_50 * 50
+        twenty_cedis_values = self.d_20 * 20
+        ten_cedis_values = self.d_10 * 10
+        five_cedis_values = self.d_5 * 5
+        two_cedis_values = self.d_2 * 2
+        one_cedi_values = self.d_1 * 1
+
+        amount_total = Decimal(two_h_cedis_values) + Decimal(one_h_cedis_values) + Decimal(
+            fifty_cedis_values) + Decimal(
+            twenty_cedis_values) + Decimal(ten_cedis_values) + Decimal(five_cedis_values) + Decimal(
+            two_cedis_values) + Decimal(one_cedi_values)
+        self.total = Decimal(amount_total)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Withdrawal made for {self.amount} by {self.agent.username}"
@@ -272,16 +377,6 @@ class BankWithdrawal(models.Model):
 
     def get_agent_username(self):
         return self.agent.username
-
-
-class OTP(models.Model):
-    customer = models.CharField(max_length=20, blank=True)
-    agent = models.ForeignKey(User, on_delete=models.CASCADE, related_name="agent_depositing")
-    otp = models.CharField(max_length=10)
-    date_sent = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.customer
 
 
 class Reports(models.Model):
@@ -308,20 +403,6 @@ class AddToBlockList(models.Model):
 
     def get_username(self):
         return self.user.username
-
-
-class WithdrawalReference(models.Model):
-    agent = models.ForeignKey(User, on_delete=models.CASCADE)
-    amount = models.DecimalField(max_digits=19, decimal_places=2, default=0.0, blank=True)
-    customer_name = models.CharField(max_length=255, )
-    reference = models.CharField(max_length=255, )
-    date_added = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.agent.username
-
-    def get_username(self):
-        return self.agent.username
 
 
 class Fraud(models.Model):
@@ -378,22 +459,6 @@ class AgentReBalancing(models.Model):
 
     def get_agent_accepting_username(self):
         return self.agent2.username
-
-
-class AuthenticatedPhoneAddress(models.Model):
-    agent = models.ForeignKey(User, on_delete=models.CASCADE)
-    phones_id = models.CharField(max_length=100, unique=True)
-    phone_model = models.CharField(max_length=100, unique=True)
-    phone_brand = models.CharField(max_length=100, unique=True)
-    finger_print = models.CharField(max_length=200, unique=True)
-    authenticated_phone = models.BooleanField(default=False)
-    date_authenticated = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.phones_id
-
-    def get_username(self):
-        return self.agent.username
 
 
 class AgentAccounts(models.Model):
@@ -496,3 +561,68 @@ class AgentsFloat(models.Model):
 
     def get_agent_username(self):
         return self.agent.username
+
+class PrivateChatId(models.Model):
+    chat_id = models.CharField(max_length=400, blank=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.chat_id
+class PrivateUserMessage(models.Model):
+    sender = models.ForeignKey(User, on_delete=models.CASCADE)
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name="chatter2")
+    private_chat_id = models.CharField(max_length=400, blank=True)
+    message = models.TextField()
+    read = models.BooleanField(default=False)
+    isSender = models.BooleanField(default=False)
+    isReceiver = models.BooleanField(default=False)
+    timestamp = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.private_chat_id
+
+    def get_senders_username(self):
+        return self.sender.username
+
+    def get_receivers_username(self):
+        return self.receiver.username
+
+    def get_date(self):
+        return humanize.naturaltime(self.timestamp)
+
+    def save(self, *args, **kwargs):
+        senders_username = self.sender.username
+        receiver_username = self.receiver.username
+        sender_receiver = str(senders_username) + str(receiver_username)
+        receiver_sender = str(receiver_username) + str(senders_username)
+
+        self.private_chat_id = sender_receiver
+
+        super().save(*args, **kwargs)
+
+class GroupMessage(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    message = models.TextField()
+    timestamp = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.user.username
+
+    def get_username(self):
+        return self.user.username
+
+    def get_phone_number(self):
+        return self.user.phone
+
+    def get_date(self):
+        return humanize.naturaltime(self.timestamp)
+
+
+class AgentPreregistration(models.Model):
+    name = models.CharField(max_length=100,unique=True)
+    phone_number = models.CharField(max_length=20, unique=True)
+    digital_address = models.CharField(max_length=15)
+    date_registered = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name

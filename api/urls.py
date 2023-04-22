@@ -91,12 +91,6 @@ urlpatterns = [
     path("get_my_re_balancing_requests/",views.get_my_re_balancing_requests),
 
 
-    path("authenticate_phone/",views.authenticate_phone),
-    path("authenticated_phone_details/<int:pk>/",views.authenticated_phone_details),
-    path("get_all_authenticated_phones/",views.get_all_authenticated_phones),
-    path("get_my_authenticated_phone_details/",views.get_my_authenticated_phone_details),
-
-
     path("register_agents_accounts/",views.register_agents_accounts),
     path("agent_accounts_details/<int:pk>/",views.agent_accounts_details),
     path("agent_accounts_details_by_account_number/<str:account_number>/",views.agent_accounts_details_by_account_number),
@@ -117,5 +111,16 @@ urlpatterns = [
     path("get_all_floats/",views.get_all_floats),
     path("get_my_float_requests/",views.get_my_float_requests),
 
-    path("get_all_my_agents/", views.get_all_my_agents)
+    path("get_all_my_agents/", views.get_all_my_agents),
+
+# private and group messages
+    path("private_message_detail/<str:private_chat_id>/", views.private_message_detail),
+    path("get_private_message/<int:user1>/<int:user2>/", views.get_private_message),
+    path("send_private_message/", views.send_private_message),
+    path("get_all_group_message/", views.get_all_group_message),
+    path("send_group_message/", views.send_group_message),
+
+#     agent pre registration
+    path("add_agent_pre_reg/",views.add_agent_pre_reg),
+    path("get_agents_pre_registrations/",views.get_agents_pre_registrations),
 ]
