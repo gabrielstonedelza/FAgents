@@ -5,9 +5,11 @@ from django.views.generic import TemplateView
 
 urlpatterns = [
     path('', views.home, name="home"),
+    path("activate/<uid>/<token>/",TemplateView.as_view(template_name="users/activation.html")),
+    path("reset_password/",TemplateView.as_view(template_name="users/password_reset.html")),
     # path('', TemplateView.as_view(template_name="index.html")),
     # path('activate/<uid>/<token>/', TemplateView.as_view(template_name="index.html")),
-    # path('password/reset/confirm/<uid>/<token>/', TemplateView.as_view(template_name="index.html")),
+    path('password/reset/confirm/<uid>/<token>/', TemplateView.as_view(template_name="users/password_reset_confirm.html")),
     # path('email/reset/confirm/<uid>/<token>/', TemplateView.as_view(template_name="index.html")),
     path('get_user_details/', views.get_user),
     path('get_supervisors_profile/', views.get_supervisors_profile),
