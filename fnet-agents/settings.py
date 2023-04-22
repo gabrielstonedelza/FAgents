@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'api',
     'users',
+    'crispy_forms',
     'djoser',
     'corsheaders',
     'rest_framework',
