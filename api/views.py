@@ -17,7 +17,7 @@ from .serializers import CustomerSerializer, CustomerAccountsSerializer, BankDep
 
 # agent pre registration
 @api_view(['POST'])
-@permission_classes([permissions.IsAuthenticated])
+@permission_classes([permissions.AllowAny])
 def add_agent_pre_reg(request):
     serializer = AgentPreregistrationSerializer(data=request.data)
     if serializer.is_valid():
@@ -27,7 +27,7 @@ def add_agent_pre_reg(request):
 
 
 @api_view(['GET'])
-@permission_classes([permissions.IsAuthenticated])
+@permission_classes([permissions.AllowAny])
 def get_agents_pre_registrations(request):
     agents_requesting = AgentPreregistration.objects.all().order_by('-date_registered')
     serializer = AgentPreregistrationSerializer(agents_requesting, many=True)

@@ -20,10 +20,6 @@ class User(AbstractUser):
     supervisor = models.CharField(max_length=100, default="admin", blank=True)
     agent_unique_code = models.CharField(max_length=15,unique=True)
 
-    # def save(self, *args, **kwargs):
-    #     self.agent_unique_code = self.username[:5] + str(random.randint(1, 500))
-    #     super().save(*args, **kwargs)
-
     REQUIRED_FIELDS = ['email','user_type', 'username', 'full_name', 'phone_number',]
     USERNAME_FIELD = 'agent_unique_code'
 
