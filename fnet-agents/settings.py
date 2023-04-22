@@ -177,3 +177,5 @@ CORS_ALLOW_HEADERS = [
     'x-requested-with',
     'access-control-allow-origin',
 ]
+
+CRISPY_TEMPLATE_PACK = "bootstrap4"
