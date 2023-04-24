@@ -1,0 +1,103 @@
+// for all chatrooms
+.rooms {
+  display: grid;
+  grid-template-columns: minmax(150px, 25%) 1fr;
+
+  .display-all-rooms {
+    display: flex;
+    flex-direction: column;
+    background: seagreen;
+    height: 90vh;
+    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: auto;
+    color: #fff;
+    h4{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .room {
+      .room-details {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 10px;
+        &:hover {
+          background: rgb(17, 194, 94);
+          transition: 0.5s ease;
+        }
+        .room-logo {
+          img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+          }
+        }
+        a {
+          color: #fff;
+        }
+      }
+    }
+  }
+
+  .show-room-messages-section {
+    // padding: 20px;
+    .container{
+      .jumbotron{
+        a{
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 2rem;
+        }
+      }
+    }
+    .for-creator{
+      padding: 10px;
+    }
+    .main-chat-section{
+      
+      .mychat-section{
+        height: 83.5vh;
+        #show-my-messages{
+          height: 73vh;
+          padding-left: 30px;
+          overflow: scroll;
+          overflow-x: hidden;
+          overflow-y: auto;
+          li{
+            list-style-type: none;
+          }
+        }
+        #chat-message-input{
+          width: 100%;
+        }
+        #chat-message-submit{
+          display: none;
+        }
+
+        .input-holder{
+          padding-bottom: 10px;
+          padding-top: 10px;
+          padding-left: 20px;
+          padding-right: 20px;
+          input{
+            align-items: center;
+            border-color: rgba(var(--b6a,219,219,219),1);
+            border-radius: 22px;
+            border-width: 1px;
+            border: solid 1px silver;
+            outline: none;
+            min-width: 44px;
+            padding-left: 10px;
+            padding-right: 10px;
+            padding:10px;
+            
+          }
+        }
+      }
+    }
+  }
+}
