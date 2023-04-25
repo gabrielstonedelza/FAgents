@@ -261,12 +261,6 @@ class MobileMoneyDeposit(models.Model):
     def __str__(self):
         return f"Mobile money request made for {self.amount}"
 
-    def get_customer_name(self):
-        return self.customer.name
-
-    def get_customer_phone(self):
-        return self.customer.phone
-
     def get_agents_phone(self):
         return self.agent.phone_number
 
