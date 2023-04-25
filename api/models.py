@@ -126,8 +126,8 @@ class Customer(models.Model):
     name = models.CharField(max_length=150, blank=True)
     location = models.CharField(max_length=100, blank=True)
     digital_address = models.CharField(max_length=25, blank=True)
-    id_type = models.CharField(max_length=50, choices=ID_TYPES, blank=True, default="Passport")
-    id_number = models.CharField(max_length=50, blank=True, default="")
+    # id_type = models.CharField(max_length=50, choices=ID_TYPES, blank=True, default="Passport")
+    # id_number = models.CharField(max_length=50, blank=True, default="")
     phone = models.CharField(max_length=15, unique=True, blank=True)
     date_of_birth = models.CharField(max_length=15, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
@@ -478,7 +478,6 @@ class AgentAccounts(models.Model):
     def get_agent_username(self):
         return self.agent.username
 
-
 class Notifications(models.Model):
     item_id = models.CharField(max_length=100, blank=True, default="")
     transaction_tag = models.CharField(max_length=100, blank=True, default="")
@@ -545,7 +544,6 @@ class Notifications(models.Model):
             if administrator:
                 return "http://127.0.0.1:8000" + administrator.profile_pic.url
             return ""
-
 
 class AgentsFloat(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE, related_name="requesting_agent")
