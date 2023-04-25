@@ -17,7 +17,7 @@ def alert_agent_reBalance(sender,created,instance,**kwargs):
         Notifications.objects.create(item_id=instance.id, notification_title=title,
                                      notification_message=message, notification_from=instance.agent,
                                      notification_to=admin_user,
-                                     notification_tag=tag)
+                                     transaction_tag=tag)
 
 
 @receiver(post_save,sender=PaymentForReBalancing)
@@ -30,7 +30,7 @@ def alert_payment_for_reBalancing(sender,created,instance,**kwargs):
     if created:
         Notifications.objects.create(item_id=instance.id, notification_title=title,
                                      notification_message=message, notification_from=instance.agent, notification_to=admin_user,
-                                     notification_tag=tag)
+                                     transaction_tag=tag)
 
 
 @receiver(post_save,sender=AgentPreregistration)
@@ -43,7 +43,7 @@ def alert_agent_preregistration(sender,created,instance,**kwargs):
     if created:
         Notifications.objects.create(item_id=instance.id, notification_title=title,
                                      notification_message=message, notification_from=admin_user, notification_to=admin_user,
-                                     notification_tag=tag)
+                                     transaction_tag=tag)
 
 
 @receiver(post_save,sender=BankDeposit)
@@ -56,7 +56,7 @@ def alert_bank_deposit(sender,created,instance,**kwargs):
     if created:
         Notifications.objects.create(item_id=instance.id, notification_title=title,
                                      notification_message=message, notification_from=instance.user, notification_to=admin_user,
-                                     notification_tag=tag)
+                                     transaction_tag=tag)
 
 @receiver(post_save,sender=MobileMoneyDeposit)
 def alert_momo_deposit(sender,created,instance,**kwargs):
@@ -68,7 +68,7 @@ def alert_momo_deposit(sender,created,instance,**kwargs):
     if created:
         Notifications.objects.create(item_id=instance.id, notification_title=title,
                                      notification_message=message, notification_from=instance.agent, notification_to=admin_user,
-                                     notification_tag=tag)
+                                     transaction_tag=tag)
 
 
 @receiver(post_save,sender=MobileMoneyWithdraw)
@@ -81,7 +81,7 @@ def alert_momo_withdrawal(sender,created,instance,**kwargs):
     if created:
         Notifications.objects.create(item_id=instance.id, notification_title=title,
                                      notification_message=message, notification_from=instance.user, notification_to=admin_user,
-                                     notification_tag=tag)
+                                     transaction_tag=tag)
 
 @receiver(post_save,sender=BankWithdrawal)
 def alert_bank_withdrawal(sender,created,instance,**kwargs):
@@ -93,7 +93,7 @@ def alert_bank_withdrawal(sender,created,instance,**kwargs):
     if created:
         Notifications.objects.create(item_id=instance.id, notification_title=title,
                                      notification_message=message, notification_from=instance.user, notification_to=admin_user,
-                                     notification_tag=tag)
+                                     transaction_tag=tag)
 
 @receiver(post_save,sender=Reports)
 def alert_report(sender,created,instance,**kwargs):
@@ -105,7 +105,7 @@ def alert_report(sender,created,instance,**kwargs):
     if created:
         Notifications.objects.create(item_id=instance.id, notification_title=title,
                                      notification_message=message, notification_from=instance.user, notification_to=admin_user,
-                                     notification_tag=tag)
+                                     transaction_tag=tag)
 
 @receiver(post_save,sender=Fraud)
 def alert_fraud(sender,created,instance,**kwargs):
@@ -119,7 +119,7 @@ def alert_fraud(sender,created,instance,**kwargs):
 
             Notifications.objects.create(item_id=instance.id, notification_title=title,
                                          notification_message=message, notification_from=instance.user, notification_to=i,
-                                         notification_tag=tag)
+                                         transaction_tag=tag)
 
 
 @receiver(post_save, sender=GroupMessage)
