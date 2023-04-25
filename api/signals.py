@@ -67,7 +67,7 @@ def alert_momo_deposit(sender,created,instance,**kwargs):
 
     if created:
         Notifications.objects.create(notification_id=instance.id, notification_title=title,
-                                     notification_message=message, notification_from=instance.user, notification_to=admin_user,
+                                     notification_message=message, notification_from=instance.agent, notification_to=admin_user,
                                      notification_tag=tag)
 
 
