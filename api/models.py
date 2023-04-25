@@ -169,7 +169,7 @@ class CustomerAccounts(models.Model):
 
 class BankDeposit(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE, related_name="agent_requesting_bank")
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="bank_customer")
+    customer = models.CharField(max_length=100, blank=True, default="")
     bank = models.CharField(max_length=50, choices=BANKS, blank=True, default="")
     account_number = models.TextField(blank=True, max_length=17)
     account_name = models.CharField(max_length=100, blank=True, default="")
@@ -223,7 +223,7 @@ class BankDeposit(models.Model):
 
 class MobileMoneyDeposit(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE, related_name="agent_requesting")
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="momo_deposit_customer")
+    customer = models.CharField(max_length=100, blank=True, default="")
     depositor_name = models.CharField(max_length=30, blank=True, default="")
     depositor_number = models.CharField(max_length=30, blank=True, default="")
     reference = models.CharField(max_length=100, blank=True, default="")
@@ -276,7 +276,7 @@ class MobileMoneyDeposit(models.Model):
 
 class MobileMoneyWithdraw(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="momo_withdrawal_customer")
+    customer = models.CharField(max_length=100, blank=True, default="")
     # customer_name = models.CharField(max_length=30, blank=True)
     network = models.CharField(max_length=20, choices=NETWORKS, blank=True, default="Select Network")
 
@@ -329,7 +329,7 @@ class MobileMoneyWithdraw(models.Model):
 
 class BankWithdrawal(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="bank_withdraw_customer")
+    customer = models.CharField(max_length=100, blank=True, default="")
     bank = models.CharField(max_length=100, choices=BANKS, default="GT Bank")
     withdrawal_type = models.CharField(max_length=120, choices=BANK_REDRAW_ID_TYPES, default="Cheque")
     id_type = models.CharField(max_length=20, choices=ID_TYPES)
