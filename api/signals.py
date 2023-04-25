@@ -14,7 +14,7 @@ def alert_agent_reBalance(sender,created,instance,**kwargs):
     admin_user = User.objects.get(id=1)
 
     if created:
-        Notifications.objects.create(notification_id=instance.id, notification_title=title,
+        Notifications.objects.create(item_id=instance.id, notification_title=title,
                                      notification_message=message, notification_from=instance.agent,
                                      notification_to=admin_user,
                                      notification_tag=tag)
@@ -28,7 +28,7 @@ def alert_payment_for_reBalancing(sender,created,instance,**kwargs):
     admin_user = User.objects.get(id=1)
 
     if created:
-        Notifications.objects.create(notification_id=instance.id, notification_title=title,
+        Notifications.objects.create(item_id=instance.id, notification_title=title,
                                      notification_message=message, notification_from=instance.agent, notification_to=admin_user,
                                      notification_tag=tag)
 
@@ -41,7 +41,7 @@ def alert_agent_preregistration(sender,created,instance,**kwargs):
     admin_user = User.objects.get(id=1)
 
     if created:
-        Notifications.objects.create(notification_id=instance.id, notification_title=title,
+        Notifications.objects.create(item_id=instance.id, notification_title=title,
                                      notification_message=message, notification_from=admin_user, notification_to=admin_user,
                                      notification_tag=tag)
 
@@ -54,7 +54,7 @@ def alert_bank_deposit(sender,created,instance,**kwargs):
     admin_user = User.objects.get(id=1)
 
     if created:
-        Notifications.objects.create(notification_id=instance.id, notification_title=title,
+        Notifications.objects.create(item_id=instance.id, notification_title=title,
                                      notification_message=message, notification_from=instance.user, notification_to=admin_user,
                                      notification_tag=tag)
 
@@ -66,7 +66,7 @@ def alert_momo_deposit(sender,created,instance,**kwargs):
     admin_user = User.objects.get(id=1)
 
     if created:
-        Notifications.objects.create(notification_id=instance.id, notification_title=title,
+        Notifications.objects.create(item_id=instance.id, notification_title=title,
                                      notification_message=message, notification_from=instance.agent, notification_to=admin_user,
                                      notification_tag=tag)
 
@@ -79,7 +79,7 @@ def alert_momo_withdrawal(sender,created,instance,**kwargs):
     admin_user = User.objects.get(id=1)
 
     if created:
-        Notifications.objects.create(notification_id=instance.id, notification_title=title,
+        Notifications.objects.create(item_id=instance.id, notification_title=title,
                                      notification_message=message, notification_from=instance.user, notification_to=admin_user,
                                      notification_tag=tag)
 
@@ -91,7 +91,7 @@ def alert_bank_withdrawal(sender,created,instance,**kwargs):
     admin_user = User.objects.get(id=1)
 
     if created:
-        Notifications.objects.create(notification_id=instance.id, notification_title=title,
+        Notifications.objects.create(item_id=instance.id, notification_title=title,
                                      notification_message=message, notification_from=instance.user, notification_to=admin_user,
                                      notification_tag=tag)
 
@@ -103,7 +103,7 @@ def alert_report(sender,created,instance,**kwargs):
     admin_user = User.objects.get(id=1)
 
     if created:
-        Notifications.objects.create(notification_id=instance.id, notification_title=title,
+        Notifications.objects.create(item_id=instance.id, notification_title=title,
                                      notification_message=message, notification_from=instance.user, notification_to=admin_user,
                                      notification_tag=tag)
 
@@ -117,7 +117,7 @@ def alert_fraud(sender,created,instance,**kwargs):
     if created:
         for i in users:
 
-            Notifications.objects.create(notification_id=instance.id, notification_title=title,
+            Notifications.objects.create(item_id=instance.id, notification_title=title,
                                          notification_message=message, notification_from=instance.user, notification_to=i,
                                          notification_tag=tag)
 
