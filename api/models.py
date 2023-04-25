@@ -223,7 +223,7 @@ class BankDeposit(models.Model):
 
 class MobileMoneyDeposit(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE, related_name="agent_requesting")
-    customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="momo_deposit_customer")
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="momo_deposit_customer")
     depositor_name = models.CharField(max_length=30, blank=True, default="")
     depositor_number = models.CharField(max_length=30, blank=True, default="")
     reference = models.CharField(max_length=100, blank=True, default="")
@@ -267,7 +267,7 @@ class MobileMoneyDeposit(models.Model):
         return self.customer.phone
 
     def get_agents_phone(self):
-        return self.agent.phone
+        return self.agent.phone_number
 
     def get_agent_username(self):
         return self.agent.username
@@ -275,10 +275,10 @@ class MobileMoneyDeposit(models.Model):
 
 class MobileMoneyWithdraw(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE)
-    customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="momo_withdrawal_customer")
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="momo_withdrawal_customer")
     # customer_name = models.CharField(max_length=30, blank=True)
     network = models.CharField(max_length=20, choices=NETWORKS, blank=True, default="Select Network")
-    id_type = models.CharField(max_length=30, choices=ID_TYPES)
+
     id_number = models.CharField(max_length=20)
     amount = models.DecimalField(max_digits=19, decimal_places=2, blank=True)
 
@@ -321,7 +321,7 @@ class MobileMoneyWithdraw(models.Model):
         return self.customer.phone
 
     def get_agents_phone(self):
-        return self.agent.phone
+        return self.agent.phone_number
 
     def get_agent_username(self):
         return self.agent.username
@@ -329,7 +329,7 @@ class MobileMoneyWithdraw(models.Model):
 
 class BankWithdrawal(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE)
-    customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="bank_withdraw_customer")
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="bank_withdraw_customer")
     bank = models.CharField(max_length=100, choices=BANKS, default="GT Bank")
     withdrawal_type = models.CharField(max_length=120, choices=BANK_REDRAW_ID_TYPES, default="Cheque")
     id_type = models.CharField(max_length=20, choices=ID_TYPES)
