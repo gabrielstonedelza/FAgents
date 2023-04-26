@@ -199,6 +199,11 @@ class BankDeposit(models.Model):
             twenty_cedis_values) + Decimal(ten_cedis_values) + Decimal(five_cedis_values) + Decimal(
             two_cedis_values) + Decimal(one_cedi_values)
         self.total = Decimal(amount_total)
+
+        my_date = datetime.today()
+        de_date = my_date.date()
+        self.deposited_month = de_date.month
+        self.deposited_year = de_date.year
         super().save(*args, **kwargs)
 
     def __str__(self):
