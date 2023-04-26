@@ -29,7 +29,7 @@ class CustomerSerializer(serializers.ModelSerializer):
 class CustomerAccountsSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomerAccounts
-        fields = ['id','agent','customer','account_number','account_name','branch','bank','date_added','get_customer_name','get_customer_phone','get_agents_phone','get_agent_username']
+        fields = ['id','agent','customer','account_number','account_name','branch','bank','date_added','get_agents_phone','get_agent_username']
         read_only_fields = ['agent']
 
 class BankDepositSerializer(serializers.ModelSerializer):

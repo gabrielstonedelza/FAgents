@@ -123,4 +123,10 @@ urlpatterns = [
 #     agent pre registration
     path("add_agent_pre_reg/",views.add_agent_pre_reg),
     path("get_agents_pre_registrations/",views.get_agents_pre_registrations),
+
+
+#     new customer accounts urls
+    path("get_customer_account/<str:customer>/", views.get_customer_account),
+    path("get_customer_accounts_by_bank/<str:customer_phone>/<str:bank>/", views.get_customer_account),
+    path("get_customer_by_phone/<str:customer>/", views.get_customer_account),
 ]

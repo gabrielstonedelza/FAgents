@@ -802,3 +802,27 @@ def get_all_my_agents(request):
     agents = User.objects.filter(supervisor=request.user)
     serializer = UsersSerializer(agents, many=True)
     return Response(serializer.data)
+
+# new functions for customer accounts
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_customer_account(request, customer):
+    c_detail = CustomerAccounts.objects.filter(customer=customer).order_by('-date_added')
+    serializer = CustomerAccountsSerializer(c_detail, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_customer_accounts_by_bank(request, customer_phone, bank):
+    customer_accounts = CustomerAccounts.objects.filter(customer=customer_phone).filter(bank=bank).order_by('-date_added')
+    serializer = CustomerAccountsSerializer(customer_accounts, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_customer_by_phone(request, customer):
+    customer = Customer.objects.filter(customer=customer)
+    serializer = CustomerSerializer(customer, many=True)
+    return Response(serializer.data)
