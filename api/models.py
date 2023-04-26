@@ -210,7 +210,7 @@ class BankDeposit(models.Model):
         return self.customer
 
     def get_agents_phone(self):
-        return self.agent.phone
+        return self.agent.phone_number
 
     def get_agent_username(self):
         return self.agent.username
