@@ -202,7 +202,7 @@ class BankDeposit(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.customer.name
+        return self.customer
 
     def get_agents_phone(self):
         return self.agent.phone
