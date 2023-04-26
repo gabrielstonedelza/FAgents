@@ -170,6 +170,8 @@ class CustomerAccounts(models.Model):
 class BankDeposit(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE, related_name="agent_requesting_bank")
     customer = models.CharField(max_length=100, blank=True, default="")
+    depositor_name = models.CharField(max_length=30, blank=True, default="")
+    depositor_number = models.CharField(max_length=30, blank=True, default="")
     bank = models.CharField(max_length=50, choices=BANKS, blank=True, default="")
     account_number = models.TextField(blank=True, max_length=17)
     account_name = models.CharField(max_length=100, blank=True, default="")
@@ -183,7 +185,6 @@ class BankDeposit(models.Model):
     d_5 = models.IntegerField(default=0, blank=True)
     d_2 = models.IntegerField(default=0, blank=True)
     d_1 = models.IntegerField(default=0, blank=True)
-    depositor_name = models.CharField(max_length=50, blank=True, default="")
     deposited_month = models.CharField(max_length=10, blank=True, default="")
     deposited_year = models.CharField(max_length=10, blank=True, default="")
     date_added = models.DateTimeField(auto_now_add=True)
