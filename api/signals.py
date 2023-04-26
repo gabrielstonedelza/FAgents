@@ -55,7 +55,7 @@ def alert_bank_deposit(sender,created,instance,**kwargs):
 
     if created:
         Notifications.objects.create(item_id=instance.id, notification_title=title,
-                                     notification_message=message, notification_from=instance.user, notification_to=admin_user,
+                                     notification_message=message, notification_from=instance.agent, notification_to=admin_user,
                                      transaction_tag=tag)
 
 @receiver(post_save,sender=MobileMoneyDeposit)
@@ -80,7 +80,7 @@ def alert_momo_withdrawal(sender,created,instance,**kwargs):
 
     if created:
         Notifications.objects.create(item_id=instance.id, notification_title=title,
-                                     notification_message=message, notification_from=instance.user, notification_to=admin_user,
+                                     notification_message=message, notification_from=instance.agent, notification_to=admin_user,
                                      transaction_tag=tag)
 
 @receiver(post_save,sender=BankWithdrawal)
@@ -92,7 +92,7 @@ def alert_bank_withdrawal(sender,created,instance,**kwargs):
 
     if created:
         Notifications.objects.create(item_id=instance.id, notification_title=title,
-                                     notification_message=message, notification_from=instance.user, notification_to=admin_user,
+                                     notification_message=message, notification_from=instance.agent, notification_to=admin_user,
                                      transaction_tag=tag)
 
 @receiver(post_save,sender=Reports)
@@ -118,7 +118,7 @@ def alert_fraud(sender,created,instance,**kwargs):
         for i in users:
 
             Notifications.objects.create(item_id=instance.id, notification_title=title,
-                                         notification_message=message, notification_from=instance.user, notification_to=i,
+                                         notification_message=message, notification_from=instance.agent, notification_to=i,
                                          transaction_tag=tag)
 
 
