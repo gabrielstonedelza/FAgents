@@ -160,8 +160,6 @@ class CustomerAccounts(models.Model):
 
     def get_agent_username(self):
         return self.agent.username
-
-
 class BankDeposit(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE, related_name="agent_requesting_bank")
     customer = models.CharField(max_length=100, blank=True, default="")
@@ -215,7 +213,6 @@ class BankDeposit(models.Model):
     def get_agent_username(self):
         return self.agent.username
 
-
 class MobileMoneyDeposit(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE, related_name="agent_requesting")
     customer = models.CharField(max_length=100, blank=True, default="")
@@ -261,7 +258,6 @@ class MobileMoneyDeposit(models.Model):
 
     def get_agent_username(self):
         return self.agent.username
-
 
 class MobileMoneyWithdraw(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -313,14 +309,13 @@ class MobileMoneyWithdraw(models.Model):
     def get_agent_username(self):
         return self.agent.username
 
-
 class BankWithdrawal(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE)
     customer = models.CharField(max_length=100, blank=True, default="")
     bank = models.CharField(max_length=100, choices=BANKS, default="GT Bank")
     withdrawal_type = models.CharField(max_length=120, choices=BANK_REDRAW_ID_TYPES, default="Cheque")
-    id_type = models.CharField(max_length=20, choices=ID_TYPES)
-    id_number = models.CharField(max_length=20, default="0")
+    # id_type = models.CharField(max_length=20, choices=ID_TYPES)
+    # id_number = models.CharField(max_length=20, default="0")
     amount = models.DecimalField(max_digits=19, decimal_places=2)
     total = models.DecimalField(decimal_places=2, max_digits=19, default=0.0)
     d_200 = models.IntegerField(default=0, blank=True)
@@ -354,7 +349,7 @@ class BankWithdrawal(models.Model):
         return f"Withdrawal made for {self.amount} by {self.agent.username}"
 
     def get_agents_phone(self):
-        return self.agent.phone
+        return self.agent.phone_number
 
     def get_agent_username(self):
         return self.agent.username
