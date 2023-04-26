@@ -127,6 +127,6 @@ urlpatterns = [
 
 #     new customer accounts urls
     path("get_customer_account/<str:customer>/", views.get_customer_account),
-    path("get_customer_accounts_by_bank/<str:customer_phone>/<str:bank>/", views.get_customer_account),
-    path("get_customer_by_phone/<str:customer>/", views.get_customer_account),
+    path("get_customer_accounts_by_bank/<str:customer_phone>/<str:bank>/", views.get_customer_accounts_by_bank),
+    path("get_customer_by_phone/<str:customer>/", views.get_customer_by_phone),
 ]
