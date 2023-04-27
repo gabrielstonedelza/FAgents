@@ -390,12 +390,6 @@ class Fraud(models.Model):
     def __str__(self):
         return self.name
 
-    def get_customer_name(self):
-        return self.customer.name
-
-    def get_customer_phone(self):
-        return self.customer.phone
-
     def get_agents_username(self):
         return self.agent.username
 

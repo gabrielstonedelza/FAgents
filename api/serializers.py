@@ -88,5 +88,5 @@ class AgentsFloatSerializer(serializers.ModelSerializer):
 class FraudSerializer(serializers.ModelSerializer):
     class Meta:
         model = Fraud
-        fields = ['id','agent','customer','reason','date_added','get_customer_name','get_customer_phone','get_agents_username']
+        fields = ['id','agent','customer','reason','date_added','get_agents_username']
         read_only_fields = ['agent']
