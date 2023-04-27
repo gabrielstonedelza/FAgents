@@ -111,6 +111,6 @@ def get_all_agents(request):
 @api_view(['GET'])
 @permission_classes([permissions.AllowAny])
 def get_all_user(request):
-    users = User.objects.all()
+    users = User.objects.exclude(id=request.user.id)
     serializer = UsersSerializer(users, many=True)
     return Response(serializer.data)
