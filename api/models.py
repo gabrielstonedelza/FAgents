@@ -463,51 +463,51 @@ class Notifications(models.Model):
     def __str__(self):
         return self.notification_title
 
-    def notification_from_agent_username(self):
-        return self.notification_from.username
-
-    def notification_to_agent_username(self):
-        return self.notification_to.username
-
-    def get_notification_from_pic(self):
-        my_user = User.objects.get(username=self.notification_from.username)
-        if my_user.user_type == "Supervisor":
-            my_supervisor = SupervisorProfile.objects.get(user=self.notification_from)
-            if my_supervisor:
-                return "http://127.0.0.1:8000" + my_supervisor.profile_pic.url
-            return ""
-
-        if my_user.user_type == "Agent":
-            my_agent = AgentProfile.objects.get(user=self.notification_from)
-            if my_agent:
-                return "http://127.0.0.1:8000" + my_agent.profile_pic.url
-            return ""
-
-        if my_user.user_type == "Administrator":
-            administrator = AdminProfile.objects.get(user=self.notification_from)
-            if administrator:
-                return "http://127.0.0.1:8000" + administrator.profile_pic.url
-            return ""
-
-    def get_notification_to_pic(self):
-        my_user = User.objects.get(username=self.notification_to.username)
-        if my_user.user_type == "Supervisor":
-            my_supervisor = SupervisorProfile.objects.get(user=self.notification_to)
-            if my_supervisor:
-                return "http://127.0.0.1:8000" + my_supervisor.profile_pic.url
-            return ""
-
-        if my_user.user_type == "Agent":
-            my_agent = AgentProfile.objects.get(user=self.notification_to)
-            if my_agent:
-                return "http://127.0.0.1:8000" + my_agent.profile_pic.url
-            return ""
-
-        if my_user.user_type == "Administrator":
-            administrator = AdminProfile.objects.get(user=self.notification_to)
-            if administrator:
-                return "http://127.0.0.1:8000" + administrator.profile_pic.url
-            return ""
+    # def notification_from_agent_username(self):
+    #     return self.notification_from.username
+    #
+    # def notification_to_agent_username(self):
+    #     return self.notification_to.username
+    #
+    # def get_notification_from_pic(self):
+    #     my_user = User.objects.get(username=self.notification_from.username)
+    #     if my_user.user_type == "Supervisor":
+    #         my_supervisor = SupervisorProfile.objects.get(user=self.notification_from)
+    #         if my_supervisor:
+    #             return "http://127.0.0.1:8000" + my_supervisor.profile_pic.url
+    #         return ""
+    #
+    #     if my_user.user_type == "Agent":
+    #         my_agent = AgentProfile.objects.get(user=self.notification_from)
+    #         if my_agent:
+    #             return "http://127.0.0.1:8000" + my_agent.profile_pic.url
+    #         return ""
+    #
+    #     if my_user.user_type == "Administrator":
+    #         administrator = AdminProfile.objects.get(user=self.notification_from)
+    #         if administrator:
+    #             return "http://127.0.0.1:8000" + administrator.profile_pic.url
+    #         return ""
+    #
+    # def get_notification_to_pic(self):
+    #     my_user = User.objects.get(username=self.notification_to.username)
+    #     if my_user.user_type == "Supervisor":
+    #         my_supervisor = SupervisorProfile.objects.get(user=self.notification_to)
+    #         if my_supervisor:
+    #             return "http://127.0.0.1:8000" + my_supervisor.profile_pic.url
+    #         return ""
+    #
+    #     if my_user.user_type == "Agent":
+    #         my_agent = AgentProfile.objects.get(user=self.notification_to)
+    #         if my_agent:
+    #             return "http://127.0.0.1:8000" + my_agent.profile_pic.url
+    #         return ""
+    #
+    #     if my_user.user_type == "Administrator":
+    #         administrator = AdminProfile.objects.get(user=self.notification_to)
+    #         if administrator:
+    #             return "http://127.0.0.1:8000" + administrator.profile_pic.url
+    #         return ""
 
 class AgentsFloat(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE, related_name="requesting_agent")

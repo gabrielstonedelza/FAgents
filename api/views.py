@@ -748,6 +748,15 @@ def read_notification(request):
     serializer = NotificationSerializer(notifications, many=True)
     return Response(serializer.data)
 
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_triggered_notifications(request):
+    notifications = Notifications.objects.filter(notification_to=request.user).filter(
+        notification_trigger="Triggered").filter(
+        read="Not Read").order_by('-date_created')[:50]
+    serializer = NotificationSerializer(notifications, many=True)
+    return Response(serializer.data)
+
 
 # agents float
 @api_view(['POST'])

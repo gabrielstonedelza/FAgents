@@ -70,7 +70,7 @@ class AddToBlockListSerializer(serializers.ModelSerializer):
 class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notifications
-        fields = ['id','item_id','transaction_tag','notification_title','notification_message','read','notification_trigger','notification_from','notification_to','fraud_id','floating_id','report_id','payment_id','date_created','notification_from_agent_username','notification_to_agent_username','get_notification_from_pic','get_notification_to_pic']
+        fields = ['id','item_id','transaction_tag','notification_title','notification_message','read','notification_trigger','notification_from','notification_to','fraud_id','floating_id','report_id','payment_id','date_created',]
 class AgentReBalancingSerializer(serializers.ModelSerializer):
     class Meta:
         model = AgentReBalancing
