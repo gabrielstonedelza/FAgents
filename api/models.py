@@ -574,7 +574,7 @@ class GroupMessage(models.Model):
         return self.user.username
 
     def get_phone_number(self):
-        return self.user.phone
+        return self.user.phone_number
 
     def get_date(self):
         return humanize.naturaltime(self.timestamp)
