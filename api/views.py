@@ -47,7 +47,7 @@ def send_group_message(request):
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
 def get_all_group_message(request):
-    messages = GroupMessage.objects.all().order_by('-timestamp')
+    messages = GroupMessage.objects.all().order_by('timestamp')
     serializer = GroupMessageSerializer(messages, many=True)
     return Response(serializer.data)
 
