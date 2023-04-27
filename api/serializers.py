@@ -9,7 +9,7 @@ class AgentPreregistrationSerializer(serializers.ModelSerializer):
 class GroupMessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = GroupMessage
-        fields = ['id','user','get_username','get_phone_number','get_date']
+        fields = ['id','user','message','timestamp','get_username','get_phone_number','get_date']
         read_only_fields = ['user']
 class PrivateUserMessageSerializer(serializers.ModelSerializer):
     class Meta:
