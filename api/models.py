@@ -416,8 +416,6 @@ class PaymentForReBalancing(models.Model):
 
     def get_agents_username(self):
         return self.agent.username
-
-
 class AgentReBalancing(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE, related_name="rebalancing_agent")
     amount = models.DecimalField(max_digits=19, decimal_places=2, default=0.0, blank=True)

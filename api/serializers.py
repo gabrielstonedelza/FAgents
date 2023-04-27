@@ -56,7 +56,7 @@ class BankWithdrawalSerializer(serializers.ModelSerializer):
 class PaymentForReBalancingSerializer(serializers.ModelSerializer):
     class Meta:
         model = PaymentForReBalancing
-        fields = ['id','agent','reason_for_payment','amount','transaction_id','payment_status','date_created','time_created','get_agent_username']
+        fields = ['id','agent','reason_for_payment','amount','transaction_id','payment_status','date_created','time_created','get_agents_username']
         read_only_fields = ['agent']
 class ReportSerializer(serializers.ModelSerializer):
     class Meta:
