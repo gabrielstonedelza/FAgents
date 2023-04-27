@@ -141,13 +141,13 @@ def alert_pub_message(sender, created, instance, **kwargs):
 @receiver(post_save, sender=PrivateUserMessage)
 def alert_private_message(sender, created, instance, **kwargs):
     title = f"New private message"
-    transaction_type = "New private message"
+    transaction_tag = "New private message"
 
     if created:
         if instance.sender:
             message = f"{instance.sender.username} sent you a message"
             Notifications.objects.create(item_id=instance.id, notification_title=title,
-                                         notification_message=message, transaction_type=transaction_type,
+                                         notification_message=message, transaction_tag=transaction_tag,
                                          notification_to=instance.receiver)
         if instance.receiver:
             message = f"{instance.receiver.username} sent you a message"
