@@ -106,3 +106,11 @@ def get_all_agents(request):
     agents = User.objects.filter(user_type="Agent")
     serializer = UsersSerializer(agents, many=True)
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([permissions.AllowAny])
+def get_all_user(request):
+    users = User.objects.all()
+    serializer = UsersSerializer(users, many=True)
+    return Response(serializer.data)
