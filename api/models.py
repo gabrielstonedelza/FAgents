@@ -429,11 +429,7 @@ class AgentReBalancing(models.Model):
         return self.message
 
     def get_agent_requesting_username(self):
-        return self.agent1.username
-
-    def get_agent_accepting_username(self):
-        return self.agent2.username
-
+        return self.agent.username
 
 class AgentAccounts(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE)

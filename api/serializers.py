@@ -74,7 +74,7 @@ class NotificationSerializer(serializers.ModelSerializer):
 class AgentReBalancingSerializer(serializers.ModelSerializer):
     class Meta:
         model = AgentReBalancing
-        fields = ['id','agent','amount','bank','account_number','account_name','branch','date_requested','get_agents_phone','get_agent_username']
+        fields = ['id','agent','amount','bank','account_number','account_name','branch','date_requested','get_agent_requesting_username']
 class AgentAccountsSerializer(serializers.ModelSerializer):
     class Meta:
         model = AgentAccounts
