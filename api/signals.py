@@ -126,13 +126,13 @@ def alert_fraud(sender,created,instance,**kwargs):
 def alert_pub_message(sender, created, instance, **kwargs):
     title = f"New group message"
     message = f"{instance.user.username} sent a message to the group"
-    transaction_type = "New group message"
+    transaction_tag = "New group message"
 
     users = User.objects.exclude(id=instance.user.id)
 
     if created:
         for i in users:
-            Notifications.objects.create(item_id=instance.id, transaction_type=transaction_type,
+            Notifications.objects.create(item_id=instance.id, transaction_tag=transaction_tag,
                                          notification_title=title, notification_message=message,
                                          notification_from=instance.user, notification_to=i,
                                          )
