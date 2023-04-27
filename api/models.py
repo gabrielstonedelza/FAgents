@@ -383,7 +383,7 @@ class AddToBlockList(models.Model):
 
 class Fraud(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE)
-    customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="fraud_customer")
+    customer = models.CharField(max_length=100, blank=True, default="")
     reason = models.TextField()
     date_added = models.DateTimeField(default=timezone.now)
 
