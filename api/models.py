@@ -449,7 +449,7 @@ class AgentAccounts(models.Model):
         return self.agent.username
 
     def get_agents_phone(self):
-        return self.agent.phone
+        return self.agent.phone_number
 
     def get_agent_username(self):
         return self.agent.username
