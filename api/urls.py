@@ -130,4 +130,9 @@ urlpatterns = [
     path("get_customer_account/<str:customer>/", views.get_customer_account),
     path("get_customer_accounts_by_bank/<str:customer_phone>/<str:bank>/", views.get_customer_accounts_by_bank),
     path("get_customer_by_phone/<str:customer>/", views.get_customer_by_phone),
+
+#     requests to join float
+    path("request_to_join_float/",views.request_to_join_float),
+    path("get_request_to_join_float/",views.get_request_to_join_float),
+    path("get_my_request_to_join_float/",views.get_my_request_to_join_float),
 ]

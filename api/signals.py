@@ -1,10 +1,23 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.conf import settings
-from .models import Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications,PrivateUserMessage,GroupMessage,AgentPreregistration
+from .models import Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications,PrivateUserMessage,GroupMessage,AgentPreregistration,RegisteredForFloat
 from users.models import User
 
 DeUser = settings.AUTH_USER_MODEL
+
+@receiver(post_save,sender=RegisteredForFloat)
+def alert_request_to_join_float(sender,created,instance,**kwargs):
+    title = "New Float Request"
+    message = f"{instance.agent.username} wants to join float"
+    tag = "Request to join float"
+    admin_user = User.objects.get(id=1)
+
+    if created:
+        Notifications.objects.create(item_id=instance.id, notification_title=title,
+                                     notification_message=message, notification_from=instance.agent,
+                                     notification_to=admin_user,
+                                     transaction_tag=tag)
 
 @receiver(post_save,sender=AgentReBalancing)
 def alert_agent_reBalance(sender,created,instance,**kwargs):

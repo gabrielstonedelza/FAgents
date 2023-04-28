@@ -1,4 +1,5 @@
 from email.policy import default
+from random import choices
 
 from django.db import models
 from django.conf import settings
@@ -107,6 +108,12 @@ PAYMENT_STATUS = (
 REQUEST_PAID_OPTIONS = (
     ("Not Paid", "Not Paid"),
     ("Paid", "Paid"),
+)
+
+Join_Float_Status = (
+    ("Pending", "Pending"),
+    ("Approved", "Approved"),
+    ("Rejected", "Rejected"),
 )
 
 NOTIFICATIONS_STATUS = (
@@ -508,6 +515,14 @@ class Notifications(models.Model):
     #         if administrator:
     #             return "http://127.0.0.1:8000" + administrator.profile_pic.url
     #         return ""
+
+class RegisteredForFloat(models.Model):
+    agent = models.ForeignKey(User, on_delete=models.CASCADE, related_name="joining_agent")
+    status = models.CharField(max_length=20,choices=Join_Float_Status, default="Pending")
+    date_required = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.agent.username
 
 class AgentsFloat(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE, related_name="requesting_agent")

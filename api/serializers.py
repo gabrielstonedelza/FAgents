@@ -1,5 +1,12 @@
 from rest_framework import serializers
-from .models import Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, AgentsFloat,PrivateChatId,PrivateUserMessage,GroupMessage,AgentPreregistration
+from .models import Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, AgentsFloat,PrivateChatId,PrivateUserMessage,GroupMessage,AgentPreregistration,RegisteredForFloat
+
+
+class RegisteredForFloatSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RegisteredForFloat
+        fields = ['id','agent','status','date_requested']
+        read_only_fields = ['agent']
 
 class AgentPreregistrationSerializer(serializers.ModelSerializer):
     class Meta:

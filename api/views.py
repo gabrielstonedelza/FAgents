@@ -9,11 +9,37 @@ from django.http import Http404
 from datetime import datetime, date, time
 from .models import Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, \
     PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, AgentsFloat, \
-    GroupMessage, PrivateUserMessage,AgentPreregistration
-from .serializers import CustomerSerializer, CustomerAccountsSerializer, BankDepositSerializer, MomoDepositSerializer, \
+    GroupMessage, PrivateUserMessage,AgentPreregistration,RegisteredForFloat
+from .serializers import (CustomerSerializer, CustomerAccountsSerializer, BankDepositSerializer, MomoDepositSerializer, \
     MomoWithdrawalSerializer, BankWithdrawalSerializer, PaymentForReBalancingSerializer, ReportSerializer, \
     AddToBlockListSerializer, NotificationSerializer, AgentReBalancingSerializer, AgentAccountsSerializer, \
-    AgentsFloatSerializer, FraudSerializer, GroupMessageSerializer, PrivateUserMessageSerializer, AgentPreregistrationSerializer
+    AgentsFloatSerializer, FraudSerializer, GroupMessageSerializer, PrivateUserMessageSerializer, AgentPreregistrationSerializer,RegisteredForFloatSerializer)
+
+
+
+# float joining
+@api_view(['POST'])
+@permission_classes([permissions.AllowAny])
+def request_to_join_float(request):
+    serializer = RegisteredForFloatSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(agent=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+@permission_classes([permissions.AllowAny])
+def get_request_to_join_float(request):
+    agents_requesting = RegisteredForFloat.objects.all().order_by('-date_requested')
+    serializer = RegisteredForFloatSerializer(agents_requesting, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([permissions.AllowAny])
+def get_my_request_to_join_float(request):
+    agents_requesting = RegisteredForFloat.objects.filter(agent=request.user)
+    serializer = RegisteredForFloatSerializer(agents_requesting, many=True)
+    return Response(serializer.data)
 
 # agent pre registration
 @api_view(['POST'])
