@@ -4,7 +4,7 @@ from .models import Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit,
 class AgentPreregistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = AgentPreregistration
-        fields = ['id','name','phone_name','digital_address','date_registered']
+        fields = ['id','name','phone_number','digital_address','date_registered']
 
 class GroupMessageSerializer(serializers.ModelSerializer):
     class Meta:
