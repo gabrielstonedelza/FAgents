@@ -80,7 +80,7 @@ class AgentAccountsSerializer(serializers.ModelSerializer):
     class Meta:
         model = AgentAccounts
         fields = ['id','agent','account_number','account_name','branch','bank','date_added','get_agents_phone','get_agent_username']
-        read_only_fields = ['agent']
+        # read_only_fields = ['agent']
 class AgentsFloatSerializer(serializers.ModelSerializer):
     class Meta:
         model = AgentsFloat

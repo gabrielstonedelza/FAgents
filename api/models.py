@@ -20,9 +20,8 @@ ID_TYPES = (
 )
 BANK_REDRAW_ID_TYPES = (
     ("Select Withdrawal Type", "Select Withdrawal Type"),
-    ("Cheque", "Cheque"),
-    ("Atm", "Atm"),
-    ("Phone", "Phone"),
+    ("POS", "POS"),
+    ("Mobile App", "Mobile App"),
 )
 BANKS = (
     ("Select bank", "Select bank"),
