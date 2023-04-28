@@ -5,7 +5,7 @@ from .models import Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit,
 class RegisteredForFloatSerializer(serializers.ModelSerializer):
     class Meta:
         model = RegisteredForFloat
-        fields = ['id','agent','status','date_requested']
+        fields = ['id','agent','status','date_requested','get_agent_username','get_agent_code']
         read_only_fields = ['agent']
 
 class AgentPreregistrationSerializer(serializers.ModelSerializer):

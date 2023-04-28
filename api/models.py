@@ -524,6 +524,12 @@ class RegisteredForFloat(models.Model):
     def __str__(self):
         return self.agent.username
 
+    def get_agent_username(self):
+        return self.agent.username
+
+    def get_agent_code(self):
+        return self.agent.agent_unique_code
+
 class AgentsFloat(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE, related_name="requesting_agent")
     amount = models.DecimalField(max_digits=19, decimal_places=2, default=0.0, blank=True)
