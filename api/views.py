@@ -19,7 +19,7 @@ from .serializers import (CustomerSerializer, CustomerAccountsSerializer, BankDe
 
 # float joining
 @api_view(['POST'])
-@permission_classes([permissions.AllowAny])
+@permission_classes([permissions.IsAuthenticated])
 def request_to_join_float(request):
     serializer = RegisteredForFloatSerializer(data=request.data)
     if serializer.is_valid():
@@ -28,14 +28,14 @@ def request_to_join_float(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
-@permission_classes([permissions.AllowAny])
+@permission_classes([permissions.IsAuthenticated])
 def get_request_to_join_float(request):
     agents_requesting = RegisteredForFloat.objects.all().order_by('-date_requested')
     serializer = RegisteredForFloatSerializer(agents_requesting, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
-@permission_classes([permissions.AllowAny])
+@permission_classes([permissions.IsAuthenticated])
 def get_my_request_to_join_float(request):
     agents_requesting = RegisteredForFloat.objects.filter(agent=request.user)
     serializer = RegisteredForFloatSerializer(agents_requesting, many=True)
