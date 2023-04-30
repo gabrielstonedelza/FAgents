@@ -1,20 +1,22 @@
-from django.shortcuts import render, get_object_or_404
+from django.http import Http404
+from django.shortcuts import get_object_or_404
+from rest_framework import filters
+from rest_framework import permissions, generics, status
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework import viewsets, permissions, generics, status
 from rest_framework.response import Response
+
 from users.models import User
 from users.serializers import UsersSerializer
-from rest_framework import filters
-from django.http import Http404
-from datetime import datetime, date, time
-from .models import Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, \
+from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, \
     PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, AgentsFloat, \
-    GroupMessage, PrivateUserMessage,AgentPreregistration,RegisteredForFloat
+    GroupMessage, PrivateUserMessage, AgentPreregistration, RegisteredForFloat,AgentAccountsBalanceStarted, AgentAccountsBalanceClosed)
 from .serializers import (CustomerSerializer, CustomerAccountsSerializer, BankDepositSerializer, MomoDepositSerializer, \
-    MomoWithdrawalSerializer, BankWithdrawalSerializer, PaymentForReBalancingSerializer, ReportSerializer, \
-    AddToBlockListSerializer, NotificationSerializer, AgentReBalancingSerializer, AgentAccountsSerializer, \
-    AgentsFloatSerializer, FraudSerializer, GroupMessageSerializer, PrivateUserMessageSerializer, AgentPreregistrationSerializer,RegisteredForFloatSerializer)
-
+                          MomoWithdrawalSerializer, BankWithdrawalSerializer, PaymentForReBalancingSerializer,
+                          ReportSerializer, \
+                          AddToBlockListSerializer, NotificationSerializer, AgentReBalancingSerializer,
+                          AgentAccountsSerializer, \
+                          AgentsFloatSerializer, FraudSerializer, GroupMessageSerializer, PrivateUserMessageSerializer,
+                          AgentPreregistrationSerializer, RegisteredForFloatSerializer,AgentAccountsBalanceStartedSerializer, AgentAccountsBalanceClosedSerializer)
 
 
 # float joining
@@ -860,4 +862,50 @@ def get_customer_accounts_by_bank(request, customer_phone, bank):
 def get_customer_by_phone(request, customer):
     customer = Customer.objects.filter(customer=customer)
     serializer = CustomerSerializer(customer, many=True)
+    return Response(serializer.data)
+
+
+# agents accounts added and closed
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def add_balance_to_start(request):
+    serializer = AgentAccountsBalanceStartedSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(agent=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET','PUT'])
+@permission_classes([permissions.IsAuthenticated])
+def update_balance_to_start(request,pk):
+    account_balance = AgentAccountsBalanceStarted(Customer,pk=pk)
+    serializer = AgentAccountsBalanceStartedSerializer(account_balance,data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_my_account_balance_started(request):
+    my_account_balance = AgentAccountsBalanceStarted.objects.filter(agent=request.user)
+    serializer = AgentAccountsBalanceStartedSerializer(my_account_balance, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def close_balance(request):
+    serializer = AgentAccountsBalanceClosedSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(agent=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_my_account_balance_closed(request):
+    my_account_balance = AgentAccountsBalanceClosed.objects.filter(agent=request.user)
+    serializer = AgentAccountsBalanceClosedSerializer(my_account_balance, many=True)
     return Response(serializer.data)

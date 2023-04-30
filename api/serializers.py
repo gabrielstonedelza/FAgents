@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, AgentsFloat,PrivateChatId,PrivateUserMessage,GroupMessage,AgentPreregistration,RegisteredForFloat
+from .models import Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, AgentsFloat,PrivateChatId,PrivateUserMessage,GroupMessage,AgentPreregistration,RegisteredForFloat, AgentAccountsBalanceStarted, AgentAccountsBalanceClosed
 
 
 class RegisteredForFloatSerializer(serializers.ModelSerializer):
@@ -96,4 +96,16 @@ class FraudSerializer(serializers.ModelSerializer):
     class Meta:
         model = Fraud
         fields = ['id','agent','customer','reason','date_added','get_agents_username']
+        read_only_fields = ['agent']
+
+class AgentAccountsBalanceStartedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AgentAccountsBalanceStarted
+        fields = ['id','agent','physical','mtn_e_cash','tigo_airtel_e_cash','vodafone_e_cash','e_cash_total','isStarted','date_posted']
+        read_only_fields = ['agent']
+
+class AgentAccountsBalanceClosedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AgentAccountsBalanceClosed
+        fields = ['id','agent','physical','mtn_e_cash','tigo_airtel_e_cash','vodafone_e_cash','e_cash_total','isClosed','date_closed']
         read_only_fields = ['agent']
