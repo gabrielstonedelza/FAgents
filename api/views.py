@@ -912,13 +912,14 @@ def get_my_account_balance_closed(request):
 
 
 # authenticate agent phone
-@api_view(['POST'])
+@api_view(['GET','POST'])
 @permission_classes([permissions.IsAuthenticated])
 def authenticate_agent_phone(request):
     serializer = AuthenticateAgentPhoneSerializer(data=request.data)
     if serializer.is_valid():
-        serializer.save(agent=request.user)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        if not AuthenticateAgentPhone.objects.filter(agent=request.user).exists():
+            serializer.save(agent=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
@@ -944,8 +945,9 @@ def delete_auth_phone(request, id):
 def start_free_trial(request):
     serializer = FreeTrialSerializer(data=request.data)
     if serializer.is_valid():
-        serializer.save(agent=request.user)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        if not FreeTrial.objects.filter(agent=request.user).exists():
+            serializer.save(agent=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET','PUT'])
