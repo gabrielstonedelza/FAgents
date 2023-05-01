@@ -142,4 +142,16 @@ urlpatterns = [
     path("get_my_account_balance_started/",views.get_my_account_balance_started),
     path("close_balance/",views.get_my_account_balance_started),
     path("get_my_account_balance_closed/",views.get_my_account_balance_started),
+
+#     authenticate phone
+    path("authenticate_agent_phone/",views.authenticate_agent_phone),
+    path("get_my_phones_auth_details/",views.get_my_phones_auth_details),
+    path("delete_auth_phone/<int:id>/",views.delete_auth_phone),
+    path("update_free_trial/<int:pk>/",views.update_free_trial),
+    path("start_free_trial/",views.start_free_trial),
+    path("get_my_free_trial/",views.get_my_free_trial),
+    path("get_all_free_trials/",views.get_all_free_trials),
+    path("make_monthly_payment/",views.make_monthly_payment),
+    path("get_my_monthly_payment_status/",views.get_my_monthly_payment_status),
+    path("get_all_monthly_payment_status/",views.get_all_monthly_payment_status),
 ]

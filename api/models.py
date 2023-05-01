@@ -1,6 +1,6 @@
-from datetime import datetime
-from decimal import Decimal
 
+from decimal import Decimal
+from datetime import datetime, timedelta
 from django.conf import settings
 from django.contrib.humanize.templatetags import humanize
 from django.db import models
@@ -596,7 +596,6 @@ class GroupMessage(models.Model):
     def get_date(self):
         return humanize.naturaltime(self.timestamp)
 
-
 class AgentPreregistration(models.Model):
     name = models.CharField(max_length=100,unique=True)
     phone_number = models.CharField(max_length=20, unique=True)
@@ -625,7 +624,6 @@ class AgentAccountsBalanceStarted(models.Model):
         self.e_cash_total = e_total
         super().save(*args, **kwargs)
 
-
 class AgentAccountsBalanceClosed(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE)
     physical = models.DecimalField(max_digits=19, decimal_places=2)
@@ -642,4 +640,75 @@ class AgentAccountsBalanceClosed(models.Model):
     def save(self, *args, **kwargs):
         e_total = self.mtn_e_cashz + self.tigo_airtel_e_cash + self.vodafone_e_cash
         self.e_cash_total = e_total
+        super().save(*args, **kwargs)
+
+class AuthenticateAgentPhone(models.Model):
+    agent = models.ForeignKey(User, on_delete=models.CASCADE)
+    phone_id = models.CharField(max_length=255,unique=True)
+    phone_model = models.CharField(max_length=55,unique=True)
+    phone_brand = models.CharField(max_length=55,unique=True)
+    finger_print = models.CharField(max_length=255,unique=True)
+    phone_authenticated = models.BooleanField(default=False)
+    date_authenticated = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.agent.username
+
+
+def three_month_trial(start_date):
+    """Give a three-month trial to customers from a given start date."""
+
+    # Convert start date string to datetime object
+    start_date_obj = datetime.strptime(start_date, '%Y-%m-%d')
+
+    # Calculate trial end date as three months from start date
+    trial_end_date = start_date_obj + timedelta(days=90)
+
+    # Convert trial end date back to string format
+    trial_end_date_str = trial_end_date.strftime('%Y-%m-%d')
+
+    return trial_end_date_str
+
+def one_month_trial(start_date):
+    """Give a three-month trial to customers from a given start date."""
+
+    # Convert start date string to datetime object
+    start_date_obj = datetime.strptime(start_date, '%Y-%m-%d')
+
+    # Calculate trial end date as three months from start date
+    trial_end_date = start_date_obj + timedelta(days=30)
+
+    # Convert trial end date back to string format
+    trial_end_date_str = trial_end_date.strftime('%Y-%m-%d')
+
+    return trial_end_date_str
+class FreeTrial(models.Model):
+    agent = models.ForeignKey(User, on_delete=models.CASCADE)
+    start_date = models.DateField(auto_now_add=True)
+    end_date = models.DateField()
+    trial_started = models.BooleanField(default=False)
+    trial_ended = models.BooleanField(default=False)
+    date_started_trial = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.agent.username
+
+    def save(self, *args, **kwargs):
+        self.end_date = three_month_trial(self.start_date)
+        super().save(*args, **kwargs)
+
+
+class MonthlyPayments(models.Model):
+    agent = models.ForeignKey(User, on_delete=models.CASCADE)
+    start_date = models.DateField(auto_now_add=True)
+    end_date = models.DateField()
+    month_ended = models.BooleanField(default=False)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+
+    def __Str__(self):
+        return self.agent.username
+
+    def save(self, *args, **kwargs):
+        self.end_date = one_month_trial(self.start_date)
         super().save(*args, **kwargs)

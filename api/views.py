@@ -9,14 +9,14 @@ from users.models import User
 from users.serializers import UsersSerializer
 from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, \
     PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, AgentsFloat, \
-    GroupMessage, PrivateUserMessage, AgentPreregistration, RegisteredForFloat,AgentAccountsBalanceStarted, AgentAccountsBalanceClosed)
+    GroupMessage, PrivateUserMessage, AgentPreregistration, RegisteredForFloat,AgentAccountsBalanceStarted, AgentAccountsBalanceClosed,FreeTrial,MonthlyPayments,AuthenticateAgentPhone)
 from .serializers import (CustomerSerializer, CustomerAccountsSerializer, BankDepositSerializer, MomoDepositSerializer, \
                           MomoWithdrawalSerializer, BankWithdrawalSerializer, PaymentForReBalancingSerializer,
                           ReportSerializer, \
                           AddToBlockListSerializer, NotificationSerializer, AgentReBalancingSerializer,
                           AgentAccountsSerializer, \
                           AgentsFloatSerializer, FraudSerializer, GroupMessageSerializer, PrivateUserMessageSerializer,
-                          AgentPreregistrationSerializer, RegisteredForFloatSerializer,AgentAccountsBalanceStartedSerializer, AgentAccountsBalanceClosedSerializer)
+                          AgentPreregistrationSerializer, RegisteredForFloatSerializer,AgentAccountsBalanceStartedSerializer, AgentAccountsBalanceClosedSerializer,AuthenticateAgentPhoneSerializer,FreeTrialSerializer,MonthlyPaymentsSerializer)
 
 
 # float joining
@@ -878,10 +878,10 @@ def add_balance_to_start(request):
 @api_view(['GET','PUT'])
 @permission_classes([permissions.IsAuthenticated])
 def update_balance_to_start(request,pk):
-    account_balance = AgentAccountsBalanceStarted(Customer,pk=pk)
+    account_balance = get_object_or_404(AgentAccountsBalanceStarted,pk=pk)
     serializer = AgentAccountsBalanceStartedSerializer(account_balance,data=request.data)
     if serializer.is_valid():
-        serializer.save()
+        serializer.save(agent=request.user)
         return Response(serializer.data)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -908,4 +908,92 @@ def close_balance(request):
 def get_my_account_balance_closed(request):
     my_account_balance = AgentAccountsBalanceClosed.objects.filter(agent=request.user)
     serializer = AgentAccountsBalanceClosedSerializer(my_account_balance, many=True)
+    return Response(serializer.data)
+
+
+# authenticate agent phone
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def authenticate_agent_phone(request):
+    serializer = AuthenticateAgentPhoneSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(agent=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_my_phones_auth_details(request):
+    my_details = AuthenticateAgentPhone.objects.filter(agent=request.user)
+    serializer = AuthenticateAgentPhoneSerializer(my_details, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET', 'DELETE'])
+@permission_classes([permissions.AllowAny])
+def delete_auth_phone(request, id):
+    try:
+        agent_phone = get_object_or_404(AuthenticateAgentPhone, id=id)
+        agent_phone.delete()
+    except AuthenticateAgentPhone.DoesNotExist:
+        return Http404
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+# free trial
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def start_free_trial(request):
+    serializer = FreeTrialSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(agent=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET','PUT'])
+@permission_classes([permissions.IsAuthenticated])
+def update_free_trial(request,pk):
+    trial = get_object_or_404(FreeTrial, pk=pk)
+    serializer = FreeTrialSerializer(trial,data=request.data)
+    if serializer.is_valid():
+        serializer.save(agent=request.user)
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_my_free_trial(request):
+    my_details = FreeTrial.objects.filter(agent=request.user)
+    serializer = FreeTrialSerializer(my_details, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_all_free_trials(request):
+    free_trials = FreeTrial.objects.all().order_by('-date_started_trial')
+    serializer = FreeTrialSerializer(free_trials, many=True)
+    return Response(serializer.data)
+
+# monthly payments
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def make_monthly_payment(request):
+    serializer = MonthlyPaymentsSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_my_monthly_payment_status(request):
+    my_payments = MonthlyPayments.objects.filter(agent=request.user)
+    serializer = MonthlyPaymentsSerializer(my_payments, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_all_monthly_payment_status(request):
+    monthly_payments = MonthlyPayments.objects.all().order_by('-date_added')
+    serializer = FreeTrialSerializer(monthly_payments, many=True)
     return Response(serializer.data)

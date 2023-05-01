@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, AgentsFloat,PrivateChatId,PrivateUserMessage,GroupMessage,AgentPreregistration,RegisteredForFloat, AgentAccountsBalanceStarted, AgentAccountsBalanceClosed
+from .models import Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, AgentsFloat,PrivateChatId,PrivateUserMessage,GroupMessage,AgentPreregistration,RegisteredForFloat, AgentAccountsBalanceStarted, AgentAccountsBalanceClosed,FreeTrial,MonthlyPayments,AuthenticateAgentPhone
 
 
 class RegisteredForFloatSerializer(serializers.ModelSerializer):
@@ -109,3 +109,20 @@ class AgentAccountsBalanceClosedSerializer(serializers.ModelSerializer):
         model = AgentAccountsBalanceClosed
         fields = ['id','agent','physical','mtn_e_cash','tigo_airtel_e_cash','vodafone_e_cash','e_cash_total','isClosed','date_closed']
         read_only_fields = ['agent']
+
+class AuthenticateAgentPhoneSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AuthenticateAgentPhone
+        fields = ['id','agent','phone_id','phone_model','phone_brand','finger_print','phone_authenticated','date_authenticated']
+        read_only_fields = ['agent']
+
+class FreeTrialSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FreeTrial
+        fields = ['id','agent','start_date','end_date','date_started_trial','trial_started','trial_ended']
+        read_only_fields = ['agent']
+
+class MonthlyPaymentsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MonthlyPayments
+        fields = ['id','agent','start_date','end_date','month_ended','date_added']
