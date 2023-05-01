@@ -659,7 +659,7 @@ def three_month_trial(de_start_date):
     """Give a three-month trial to customers from a given start date."""
 
     # Convert start date string to datetime object
-    start_date_obj = datetime.strptime(str(de_start_date), '%Y-%m-%d')
+    start_date_obj = datetime.strptime(de_start_date, '%Y-%m-%d')
 
     # Calculate trial end date as three months from start date
     trial_end_date = start_date_obj + timedelta(days=90)
@@ -684,7 +684,7 @@ def one_month_trial(start_date):
     return trial_end_date_str
 class FreeTrial(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE)
-    start_date = models.DateField(auto_now_add=True)
+    start_date = models.CharField(max_length=10, blank=True, default="")
     end_date = models.CharField(max_length=10, blank=True, default="")
     trial_started = models.BooleanField(default=False)
     trial_ended = models.BooleanField(default=False)
@@ -694,6 +694,8 @@ class FreeTrial(models.Model):
         return self.agent.username
 
     def save(self, *args, **kwargs):
+        my_date = datetime.today()
+        self.start_date = my_date.date()
         self.end_date = three_month_trial(self.start_date)
         super().save(*args, **kwargs)
 
