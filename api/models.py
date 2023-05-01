@@ -694,7 +694,15 @@ class FreeTrial(models.Model):
         return self.agent.username
 
     def save(self, *args, **kwargs):
-        self.end_date = three_month_trial(str(self.start_date))
+        start_date_obj = datetime.strptime(self.start_date, '%Y-%m-%d')
+
+        # Calculate trial end date as three months from start date
+        trial_end_date = start_date_obj + timedelta(days=90)
+
+        # Convert trial end date back to string format
+        trial_end_date_str = trial_end_date.strftime('%Y-%m-%d')
+
+        self.end_date = trial_end_date_str
         super().save(*args, **kwargs)
 
 
