@@ -655,11 +655,11 @@ class AuthenticateAgentPhone(models.Model):
         return self.agent.username
 
 
-def three_month_trial(start_date):
+def three_month_trial(de_start_date):
     """Give a three-month trial to customers from a given start date."""
 
     # Convert start date string to datetime object
-    start_date_obj = datetime.strptime(start_date, '%Y-%m-%d')
+    start_date_obj = datetime.strptime(str(de_start_date), '%Y-%m-%d')
 
     # Calculate trial end date as three months from start date
     trial_end_date = start_date_obj + timedelta(days=90)
