@@ -685,7 +685,7 @@ def one_month_trial(start_date):
 class FreeTrial(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE)
     start_date = models.DateField(auto_now_add=True)
-    end_date = models.DateField()
+    end_date = models.CharField(max_length=10, blank=True, default="")
     trial_started = models.BooleanField(default=False)
     trial_ended = models.BooleanField(default=False)
     date_started_trial = models.DateTimeField(auto_now_add=True)
@@ -701,7 +701,7 @@ class FreeTrial(models.Model):
 class MonthlyPayments(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE)
     start_date = models.DateField(auto_now_add=True)
-    end_date = models.DateField()
+    end_date = models.CharField(max_length=10, blank=True, default="")
     month_ended = models.BooleanField(default=False)
     date_added = models.DateTimeField(auto_now_add=True)
 
