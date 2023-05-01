@@ -696,7 +696,7 @@ class FreeTrial(models.Model):
     def save(self, *args, **kwargs):
         my_date = datetime.today()
         self.start_date = my_date.date()
-        self.end_date = three_month_trial(self.start_date)
+        self.end_date = three_month_trial(str(self.start_date))
         super().save(*args, **kwargs)
 
 
