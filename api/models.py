@@ -694,7 +694,7 @@ class FreeTrial(models.Model):
         return self.agent.username
 
     def save(self, *args, **kwargs):
-        self.end_date = three_month_trial(self.start_date)
+        self.end_date = three_month_trial(str(self.start_date))
         super().save(*args, **kwargs)
 
 
