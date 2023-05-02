@@ -140,6 +140,7 @@ urlpatterns = [
     path("add_balance_to_start/",views.add_balance_to_start),
     path("update_balance_to_start/<int:pk>/",views.update_balance_to_start),
     path("get_my_account_balance_started/",views.get_my_account_balance_started),
+    path("get_my_account_balance_started_today/",views.get_my_account_balance_started_today),
     path("close_balance/",views.get_my_account_balance_started),
     path("get_my_account_balance_closed/",views.get_my_account_balance_started),
 

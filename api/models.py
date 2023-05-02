@@ -614,7 +614,8 @@ class AgentAccountsBalanceStarted(models.Model):
     vodafone_e_cash = models.DecimalField(max_digits=19, decimal_places=2)
     e_cash_total = models.DecimalField(max_digits=19, decimal_places=2, blank=True)
     isStarted = models.BooleanField(default=False)
-    date_posted = models.DateTimeField(auto_now_add=True)
+    date_posted = models.DateField(auto_now_add=True)
+    time_posted = models.TimeField(default=timezone.now)
 
     def __str__(self):
         return self.agent.username
