@@ -621,7 +621,7 @@ class AgentAccountsBalanceStarted(models.Model):
         return self.agent.username
 
     def save(self, *args, **kwargs):
-        e_total = self.mtn_e_cash + self.tigo_airtel_e_cash + self.vodafone_e_cash
+        e_total = self.mtn_e_cash + self.tigo_airtel_e_cash + self.vodafone_e_cash + self.physical
         self.e_cash_total = e_total
         super().save(*args, **kwargs)
 
@@ -639,7 +639,7 @@ class AgentAccountsBalanceClosed(models.Model):
         return self.agent.username
 
     def save(self, *args, **kwargs):
-        e_total = self.mtn_e_cashz + self.tigo_airtel_e_cash + self.vodafone_e_cash
+        e_total = self.mtn_e_cash + self.tigo_airtel_e_cash + self.vodafone_e_cash + self.physical
         self.e_cash_total = e_total
         super().save(*args, **kwargs)
 
