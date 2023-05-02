@@ -890,7 +890,7 @@ def update_balance_to_start(request,pk):
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
 def get_my_account_balance_started(request):
-    my_account_balance = AgentAccountsBalanceStarted.objects.filter(agent=request.user)
+    my_account_balance = AgentAccountsBalanceStarted.objects.filter(agent=request.user).order_by('-date_posted')
     serializer = AgentAccountsBalanceStartedSerializer(my_account_balance, many=True)
     return Response(serializer.data)
 
