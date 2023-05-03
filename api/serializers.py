@@ -30,7 +30,7 @@ class PrivateChatIdSerializer(serializers.ModelSerializer):
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
-        fields = ['id','agent','name','phone','date_created','get_agents_phone','get_agent_username','get_customer_pic']
+        fields = ['id','agent','name','phone','date_created','get_agents_phone','get_agent_username','unique_code']
         read_only_fields = ['agent']
 
 class CustomerAccountsSerializer(serializers.ModelSerializer):

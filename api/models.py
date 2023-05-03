@@ -1,4 +1,4 @@
-
+import random
 from decimal import Decimal
 from datetime import datetime, timedelta
 from django.conf import settings
@@ -133,13 +133,12 @@ class Customer(models.Model):
     # id_type = models.CharField(max_length=50, choices=ID_TYPES, blank=True, default="Passport")
     # id_number = models.CharField(max_length=50, blank=True, default="")
     # date_of_birth = models.CharField(max_length=15, blank=True)
-    customer_pic = models.ImageField(upload_to="customer_pics",default="default_user.png")
+    unique_code = models.CharField(max_length=500, default='')
     date_created = models.DateTimeField(auto_now_add=True)
 
-    def get_customer_pic(self):
-        if self.customer_pic:
-            return "https://fnetagents.xyz" + self.customer_pic.url
-        return ""
+    def save(self, *args, **kwargs):
+        self.unique_code = self.name[:5] + str(random.randint(1, 5000)) + self.phone[:6]
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
