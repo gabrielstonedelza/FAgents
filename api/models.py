@@ -139,7 +139,7 @@ class Customer(models.Model):
     def get_customer_pic(self):
         if self.customer_pic:
             return "https://fnetagents.xyz" + self.customer_pic.url
-        return ''
+        return ""
 
     def __str__(self):
         return self.name
