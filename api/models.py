@@ -132,7 +132,13 @@ class Customer(models.Model):
     # id_number = models.CharField(max_length=50, blank=True, default="")
     phone = models.CharField(max_length=15, unique=True, blank=True)
     date_of_birth = models.CharField(max_length=15, blank=True)
+    customer_pic = models.ImageField(upload_to="customer_pics",default="")
     date_created = models.DateTimeField(auto_now_add=True)
+
+    def get_customer_pic(self):
+        if self.customer_pic:
+            return "https://fnetagents.xyz" + self.customer_pic.url
+        return ''
 
     def __str__(self):
         return self.name
