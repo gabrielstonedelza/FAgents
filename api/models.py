@@ -136,10 +136,6 @@ class Customer(models.Model):
     unique_code = models.CharField(max_length=500, default='',blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
 
-    def save(self, *args, **kwargs):
-        self.unique_code = self.name[:5] + str(random.randint(1, 5000)) + self.phone[:6]
-        super().save(*args, **kwargs)
-
     def __str__(self):
         return self.name
 
