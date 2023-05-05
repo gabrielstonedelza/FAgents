@@ -664,20 +664,6 @@ class AuthenticateAgentPhone(models.Model):
         return self.agent.username
 
 
-def three_month_trial(de_start_date):
-    """Give a three-month trial to customers from a given start date."""
-
-    # Convert start date string to datetime object
-    start_date_obj = datetime.strptime(de_start_date, '%Y-%m-%d')
-
-    # Calculate trial end date as three months from start date
-    trial_end_date = start_date_obj + timedelta(days=90)
-
-    # Convert trial end date back to string format
-    trial_end_date_str = trial_end_date.strftime('%Y-%m-%d')
-
-    return trial_end_date_str
-
 def one_month_trial(start_date):
     """Give a three-month trial to customers from a given start date."""
 
@@ -705,7 +691,7 @@ class FreeTrial(models.Model):
     def save(self, *args, **kwargs):
         my_date = datetime.today()
         self.start_date = my_date.date()
-        self.end_date = three_month_trial(str(self.start_date))
+        self.end_date = one_month_trial(str(self.start_date))
         super().save(*args, **kwargs)
 
 
@@ -723,5 +709,5 @@ class MonthlyPayments(models.Model):
     def save(self, *args, **kwargs):
         my_date = datetime.today()
         self.start_date = my_date.date()
-        self.end_date = three_month_trial(str(self.start_date))
+        self.end_date = one_month_trial(str(self.start_date))
         super().save(*args, **kwargs)

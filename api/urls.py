@@ -155,4 +155,6 @@ urlpatterns = [
     path("make_monthly_payment/",views.make_monthly_payment),
     path("get_my_monthly_payment_status/",views.get_my_monthly_payment_status),
     path("get_all_monthly_payment_status/",views.get_all_monthly_payment_status),
+    path("end_trial/",views.end_trial),
+    path("end_monthly_payment/",views.end_monthly_payment),
 ]

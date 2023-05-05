@@ -1010,3 +1010,30 @@ def get_all_monthly_payment_status(request):
     monthly_payments = MonthlyPayments.objects.all().order_by('-date_added')
     serializer = FreeTrialSerializer(monthly_payments, many=True)
     return Response(serializer.data)
+
+# activating trial and monthly ended payment
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def end_trial(request):
+    my_date = datetime.today()
+    for_today = my_date.date()
+    free_trials = FreeTrial.objects.all().order_by('-date_started_trial')
+    for i in free_trials:
+        if i.end_date == for_today:
+            i.trial_ended = True
+            i.save()
+    serializer = FreeTrialSerializer(free_trials, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def end_monthly_payment(request):
+    my_date = datetime.today()
+    for_today = my_date.date()
+    monthly_payments = MonthlyPayments.objects.all().order_by('-date_added')
+    for i in monthly_payments:
+        if i.end_date == for_today:
+            i.month_ended = True
+            i.save()
+    serializer = MonthlyPaymentsSerializer(monthly_payments, many=True)
+    return Response(serializer.data)
