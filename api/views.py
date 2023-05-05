@@ -900,7 +900,7 @@ def get_my_account_balance_started(request):
 def get_my_account_balance_started_today(request):
     my_date = datetime.today()
     for_today = my_date.date()
-    my_account_balance = AgentAccountsBalanceStarted.objects.filter(agent=request.user).filter(date_posted=for_today).order_by('-date_posted')
+    my_account_balance = AgentAccountsBalanceStarted.objects.filter(agent=request.user).filter(date_posted=for_today).order_by('date_posted')
     serializer = AgentAccountsBalanceStartedSerializer(my_account_balance, many=True)
     return Response(serializer.data)
 
