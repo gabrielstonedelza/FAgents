@@ -146,7 +146,7 @@ urlpatterns = [
 
 #     authenticate phone
     path("authenticate_agent_phone/",views.authenticate_agent_phone),
-    path("get_my_phones_auth_details/",views.get_my_phones_auth_details),
+    path("get_all_auth_phones/",views.get_all_auth_phones),
     path("delete_auth_phone/<int:id>/",views.delete_auth_phone),
     path("update_free_trial/<int:pk>/",views.update_free_trial),
     path("start_free_trial/",views.start_free_trial),
