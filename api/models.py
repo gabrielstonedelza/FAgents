@@ -133,8 +133,15 @@ class Customer(models.Model):
     # id_type = models.CharField(max_length=50, choices=ID_TYPES, blank=True, default="Passport")
     # id_number = models.CharField(max_length=50, blank=True, default="")
     # date_of_birth = models.CharField(max_length=15, blank=True)
+    customer_pic = models.ImageField(upload_to="customers_pics",blank=True,default="")
     unique_code = models.CharField(max_length=500, default='',blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
+
+
+    def get_customer_pic(self):
+        if self.customer_pic:
+            return "https://fnetagents.xyz" + self.customer_pic.url
+        ""
 
     def __str__(self):
         return self.name
@@ -152,7 +159,6 @@ class CustomerAccounts(models.Model):
     account_number = models.CharField(max_length=16, blank=True)
     account_name = models.CharField(max_length=100, blank=True)
     bank = models.CharField(max_length=100, choices=BANKS, default="Access Bank")
-    branch = models.CharField(max_length=100, blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
