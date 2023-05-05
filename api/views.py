@@ -936,8 +936,8 @@ def authenticate_agent_phone(request):
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
 def get_my_phones_auth_details(request):
-    my_details = get_object_or_404(AuthenticateAgentPhone,agent=request.user)
-    serializer = AuthenticateAgentPhoneSerializer(my_details, many=False)
+    my_details = AuthenticateAgentPhone.objects.filter(agent=request.user)
+    serializer = AuthenticateAgentPhoneSerializer(my_details, many=True)
     return Response(serializer.data)
 
 @api_view(['GET', 'DELETE'])
