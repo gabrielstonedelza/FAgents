@@ -663,6 +663,9 @@ class AuthenticateAgentPhone(models.Model):
     def __str__(self):
         return self.agent.username
 
+    def get_agent_unique_code(self):
+        return self.agent.agent_unique_code
+
 
 def one_month_trial(start_date):
     """Give a three-month trial to customers from a given start date."""

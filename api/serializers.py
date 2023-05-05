@@ -113,7 +113,7 @@ class AgentAccountsBalanceClosedSerializer(serializers.ModelSerializer):
 class AuthenticateAgentPhoneSerializer(serializers.ModelSerializer):
     class Meta:
         model = AuthenticateAgentPhone
-        fields = ['id','agent','phone_id','phone_model','phone_brand','finger_print','phone_authenticated','date_authenticated']
+        fields = ['id','agent','phone_id','phone_model','phone_brand','finger_print','phone_authenticated','date_authenticated','get_agent_unique_code']
         read_only_fields = ['agent']
 
 class FreeTrialSerializer(serializers.ModelSerializer):
