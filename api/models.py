@@ -133,7 +133,7 @@ class Customer(models.Model):
     # id_type = models.CharField(max_length=50, choices=ID_TYPES, blank=True, default="Passport")
     # id_number = models.CharField(max_length=50, blank=True, default="")
     # date_of_birth = models.CharField(max_length=15, blank=True)
-    customer_pic = models.ImageField(upload_to="customers_pics",blank=True,default="")
+    customer_pic = models.ImageField(upload_to="customers_pics",default="default_user.png")
     unique_code = models.CharField(max_length=500, default='',blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
 
