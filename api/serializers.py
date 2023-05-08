@@ -5,7 +5,7 @@ class MtnPayToSerializer(serializers.ModelSerializer):
     class Meta:
         model = MtnPayTo
         fields = ['id','agent','customer','amount','pay_to_type','date_added']
-        read_ony_fields = ['agent']
+        read_only_fields = ['agent']
 class RegisteredForFloatSerializer(serializers.ModelSerializer):
     class Meta:
         model = RegisteredForFloat
