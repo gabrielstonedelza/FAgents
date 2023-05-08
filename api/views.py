@@ -834,12 +834,12 @@ def get_my_float_requests(request):
     return Response(serializer.data)
 
 
-@api_view(['GET'])
-@permission_classes([permissions.IsAuthenticated])
-def get_all_my_agents(request):
-    agents = User.objects.filter(supervisor=request.user)
-    serializer = UsersSerializer(agents, many=True)
-    return Response(serializer.data)
+# @api_view(['GET'])
+# @permission_classes([permissions.IsAuthenticated])
+# def get_all_my_agents(request):
+#     agents = User.objects.filter(supervisor=request.user)
+#     serializer = UsersSerializer(agents, many=True)
+#     return Response(serializer.data)
 
 # new functions for customer accounts
 @api_view(['GET'])
@@ -1060,4 +1060,11 @@ def get_all_pay_to(request):
 def get_all_my_pay_to(request):
     pay_tos = MtnPayTo.objects.filter(agent=request.user).order_by('-date_added')
     serializer = MtnPayToSerializer(pay_tos, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_all_my_agents(request,supervisor):
+    agents = User.objects.filter(supervisor=supervisor)
+    serializer = UsersSerializer(agents, many=True)
     return Response(serializer.data)

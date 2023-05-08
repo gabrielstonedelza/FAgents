@@ -112,7 +112,7 @@ urlpatterns = [
     path("get_all_floats/",views.get_all_floats),
     path("get_my_float_requests/",views.get_my_float_requests),
 
-    path("get_all_my_agents/", views.get_all_my_agents),
+    path("get_all_my_agents/<str:supervisor>/", views.get_all_my_agents),
 
 # private and group messages
     path("private_message_detail/<str:private_chat_id>/", views.private_message_detail),
