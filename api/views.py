@@ -10,14 +10,14 @@ from users.models import User
 from users.serializers import UsersSerializer
 from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, \
     PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, AgentsFloat, \
-    GroupMessage, PrivateUserMessage, AgentPreregistration, RegisteredForFloat,AgentAccountsBalanceStarted, AgentAccountsBalanceClosed,FreeTrial,MonthlyPayments,AuthenticateAgentPhone)
+    GroupMessage, PrivateUserMessage, AgentPreregistration, RegisteredForFloat,AgentAccountsBalanceStarted, AgentAccountsBalanceClosed,FreeTrial,MonthlyPayments,AuthenticateAgentPhone,MtnPayTo)
 from .serializers import (CustomerSerializer, CustomerAccountsSerializer, BankDepositSerializer, MomoDepositSerializer, \
                           MomoWithdrawalSerializer, BankWithdrawalSerializer, PaymentForReBalancingSerializer,
                           ReportSerializer, \
                           AddToBlockListSerializer, NotificationSerializer, AgentReBalancingSerializer,
                           AgentAccountsSerializer, \
                           AgentsFloatSerializer, FraudSerializer, GroupMessageSerializer, PrivateUserMessageSerializer,
-                          AgentPreregistrationSerializer, RegisteredForFloatSerializer,AgentAccountsBalanceStartedSerializer, AgentAccountsBalanceClosedSerializer,AuthenticateAgentPhoneSerializer,FreeTrialSerializer,MonthlyPaymentsSerializer)
+                          AgentPreregistrationSerializer, RegisteredForFloatSerializer,AgentAccountsBalanceStartedSerializer, AgentAccountsBalanceClosedSerializer,AuthenticateAgentPhoneSerializer,FreeTrialSerializer,MonthlyPaymentsSerializer,MtnPayToSerializer)
 
 
 # float joining
@@ -1036,4 +1036,28 @@ def end_monthly_payment(request):
             i.month_ended = True
             i.save()
     serializer = MonthlyPaymentsSerializer(monthly_payments, many=True)
+    return Response(serializer.data)
+
+# mtn pay to
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def add_pay_to(request):
+    serializer = MtnPayToSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(agent=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_all_pay_to(request):
+    pay_tos = MtnPayTo.objects.all().order_by('-date_added')
+    serializer = MtnPayToSerializer(pay_tos, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_all_my_pay_to(request):
+    pay_tos = MtnPayTo.objects.filter(agent=request.user).order_by('-date_added')
+    serializer = MtnPayToSerializer(pay_tos, many=True)
     return Response(serializer.data)

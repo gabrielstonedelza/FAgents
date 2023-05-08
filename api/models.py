@@ -123,6 +123,11 @@ NOTIFICATIONS_TRIGGERS = (
     ("Not Triggered", "Not Triggered"),
 )
 
+MTN_PAY_TO_TYPES = (
+    ("Select pay to Type", "Select pay to Type"),
+    ("Agent", "Agent"),
+    ("Merchant", "Merchant"),
+)
 
 class Customer(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -666,7 +671,6 @@ class AuthenticateAgentPhone(models.Model):
     def get_agent_unique_code(self):
         return self.agent.agent_unique_code
 
-
 def one_month_trial(start_date):
     """Give a three-month trial to customers from a given start date."""
 
@@ -714,3 +718,14 @@ class MonthlyPayments(models.Model):
         self.start_date = my_date.date()
         self.end_date = one_month_trial(str(self.start_date))
         super().save(*args, **kwargs)
+
+class MtnPayTo(models.Model):
+    agent = models.ForeignKey(User, on_delete=models.CASCADE)
+    customer = models.CharField(max_length=100, blank=True, default="")
+    amount = models.DecimalField(max_digits=19, decimal_places=2)
+    pay_to_type = models.CharField(max_length=50,default="Agent",choices=MTN_PAY_TO_TYPES)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+
+    def __str__(self):
+        return self.customer.name

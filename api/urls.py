@@ -157,4 +157,9 @@ urlpatterns = [
     path("get_all_monthly_payment_status/",views.get_all_monthly_payment_status),
     path("end_trial/",views.end_trial),
     path("end_monthly_payment/",views.end_monthly_payment),
+
+#     mtn pay to
+    path("add_pay_to/", views.add_pay_to),
+    path("get_all_pay_to/", views.get_all_pay_to),
+    path("get_all_my_pay_to/", views.get_all_my_pay_to),
 ]

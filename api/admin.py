@@ -1,6 +1,7 @@
 from django.contrib import admin
-from .models import Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, AgentsFloat,PrivateChatId,PrivateUserMessage,GroupMessage,AgentPreregistration,RegisteredForFloat, AgentAccountsBalanceStarted, AgentAccountsBalanceClosed,FreeTrial,MonthlyPayments,AuthenticateAgentPhone
+from .models import Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, AgentsFloat,PrivateChatId,PrivateUserMessage,GroupMessage,AgentPreregistration,RegisteredForFloat, AgentAccountsBalanceStarted, AgentAccountsBalanceClosed,FreeTrial,MonthlyPayments,AuthenticateAgentPhone,MtnPayTo
 
+admin.site.register(MtnPayTo)
 admin.site.register(FreeTrial)
 admin.site.register(MonthlyPayments)
 admin.site.register(AuthenticateAgentPhone)
