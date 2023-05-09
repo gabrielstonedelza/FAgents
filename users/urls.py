@@ -17,6 +17,7 @@ urlpatterns = [
     path('get_user_details/', views.get_user),
     path('get_supervisors_profile/', views.get_supervisors_profile),
     path('get_all_supervisors/', views.get_all_supervisors),
+    path('get_de_admin/', views.get_de_admin),
     path('get_all_agents/', views.get_all_agents),
     path('get_all_user/', views.get_all_user),
     path('get_agents_profile/', views.get_agents_profile),

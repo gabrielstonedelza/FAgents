@@ -107,6 +107,13 @@ def get_all_agents(request):
     serializer = UsersSerializer(agents, many=True)
     return Response(serializer.data)
 
+@api_view(['GET'])
+@permission_classes([permissions.AllowAny])
+def get_de_admin(request):
+    agents = User.objects.filter(user_type="Administrator")
+    serializer = UsersSerializer(agents, many=True)
+    return Response(serializer.data)
+
 
 @api_view(['GET'])
 @permission_classes([permissions.AllowAny])
