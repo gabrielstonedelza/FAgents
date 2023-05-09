@@ -157,7 +157,6 @@ class Customer(models.Model):
     def get_agent_username(self):
         return self.agent.username
 
-
 class CustomerAccounts(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE)
     customer = models.CharField(max_length=100, blank=True, default="")
@@ -369,7 +368,6 @@ class BankWithdrawal(models.Model):
     def get_agent_username(self):
         return self.agent.username
 
-
 class Reports(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     report = models.TextField()
@@ -383,7 +381,6 @@ class Reports(models.Model):
     def get_username(self):
         return self.user.username
 
-
 class AddToBlockList(models.Model):
     administrator = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_being_blocked")
@@ -394,7 +391,6 @@ class AddToBlockList(models.Model):
 
     def get_username(self):
         return self.user.username
-
 
 class Fraud(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -407,7 +403,6 @@ class Fraud(models.Model):
 
     def get_agents_username(self):
         return self.agent.username
-
 
 class PaymentForReBalancing(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -618,7 +613,6 @@ class AgentPreregistration(models.Model):
     def __str__(self):
         return self.name
 
-
 class AgentAccountsBalanceStarted(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE)
     physical = models.DecimalField(max_digits=19, decimal_places=2)
@@ -700,7 +694,6 @@ class FreeTrial(models.Model):
         self.start_date = my_date.date()
         self.end_date = one_month_trial(str(self.start_date))
         super().save(*args, **kwargs)
-
 
 class MonthlyPayments(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE)

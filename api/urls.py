@@ -163,4 +163,12 @@ urlpatterns = [
     path("add_pay_to/", views.add_pay_to),
     path("get_all_pay_to/", views.get_all_pay_to),
     path("get_all_my_pay_to/", views.get_all_my_pay_to),
+
+#     agents detail transactions
+    path("get_agents_customers/<str:username>/", views.get_agents_customers),
+    path("get_agents_bank_deposits/<str:username>/", views.get_agents_bank_deposits),
+    path("get_agents_bank_withdrawals/<str:username>/", views.get_agents_bank_withdrawals),
+    path("get_agents_momo_deposits/<str:username>/", views.get_agents_momo_deposits),
+    path("get_agents_momo_withdrawals/<str:username>/", views.get_agents_momo_withdrawals),
+    path("get_agents_momo_pay_to/<str:username>/", views.get_agents_momo_pay_to),
 ]

@@ -172,7 +172,6 @@ def get_my_customers(request):
     serializer = CustomerSerializer(customers,many=True)
     return Response(serializer.data)
 
-
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
 def get_all_customers(request):
@@ -1078,3 +1077,58 @@ def get_all_my_agents(request,supervisor):
     agents = User.objects.filter(supervisor=supervisor)
     serializer = UsersSerializer(agents, many=True)
     return Response(serializer.data)
+
+
+# getting individual agents transactions
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_agents_customers(request, username):
+    user = get_object_or_404(User, username=username)
+    customers = Customer.objects.filter(agent=user).order_by('-date_created')
+    serializer = CustomerSerializer(customers, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_agents_bank_deposits(request, username):
+    user = get_object_or_404(User, username=username)
+    deposits = BankDeposit.objects.filter(agent=user).order_by('-date_added')
+    serializer = BankDepositSerializer(deposits, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_agents_bank_withdrawals(request, username):
+    user = get_object_or_404(User, username=username)
+    withdrawals = BankWithdrawal.objects.filter(agent=user).order_by('-date_of_withdrawal')
+    serializer = BankWithdrawalSerializer(withdrawals, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_agents_momo_deposits(request, username):
+    user = get_object_or_404(User, username=username)
+    deposits = MobileMoneyDeposit.objects.filter(agent=user).order_by('-date_deposited')
+    serializer = MomoDepositSerializer(deposits, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_agents_momo_withdrawals(request, username):
+    user = get_object_or_404(User, username=username)
+    withdrawals = MobileMoneyWithdraw.objects.filter(agent=user).order_by('-date_of_withdrawal')
+    serializer = MomoWithdrawalSerializer(withdrawals, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_agents_momo_pay_to(request, username):
+    user = get_object_or_404(User, username=username)
+    pay_tos = MtnPayTo.objects.filter(agent=user).order_by('-date_added')
+    serializer = MtnPayToSerializer(pay_tos, many=True)
+    return Response(serializer.data)
+
