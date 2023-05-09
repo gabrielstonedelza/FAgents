@@ -547,6 +547,16 @@ def get_all_blocked(request):
     serializer = AddToBlockListSerializer(blocked_lists, many=True)
     return Response(serializer.data)
 
+@api_view(['GET', 'DELETE'])
+@permission_classes([permissions.AllowAny])
+def remove_from_blocked(request, id):
+    try:
+        user_blocked = get_object_or_404(AddToBlockList, id=id)
+        user_blocked.delete()
+    except AddToBlockList.DoesNotExist:
+        return Http404
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
 # fraud
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])

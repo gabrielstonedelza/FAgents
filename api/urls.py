@@ -67,6 +67,7 @@ urlpatterns = [
 
     path("add_to_blocked_lists/",views.add_to_blocked_lists),
     path("get_all_blocked/",views.get_all_blocked),
+    path("remove_from_blocked/<int:id>/",views.remove_from_blocked),
 
 
     path("add_to_fraud_lists/",views.add_to_fraud_lists),
