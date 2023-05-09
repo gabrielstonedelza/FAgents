@@ -403,7 +403,7 @@ class Fraud(models.Model):
     date_added = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return self.name
+        return self.customer
 
     def get_agents_username(self):
         return self.agent.username
