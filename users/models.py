@@ -17,7 +17,7 @@ class User(AbstractUser):
     full_name = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=30, unique=True)
     user_blocked = models.BooleanField(default=False)
-    supervisor = models.CharField(max_length=100, default="admin", blank=True)
+    supervisor = models.CharField(max_length=100)
     agent_unique_code = models.CharField(max_length=15,unique=True)
 
     REQUIRED_FIELDS = ['email','user_type', 'username', 'full_name', 'phone_number',]
