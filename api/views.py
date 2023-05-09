@@ -1132,3 +1132,11 @@ def get_agents_momo_pay_to(request, username):
     serializer = MtnPayToSerializer(pay_tos, many=True)
     return Response(serializer.data)
 
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_agents_reports(request, username):
+    user = get_object_or_404(User, username=username)
+    reports = Reports.objects.filter(agent=user).order_by('-date_reported')
+    serializer = ReportSerializer(reports, many=True)
+    return Response(serializer.data)
+

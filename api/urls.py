@@ -171,4 +171,5 @@ urlpatterns = [
     path("get_agents_momo_deposits/<str:username>/", views.get_agents_momo_deposits),
     path("get_agents_momo_withdrawals/<str:username>/", views.get_agents_momo_withdrawals),
     path("get_agents_momo_pay_to/<str:username>/", views.get_agents_momo_pay_to),
+    path("get_agents_reports/<str:username>/", views.get_agents_reports),
 ]
