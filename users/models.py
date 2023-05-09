@@ -20,7 +20,7 @@ class User(AbstractUser):
     supervisor = models.CharField(max_length=100)
     agent_unique_code = models.CharField(max_length=15,unique=True)
 
-    REQUIRED_FIELDS = ['email','user_type', 'username', 'full_name', 'phone_number',]
+    REQUIRED_FIELDS = ['email','user_type', 'username', 'full_name', 'phone_number','supervisor']
     USERNAME_FIELD = 'agent_unique_code'
 
     def get_username(self):
