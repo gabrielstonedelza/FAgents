@@ -26,4 +26,6 @@ urlpatterns = [
     path('update_admins_profile/', views.update_admins_profile),
     path('update_user_details/', views.update_user_details),
     path('all_agents/', views.GetAllAgents.as_view()),
+    path('update_blocked/<int:id>/', views.update_blocked),
+    path('get_all_blocked_users/', views.get_all_blocked_users),
 ]
