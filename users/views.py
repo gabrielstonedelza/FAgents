@@ -143,6 +143,6 @@ def get_all_blocked_users(request):
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
 def get_supervisor_with_code(request,unique_code):
-    user = get_object_or_404(User,agent_unique_code=unique_code)
-    serializer = UsersSerializer(user, many=False)
+    user = User.objects.filter(agent_unique_code=unique_code)
+    serializer = UsersSerializer(user, many=True)
     return Response(serializer.data)
