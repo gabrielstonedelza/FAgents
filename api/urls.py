@@ -182,6 +182,6 @@ urlpatterns = [
 # agent request limit
     path("add_agent_request_limit/",views.add_agent_request_limit),
     path("get_all_my_agents_request_limits/",views.get_all_my_agents_request_limits),
-    path("get_all_my_requests/",views.get_all_my_requests),
+    path("get_all_my_request_limit/",views.get_all_my_request_limit),
     path("update_agent_request_limit/<int:pk>/",views.update_agent_request_limit),
 ]

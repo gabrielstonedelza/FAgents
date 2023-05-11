@@ -1212,7 +1212,7 @@ def get_all_my_agents_request_limits(request):
 
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
-def get_all_my_requests(request):
+def get_all_my_request_limit(request):
     agents = AgentRequestLimit.objects.filter(agent=request.user).order_by("-date_added")
     serializer = AgentRequestLimitSerializer(agents,many=True)
     return Response(serializer.data)
