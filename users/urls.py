@@ -21,6 +21,7 @@ urlpatterns = [
     path('get_all_agents/', views.get_all_agents),
     path('get_all_user/', views.get_all_user),
     path('get_agents_profile/', views.get_agents_profile),
+    path('get_supervisor_with_code/<str:unique_code>/', views.get_supervisor_with_code),
     path('get_admins_profile/', views.get_admins_profile),
     path('update_supervisor_profile/', views.update_supervisor_profile),
     path('update_agents_profile/', views.update_agents_profile),
