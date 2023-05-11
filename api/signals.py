@@ -5,10 +5,22 @@ from django.dispatch import receiver
 from users.models import User
 from .models import (BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, \
     Reports, Fraud, AgentReBalancing, Notifications, PrivateUserMessage, GroupMessage, AgentPreregistration, \
-    RegisteredForFloat,FreeTrial,MonthlyPayments,AuthenticateAgentPhone)
+    RegisteredForFloat,AgentRequest)
 
 DeUser = settings.AUTH_USER_MODEL
 
+
+@receiver(post_save,sender=AgentRequest)
+def alert_agent_request(sender,created,instance,**kwargs):
+    title = "New Request"
+    message = f"New request from {instance.agent.username}"
+    tag = "Agent Request"
+
+    if created:
+        Notifications.objects.create(item_id=instance.id, notification_title=title,
+                                     notification_message=message, notification_from=instance.agent,
+                                     notification_to=instance.owner,
+                                     transaction_tag=tag)
 @receiver(post_save,sender=RegisteredForFloat)
 def alert_request_to_join_float(sender,created,instance,**kwargs):
     title = "New Float Request"

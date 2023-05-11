@@ -10,14 +10,14 @@ from users.models import User
 from users.serializers import UsersSerializer
 from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, \
     PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, AgentsFloat, \
-    GroupMessage, PrivateUserMessage, AgentPreregistration, RegisteredForFloat,AgentAccountsBalanceStarted, AgentAccountsBalanceClosed,FreeTrial,MonthlyPayments,AuthenticateAgentPhone,MtnPayTo)
+    GroupMessage, PrivateUserMessage, AgentPreregistration, RegisteredForFloat,AgentAccountsBalanceStarted, AgentAccountsBalanceClosed,FreeTrial,MonthlyPayments,AuthenticateAgentPhone,MtnPayTo, AgentRequest, AgentRequestLimit)
 from .serializers import (CustomerSerializer, CustomerAccountsSerializer, BankDepositSerializer, MomoDepositSerializer, \
                           MomoWithdrawalSerializer, BankWithdrawalSerializer, PaymentForReBalancingSerializer,
                           ReportSerializer, \
                           AddToBlockListSerializer, NotificationSerializer, AgentReBalancingSerializer,
                           AgentAccountsSerializer, \
                           AgentsFloatSerializer, FraudSerializer, GroupMessageSerializer, PrivateUserMessageSerializer,
-                          AgentPreregistrationSerializer, RegisteredForFloatSerializer,AgentAccountsBalanceStartedSerializer, AgentAccountsBalanceClosedSerializer,AuthenticateAgentPhoneSerializer,FreeTrialSerializer,MonthlyPaymentsSerializer,MtnPayToSerializer)
+                          AgentPreregistrationSerializer, RegisteredForFloatSerializer,AgentAccountsBalanceStartedSerializer, AgentAccountsBalanceClosedSerializer,AuthenticateAgentPhoneSerializer,FreeTrialSerializer,MonthlyPaymentsSerializer,MtnPayToSerializer,AgentRequestLimitSerializer,AgentRequestSerializer)
 
 
 # float joining
@@ -1140,3 +1140,79 @@ def get_agents_reports(request, username):
     serializer = ReportSerializer(reports, many=True)
     return Response(serializer.data)
 
+# agent request
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def agent_request_from_owner(request):
+    serializer = AgentRequestSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_all_my_agents_requests(request):
+    agent_requests = AgentRequest.objects.filter(owner=request.user).order_by("-date_requested")
+    serializer = AgentRequestSerializer(agent_requests,many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_all_my_requests(request):
+    agent_requests = AgentRequest.objects.filter(agent=request.user).order_by("-date_requested")
+    serializer = AgentRequestSerializer(agent_requests,many=True)
+    return Response(serializer.data)
+
+@api_view(['GET','PUT'])
+@permission_classes([permissions.IsAuthenticated])
+def update_agent_request(request,pk):
+    a_request = get_object_or_404(AgentRequest, pk=pk)
+    serializer = AgentRequestSerializer(a_request,data=request.data)
+    if serializer.is_valid():
+        serializer.save(agent=request.user)
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET', 'DELETE'])
+@permission_classes([permissions.AllowAny])
+def delete_agent_request(request, id):
+    try:
+        agent_request = get_object_or_404(AgentRequest, id=id)
+        agent_request.delete()
+    except AgentRequest.DoesNotExist:
+        return Http404
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+# agent request limit
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def add_agent_request_limit(request):
+    serializer = AgentRequestLimitSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(owner=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+@api_view(['GET','PUT'])
+@permission_classes([permissions.IsAuthenticated])
+def update_agent_request_limit(request,pk):
+    a_request = get_object_or_404(AgentRequestLimit, pk=pk)
+    serializer = AgentRequestLimitSerializer(a_request,data=request.data)
+    if serializer.is_valid():
+        serializer.save(owner=request.user)
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_all_my_agents_request_limits(request):
+    agents = AgentRequestLimit.objects.filter(owner=request.user).order_by("-date_added")
+    serializer = AgentRequestLimitSerializer(agents,many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_all_my_requests(request):
+    agents = AgentRequestLimit.objects.filter(agent=request.user).order_by("-date_added")
+    serializer = AgentRequestLimitSerializer(agents,many=True)
+    return Response(serializer.data)

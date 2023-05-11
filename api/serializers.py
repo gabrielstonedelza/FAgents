@@ -1,5 +1,15 @@
 from rest_framework import serializers
-from .models import Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, AgentsFloat,PrivateChatId,PrivateUserMessage,GroupMessage,AgentPreregistration,RegisteredForFloat, AgentAccountsBalanceStarted, AgentAccountsBalanceClosed,FreeTrial,MonthlyPayments,AuthenticateAgentPhone,MtnPayTo
+from .models import Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, AgentsFloat,PrivateChatId,PrivateUserMessage,GroupMessage,AgentPreregistration,RegisteredForFloat, AgentAccountsBalanceStarted, AgentAccountsBalanceClosed,FreeTrial,MonthlyPayments,AuthenticateAgentPhone,MtnPayTo, AgentRequest, AgentRequestLimit
+
+class AgentRequestLimitSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AgentRequestLimit
+        fields = ['id','agent','owner','request_limit','date_added']
+        read_only_fields = ['owner']
+class AgentRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AgentRequest
+        fields = ['id','agent','owner','amount','bank','network','request_approved','request_paid','date_requested','reference']
 
 class MtnPayToSerializer(serializers.ModelSerializer):
     class Meta:

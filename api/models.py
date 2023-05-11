@@ -722,3 +722,26 @@ class MtnPayTo(models.Model):
 
     def __str__(self):
         return self.customer
+
+class AgentRequest(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE,related_name="agents_owner")
+    agent = models.ForeignKey(User, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=19, decimal_places=2)
+    bank = models.CharField(max_length=50, choices=BANKS, blank=True, default="")
+    network = models.CharField(max_length=20, blank=True, default="", choices=NETWORKS)
+    request_approved = models.BooleanField(default=False)
+    request_paid = models.BooleanField(default=False)
+    reference = models.CharField(max_length=255, blank=True, default="")
+    date_requested = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.agent.username
+
+class AgentRequestLimit(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="agents_owner_setting_limit")
+    agent = models.ForeignKey(User, on_delete=models.CASCADE)
+    request_limit = models.IntegerField(default=0)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.agent.username

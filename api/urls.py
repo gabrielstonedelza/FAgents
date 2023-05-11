@@ -172,4 +172,16 @@ urlpatterns = [
     path("get_agents_momo_withdrawals/<str:username>/", views.get_agents_momo_withdrawals),
     path("get_agents_momo_pay_to/<str:username>/", views.get_agents_momo_pay_to),
     path("get_agents_reports/<str:username>/", views.get_agents_reports),
+    # agent requests
+    path("agent_request_from_owner/",views.agent_request_from_owner),
+    path("get_all_my_agents_requests/",views.get_all_my_agents_requests),
+    path("get_all_my_requests/",views.get_all_my_requests),
+    path("update_agent_request/<int:pk>/",views.update_agent_request),
+    path("delete_agent_request/<int:id>/",views.delete_agent_request),
+
+# agent request limit
+    path("add_agent_request_limit/",views.add_agent_request_limit),
+    path("get_all_my_agents_request_limits/",views.get_all_my_agents_request_limits),
+    path("get_all_my_requests/",views.get_all_my_requests),
+    path("update_agent_request_limit/<int:pk>/",views.update_agent_request_limit),
 ]
