@@ -786,6 +786,16 @@ def read_notification(request):
     serializer = NotificationSerializer(notifications, many=True)
     return Response(serializer.data)
 
+@api_view(['GET', 'PUT'])
+@permission_classes([permissions.IsAuthenticated])
+def un_trigger_notification(request, id):
+    notification = get_object_or_404(Notifications, id=id)
+    serializer = NotificationSerializer(notification, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
 def get_triggered_notifications(request):

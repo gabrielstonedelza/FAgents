@@ -104,6 +104,7 @@ urlpatterns = [
     path("get_my_notifications/",views.get_my_notifications),
     path("get_my_unread_notifications/",views.get_my_unread_notifications),
     path("read_notification/",views.read_notification),
+    path("un_trigger_notification/<int:id>/",views.un_trigger_notification),
     path("get_triggered_notifications/",views.get_triggered_notifications),
 
 
