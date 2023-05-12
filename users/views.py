@@ -146,3 +146,14 @@ def get_supervisor_with_code(request,unique_code):
     user = User.objects.filter(agent_unique_code=unique_code)
     serializer = UsersSerializer(user, many=True)
     return Response(serializer.data)
+
+
+@api_view(['GET', 'PUT'])
+@permission_classes([permissions.IsAuthenticated])
+def approve_user(request, id):
+    user = get_object_or_404(User, id=id)
+    serializer = UsersSerializer(user, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

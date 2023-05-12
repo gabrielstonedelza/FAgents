@@ -237,6 +237,7 @@ class MobileMoneyDeposit(models.Model):
     type = models.CharField(max_length=20, blank=True, choices=MOBILE_MONEY_DEPOSIT_TYPE,default="")
     total = models.DecimalField(decimal_places=2, max_digits=19, default=0.0)
     amount = models.DecimalField(decimal_places=2, max_digits=19, default=0.0)
+    cash_received = models.DecimalField(decimal_places=2, max_digits=19, default=0.0)
     d_200 = models.IntegerField(default=0, blank=True)
     d_100 = models.IntegerField(default=0, blank=True)
     d_50 = models.IntegerField(default=0, blank=True)
@@ -276,7 +277,7 @@ class MobileMoneyDeposit(models.Model):
 class MobileMoneyWithdraw(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE)
     customer = models.CharField(max_length=100, blank=True, default="")
-    # customer_name = models.CharField(max_length=30, blank=True)
+    customer_pic = models.ImageField(upload_to="customers_pics", default="default_user.png", blank=True)
     network = models.CharField(max_length=20, choices=NETWORKS, blank=True, default="Select Network")
     amount = models.DecimalField(max_digits=19, decimal_places=2, blank=True)
     total = models.DecimalField(decimal_places=2, max_digits=19, default=0.0)
@@ -306,6 +307,11 @@ class MobileMoneyWithdraw(models.Model):
             two_cedis_values) + Decimal(one_cedi_values)
         self.total = Decimal(amount_total)
         super().save(*args, **kwargs)
+
+    def get_customer_pic(self):
+        if self.customer_pic:
+            return "https://fnetagents.xyz" + self.customer_pic.url
+        ""
 
 
     def __str__(self):
@@ -746,3 +752,15 @@ class AgentRequestLimit(models.Model):
 
     def __str__(self):
         return self.agent.username
+
+class SetUpMeeting(models.Model):
+    administrator = models.ForeignKey(User, on_delete=models.CASCADE,related_name="admin")
+    agent = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    message = models.TextField()
+    date_of_meeting = models.CharField(max_length=20)
+    time_of_meeting = models.CharField(max_length=20)
+    date_created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title

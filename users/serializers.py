@@ -12,7 +12,7 @@ class UserCreateSerializer(UserCreateSerializer):
 class UsersSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'email', 'username', 'phone_number', 'full_name','agent_unique_code','supervisor','user_blocked']
+        fields = ['id', 'email', 'username', 'phone_number', 'full_name','agent_unique_code','supervisor','user_blocked','user_approved']
 
 
 class SupervisorProfileSerializer(serializers.ModelSerializer):

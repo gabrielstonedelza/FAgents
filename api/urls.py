@@ -185,4 +185,8 @@ urlpatterns = [
     path("get_all_my_agents_request_limits/",views.get_all_my_agents_request_limits),
     path("get_all_my_request_limit/",views.get_all_my_request_limit),
     path("update_agent_request_limit/<int:pk>/",views.update_agent_request_limit),
+
+#     meetings
+    path("admin_set_up_meeting/",views.admin_set_up_meeting),
+    path("get_all_meetings/",views.get_all_meetings),
 ]

@@ -5,9 +5,24 @@ from django.dispatch import receiver
 from users.models import User
 from .models import (BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, \
     Reports, Fraud, AgentReBalancing, Notifications, PrivateUserMessage, GroupMessage, AgentPreregistration, \
-    RegisteredForFloat,AgentRequest)
+    RegisteredForFloat,AgentRequest,SetUpMeeting)
 
 DeUser = settings.AUTH_USER_MODEL
+
+@receiver(post_save,sender=SetUpMeeting)
+def alert_meeting(sender,created,instance,**kwargs):
+    title = "Scheduled Online Meeting"
+    message = f"{instance.administrator.username} has scheduled online meeting for {instance.date_of_meeting} {instance.time_of_meeting}"
+    tag = "Owners Meeting"
+    admin_user = User.objects.get(id=1)
+    admin_owners = User.objects.filter(supervisor=admin_user.agent_unique_code)
+
+    if created:
+        for i in admin_owners:
+            Notifications.objects.create(item_id=instance.id, notification_title=title,
+                                         notification_message=message, notification_from=instance.administrator,
+                                         notification_to=i,
+                                         transaction_tag=tag)
 
 
 @receiver(post_save,sender=AgentRequest)
@@ -144,7 +159,6 @@ def alert_fraud(sender,created,instance,**kwargs):
 
     if created:
         for i in users:
-
             Notifications.objects.create(item_id=instance.id, notification_title=title,
                                          notification_message=message, notification_from=instance.agent, notification_to=i,
                                          transaction_tag=tag)
