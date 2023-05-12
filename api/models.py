@@ -277,7 +277,6 @@ class MobileMoneyDeposit(models.Model):
 class MobileMoneyWithdraw(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE)
     customer = models.CharField(max_length=100, blank=True, default="")
-    customer_pic = models.ImageField(upload_to="customers_pics", default="default_user.png", blank=True)
     network = models.CharField(max_length=20, choices=NETWORKS, blank=True, default="Select Network")
     amount = models.DecimalField(max_digits=19, decimal_places=2, blank=True)
     amount_received = models.DecimalField(max_digits=19, decimal_places=2, blank=True,default=0.0)
@@ -308,11 +307,6 @@ class MobileMoneyWithdraw(models.Model):
             two_cedis_values) + Decimal(one_cedi_values)
         self.total = Decimal(amount_total)
         super().save(*args, **kwargs)
-
-    def get_customer_pic(self):
-        if self.customer_pic:
-            return "https://fnetagents.xyz" + self.customer_pic.url
-        ""
 
 
     def __str__(self):
