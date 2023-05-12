@@ -280,6 +280,7 @@ class MobileMoneyWithdraw(models.Model):
     customer_pic = models.ImageField(upload_to="customers_pics", default="default_user.png", blank=True)
     network = models.CharField(max_length=20, choices=NETWORKS, blank=True, default="Select Network")
     amount = models.DecimalField(max_digits=19, decimal_places=2, blank=True)
+    amount_paid = models.DecimalField(max_digits=19, decimal_places=2, blank=True,default=0.0)
     total = models.DecimalField(decimal_places=2, max_digits=19, default=0.0)
     d_200 = models.IntegerField(default=0, blank=True)
     d_100 = models.IntegerField(default=0, blank=True)
