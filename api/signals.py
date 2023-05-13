@@ -129,7 +129,7 @@ def alert_bank_deposit(sender,created,instance,**kwargs):
 @receiver(post_save,sender=MobileMoneyDeposit)
 def alert_momo_deposit(sender,created,instance,**kwargs):
     title = "New momo deposit"
-    message = f"{instance.agent.username} just made a momo deposit of {instance.cash_paid}"
+    message = f"{instance.agent.username} just made a momo deposit of {instance.amount_sent}"
     tag = "Momo Deposit"
     admin_user = User.objects.get(id=1)
 
