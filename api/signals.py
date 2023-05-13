@@ -92,7 +92,7 @@ def alert_agent_preregistration(sender,created,instance,**kwargs):
 @receiver(post_save,sender=BankDeposit)
 def alert_bank_deposit(sender,created,instance,**kwargs):
     title = "New bank deposit"
-    message = f"{instance.agent.username} just made a bank deposit of {instance.amount}"
+    message = f"{instance.agent.username} just made a bank deposit of {instance.cash_paid}"
     tag = "Bank Deposit"
     admin_user = User.objects.get(id=1)
 
@@ -104,7 +104,7 @@ def alert_bank_deposit(sender,created,instance,**kwargs):
 @receiver(post_save,sender=MobileMoneyDeposit)
 def alert_momo_deposit(sender,created,instance,**kwargs):
     title = "New momo deposit"
-    message = f"{instance.agent.username} just made a momo deposit of {instance.amount}"
+    message = f"{instance.agent.username} just made a momo deposit of {instance.cash_paid}"
     tag = "Momo Deposit"
     admin_user = User.objects.get(id=1)
 
@@ -117,7 +117,7 @@ def alert_momo_deposit(sender,created,instance,**kwargs):
 @receiver(post_save,sender=MobileMoneyWithdraw)
 def alert_momo_withdrawal(sender,created,instance,**kwargs):
     title = "New momo withdrawal"
-    message = f"{instance.agent.username} just made a momo withdrawal of {instance.amount}"
+    message = f"{instance.agent.username} just made a momo withdrawal of {instance.cash_paid}"
     tag = "Momo Withdrawal"
     admin_user = User.objects.get(id=1)
 
@@ -129,7 +129,7 @@ def alert_momo_withdrawal(sender,created,instance,**kwargs):
 @receiver(post_save,sender=BankWithdrawal)
 def alert_bank_withdrawal(sender,created,instance,**kwargs):
     title = "New bank withdrawal"
-    message = f"{instance.agent.username} just made a bank withdrawal of {instance.amount}"
+    message = f"{instance.agent.username} just made a bank withdrawal of {instance.cash_paid}"
     tag = "Bank Withdrawal"
     admin_user = User.objects.get(id=1)
 

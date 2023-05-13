@@ -236,7 +236,7 @@ class MobileMoneyDeposit(models.Model):
     network = models.CharField(max_length=20, choices=NETWORKS, blank=True, default="Select Network")
     type = models.CharField(max_length=20, blank=True, choices=MOBILE_MONEY_DEPOSIT_TYPE,default="")
     total = models.DecimalField(decimal_places=2, max_digits=19, default=0.0)
-    amount = models.DecimalField(decimal_places=2, max_digits=19, default=0.0)
+    amount_sent = models.DecimalField(decimal_places=2, max_digits=19, default=0.0)
     cash_received = models.DecimalField(decimal_places=2, max_digits=19, default=0.0)
     d_200 = models.IntegerField(default=0, blank=True)
     d_100 = models.IntegerField(default=0, blank=True)
@@ -266,7 +266,7 @@ class MobileMoneyDeposit(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"Mobile money request made for {self.amount}"
+        return f"Mobile money request made for {self.amount_sent}"
 
     def get_agents_phone(self):
         return self.agent.phone_number
@@ -278,7 +278,7 @@ class MobileMoneyWithdraw(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE)
     customer = models.CharField(max_length=100, blank=True, default="")
     network = models.CharField(max_length=20, choices=NETWORKS, blank=True, default="Select Network")
-    amount = models.DecimalField(max_digits=19, decimal_places=2, blank=True)
+    cash_paid = models.DecimalField(max_digits=19, decimal_places=2, blank=True)
     amount_received = models.DecimalField(max_digits=19, decimal_places=2, blank=True,default=0.0)
     total = models.DecimalField(decimal_places=2, max_digits=19, default=0.0)
     d_200 = models.IntegerField(default=0, blank=True)
@@ -310,7 +310,7 @@ class MobileMoneyWithdraw(models.Model):
 
 
     def __str__(self):
-        return f"Withdrawal made for {self.amount}"
+        return f"Withdrawal made for {self.cash_paid}"
 
     def get_customer_name(self):
         return self.customer.name
@@ -717,6 +717,8 @@ class MtnPayTo(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE)
     customer = models.CharField(max_length=100, blank=True, default="")
     amount = models.DecimalField(max_digits=19, decimal_places=2)
+    reference = models.CharField(max_length=100,default="",blank=True)
+    depositor_name = models.CharField(max_length=100,default="",blank=True)
     pay_to_type = models.CharField(max_length=50,default="Agent",choices=MTN_PAY_TO_TYPES)
     date_added = models.DateTimeField(auto_now_add=True)
 

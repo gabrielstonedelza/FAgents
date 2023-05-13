@@ -20,7 +20,7 @@ class AgentRequestSerializer(serializers.ModelSerializer):
 class MtnPayToSerializer(serializers.ModelSerializer):
     class Meta:
         model = MtnPayTo
-        fields = ['id','agent','customer','amount','pay_to_type','date_added']
+        fields = ['id','agent','customer','amount','pay_to_type','date_added','reference','depositor_name']
         read_only_fields = ['agent']
 class RegisteredForFloatSerializer(serializers.ModelSerializer):
     class Meta:
@@ -68,12 +68,12 @@ class BankDepositSerializer(serializers.ModelSerializer):
 class MomoDepositSerializer(serializers.ModelSerializer):
     class Meta:
         model = MobileMoneyDeposit
-        fields = ['id','agent','customer','network','amount','date_deposited','get_agents_phone','get_agent_username','type','d_200','d_100','d_50','d_20','d_10','d_5','d_2','d_1','total','depositor_name','depositor_number','cash_received']
+        fields = ['id','agent','customer','network','amount_sent','date_deposited','get_agents_phone','get_agent_username','type','d_200','d_100','d_50','d_20','d_10','d_5','d_2','d_1','total','depositor_name','depositor_number','cash_received']
         read_only_fields = ['agent']
 class MomoWithdrawalSerializer(serializers.ModelSerializer):
     class Meta:
         model = MobileMoneyWithdraw
-        fields = ['id','agent','customer','network','amount','date_of_withdrawal','get_agents_phone','get_agent_username','d_200','d_100','d_50','d_20','d_10','d_5','d_2','d_1','total','amount_received']
+        fields = ['id','agent','customer','network','cash_paid','date_of_withdrawal','get_agents_phone','get_agent_username','d_200','d_100','d_50','d_20','d_10','d_5','d_2','d_1','total','amount_received']
         read_only_fields = ['agent']
 class BankWithdrawalSerializer(serializers.ModelSerializer):
     class Meta:
