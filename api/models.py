@@ -737,7 +737,7 @@ class AgentRequest(models.Model):
     payment_approved = models.BooleanField(default=False)
     request_paid = models.BooleanField(default=False)
     reference = models.CharField(max_length=255, blank=True, default="")
-    date_requested = models.DateTimeField(auto_now_add=True)
+    date_requested = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return self.agent.username

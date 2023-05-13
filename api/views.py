@@ -1183,6 +1183,15 @@ def get_all_my_requests(request):
     serializer = AgentRequestSerializer(agent_requests,many=True)
     return Response(serializer.data)
 
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_all_my_requests_today(request):
+    my_date = datetime.today()
+    for_today = my_date.date()
+    agent_requests = AgentRequest.objects.filter(agent=request.user).filter(date_requested=for_today).order_by('date_requested')
+    serializer = AgentRequestSerializer(agent_requests, many=True)
+    return Response(serializer.data)
+
 @api_view(['GET','PUT'])
 @permission_classes([permissions.IsAuthenticated])
 def update_agent_request(request,pk):
