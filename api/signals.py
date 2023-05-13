@@ -5,9 +5,22 @@ from django.dispatch import receiver
 from users.models import User
 from .models import (BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, \
     Reports, Fraud, AgentReBalancing, Notifications, PrivateUserMessage, GroupMessage, AgentPreregistration, \
-    RegisteredForFloat,AgentRequest,SetUpMeeting)
+    RegisteredForFloat,AgentRequest,SetUpMeeting, Complains)
 
 DeUser = settings.AUTH_USER_MODEL
+
+@receiver(post_save,sender=Complains)
+def alert_complains(sender,created,instance,**kwargs):
+    title = "New Complain"
+    message = f"{instance.agent.username} has filed a complaint"
+    tag = "Complains"
+
+    if created:
+        Notifications.objects.create(item_id=instance.id, notification_title=title,
+                                     notification_message=message, notification_from=instance.agent,
+                                     notification_to=instance.administrator,
+                                     transaction_tag=tag)
+
 
 @receiver(post_save,sender=SetUpMeeting)
 def alert_meeting(sender,created,instance,**kwargs):

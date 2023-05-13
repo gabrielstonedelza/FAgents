@@ -761,3 +761,20 @@ class SetUpMeeting(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Complains(models.Model):
+    administrator = models.ForeignKey(User, on_delete=models.CASCADE, related_name="admin_complaining_to")
+    agent = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    complain = models.TextField()
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+    def get_agent_username(self):
+        return self.agent.username
+
+    def get_agent_phone_number(self):
+        return self.agent.phone_number

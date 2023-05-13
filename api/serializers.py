@@ -1,5 +1,12 @@
 from rest_framework import serializers
-from .models import Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, AgentsFloat,PrivateChatId,PrivateUserMessage,GroupMessage,AgentPreregistration,RegisteredForFloat, AgentAccountsBalanceStarted, AgentAccountsBalanceClosed,FreeTrial,MonthlyPayments,AuthenticateAgentPhone,MtnPayTo, AgentRequest, AgentRequestLimit, SetUpMeeting
+from .models import Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, AgentsFloat,PrivateChatId,PrivateUserMessage,GroupMessage,AgentPreregistration,RegisteredForFloat, AgentAccountsBalanceStarted, AgentAccountsBalanceClosed,FreeTrial,MonthlyPayments,AuthenticateAgentPhone,MtnPayTo, AgentRequest, AgentRequestLimit, SetUpMeeting, Complains
+
+
+class ComplainsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Complains
+        fields = ['id','administrator','agent','title','complain','date_added','get_agent_username','get_agent_phone_number']
+        read_only_fields = ['agent']
 
 
 class SetUpMeetingSerializer(serializers.ModelSerializer):

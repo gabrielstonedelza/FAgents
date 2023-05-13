@@ -189,4 +189,9 @@ urlpatterns = [
 #     meetings
     path("admin_set_up_meeting/",views.admin_set_up_meeting),
     path("get_all_meetings/",views.get_all_meetings),
+
+#    complains
+    path("add_complain/",views.add_complain),
+    path("get_all_complains/",views.get_all_complains),
+    path("get_all_my_complains/",views.get_all_my_complains),
 ]
