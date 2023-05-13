@@ -940,6 +940,15 @@ def get_my_account_balance_closed(request):
     serializer = AgentAccountsBalanceClosedSerializer(my_account_balance, many=True)
     return Response(serializer.data)
 
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_my_account_balance_closed_today(request):
+    my_date = datetime.today()
+    for_today = my_date.date()
+    my_account_balance = AgentAccountsBalanceClosed.objects.filter(agent=request.user).filter(date_closed=for_today)
+    serializer = AgentAccountsBalanceClosedSerializer(my_account_balance, many=True)
+    return Response(serializer.data)
+
 
 # authenticate agent phone
 @api_view(['GET','POST'])
