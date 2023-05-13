@@ -194,4 +194,9 @@ urlpatterns = [
     path("add_complain/",views.add_complain),
     path("get_all_complains/",views.get_all_complains),
     path("get_all_my_complains/",views.get_all_my_complains),
+#     request to hold accounts
+
+    path("request_to_hold_account/",views.request_to_hold_account),
+    path("get_all_request_to_hold_account/",views.get_all_request_to_hold_account),
+    path("get_all_my_request_to_hold_account/",views.get_all_my_request_to_hold_account),
 ]

@@ -5,9 +5,21 @@ from django.dispatch import receiver
 from users.models import User
 from .models import (BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, \
     Reports, Fraud, AgentReBalancing, Notifications, PrivateUserMessage, GroupMessage, AgentPreregistration, \
-    RegisteredForFloat,AgentRequest,SetUpMeeting, Complains)
+    RegisteredForFloat,AgentRequest,SetUpMeeting, Complains,HoldAccounts)
 
 DeUser = settings.AUTH_USER_MODEL
+
+@receiver(post_save,sender=HoldAccounts)
+def alert_complains(sender,created,instance,**kwargs):
+    title = "Hold Account Alert"
+    message = f"{instance.agent.username} added a request to hold an account transaction"
+    tag = "Hold Account"
+
+    if created:
+        Notifications.objects.create(item_id=instance.id, notification_title=title,
+                                     notification_message=message, notification_from=instance.agent,
+                                     notification_to=instance.administrator,
+                                     transaction_tag=tag)
 
 @receiver(post_save,sender=Complains)
 def alert_complains(sender,created,instance,**kwargs):

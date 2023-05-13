@@ -778,3 +778,20 @@ class Complains(models.Model):
 
     def get_agent_phone_number(self):
         return self.agent.phone_number
+
+class HoldAccounts(models.Model):
+    administrator = models.ForeignKey(User, on_delete=models.CASCADE, related_name="admin_views", default=1)
+    agent = models.ForeignKey(User, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=19, decimal_places=2,default=0.0)
+    customer_number = models.CharField(max_length=20)
+    reason = models.CharField(max_length=255)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.agent.username
+
+    def get_agent_username(self):
+        return self.agent.username
+
+    def get_agent_phone(self):
+        return self.agent.phone_number
