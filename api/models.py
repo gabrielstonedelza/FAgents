@@ -751,7 +751,7 @@ class AgentRequestLimit(models.Model):
         return self.agent.username
 
 class SetUpMeeting(models.Model):
-    administrator = models.ForeignKey(User, on_delete=models.CASCADE,related_name="admin")
+    administrator = models.ForeignKey(User, on_delete=models.CASCADE,related_name="admin",default=1)
     agent = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     message = models.TextField()
@@ -764,7 +764,7 @@ class SetUpMeeting(models.Model):
 
 
 class Complains(models.Model):
-    administrator = models.ForeignKey(User, on_delete=models.CASCADE, related_name="admin_complaining_to")
+    administrator = models.ForeignKey(User, on_delete=models.CASCADE, related_name="admin_complaining_to",default=1)
     agent = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     complain = models.TextField()
