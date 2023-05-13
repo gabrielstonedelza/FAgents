@@ -718,7 +718,7 @@ class MtnPayTo(models.Model):
     customer = models.CharField(max_length=100, blank=True, default="")
     amount = models.DecimalField(max_digits=19, decimal_places=2)
     reference = models.CharField(max_length=100,default="",blank=True)
-    depositor_name = models.CharField(max_length=100,default="",blank=True)
+    depositor_number = models.CharField(max_length=100, default="", blank=True)
     pay_to_type = models.CharField(max_length=50,default="Agent",choices=MTN_PAY_TO_TYPES)
     date_added = models.DateTimeField(auto_now_add=True)
 
