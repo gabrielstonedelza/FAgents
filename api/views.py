@@ -1392,7 +1392,7 @@ def get_agents_payment_request_username(request, username):
 @api_view(['GET','PUT'])
 @permission_classes([permissions.IsAuthenticated])
 def update_agent_payment_request(request,pk):
-    a_request = get_object_or_404(AgentRequest, pk=pk)
+    a_request = get_object_or_404(AgentRequestPayment, pk=pk)
     serializer = AgentRequestPaymentSerializer(a_request,data=request.data)
     if serializer.is_valid():
         serializer.save()
