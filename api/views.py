@@ -17,7 +17,7 @@ from .serializers import (CustomerSerializer, CustomerAccountsSerializer, BankDe
                           AddToBlockListSerializer, NotificationSerializer, AgentReBalancingSerializer,
                           AgentAccountsSerializer, \
                           AgentsFloatSerializer, FraudSerializer, GroupMessageSerializer, PrivateUserMessageSerializer,
-                          AgentPreregistrationSerializer, RegisteredForFloatSerializer,AgentAccountsBalanceStartedSerializer, AgentAccountsBalanceClosedSerializer,AuthenticateAgentPhoneSerializer,FreeTrialSerializer,MonthlyPaymentsSerializer,MtnPayToSerializer,AgentRequestLimitSerializer,AgentRequestSerializer,SetUpMeetingSerializer,ComplainsSerializer,HoldAccountsSerializer,AddedToApprovedPaymentSerializer,AddedToApprovedRequestSerializer,AgentRequestPaymentSerializer)
+                          AgentPreregistrationSerializer, RegisteredForFloatSerializer,AgentAccountsBalanceStartedSerializer, AgentAccountsBalanceClosedSerializer,AuthenticateAgentPhoneSerializer,FreeTrialSerializer,MonthlyPaymentsSerializer,MtnPayToSerializer,AgentRequestLimitSerializer,AgentRequestSerializer,SetUpMeetingSerializer,ComplainsSerializer,HoldAccountsSerializer,AddedToApprovedPaymentSerializer,AddedToApprovedRequestSerializer,AgentRequestPaymentSerializer,AddedToApprovedReBalancingSerializer)
 
 
 # float joining
@@ -667,6 +667,16 @@ def re_balancing_details(request, pk):
     balancing = AgentReBalancing.objects.get(pk=pk)
     serializer = AgentReBalancingSerializer(balancing, many=False)
     return Response(serializer.data)
+
+@api_view(['GET', 'DELETE'])
+@permission_classes([permissions.AllowAny])
+def delete_agent_rebalancing(request, id):
+    try:
+        rebalance = get_object_or_404(AgentReBalancing, id=id)
+        rebalance.delete()
+    except AgentReBalancingSerializer.DoesNotExist:
+        return Http404
+    return Response(status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
@@ -1448,6 +1458,15 @@ def add_to_approve_request_payment(request):
 @permission_classes([permissions.IsAuthenticated])
 def add_to_approve_request(request):
     serializer = AddedToApprovedRequestSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(owner=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)\
+
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def add_to_approve_request_rebalancing(request):
+    serializer = AddedToApprovedReBalancingSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save(owner=request.user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)

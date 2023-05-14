@@ -5,7 +5,7 @@ from django.dispatch import receiver
 from users.models import User
 from .models import (BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, \
                      Reports, Fraud, AgentReBalancing, Notifications, PrivateUserMessage, GroupMessage, AgentPreregistration, \
-                     RegisteredForFloat, AgentRequest, SetUpMeeting, Complains, HoldAccounts, AgentRequestPayment, AddedToApprovedRequest, AddedToApprovedPayment)
+                     RegisteredForFloat, AgentRequest, SetUpMeeting, Complains, HoldAccounts, AgentRequestPayment, AddedToApprovedRequest, AddedToApprovedPayment,AddedToApprovedReBalancing)
 
 DeUser = settings.AUTH_USER_MODEL
 
@@ -239,6 +239,18 @@ def alert_agent_request_approved(sender, created, instance, **kwargs):
     title = "Request approved"
     message = f"Your request of  GHC{instance.agent_request.amount} was approved"
     tag = "Request Approved"
+
+    if created:
+        Notifications.objects.create(item_id=instance.id, notification_title=title,
+                                     notification_message=message, notification_from=instance.owner,
+                                     notification_to=instance.agent_request.agent,
+                                     transaction_tag=tag)
+
+@receiver(post_save, sender=AddedToApprovedReBalancing)
+def alert_agent_rebalancing_approved(sender, created, instance, **kwargs):
+    title = "ReBalancing approved"
+    message = f"Your rebalancing of  GHC{instance.agent_request.amount} was approved"
+    tag = "ReBalancing Approved"
 
     if created:
         Notifications.objects.create(item_id=instance.id, notification_title=title,

@@ -1,6 +1,12 @@
 from rest_framework import serializers
-from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, AgentsFloat,PrivateChatId,PrivateUserMessage,GroupMessage,AgentPreregistration,RegisteredForFloat, AgentAccountsBalanceStarted, AgentAccountsBalanceClosed,FreeTrial,MonthlyPayments,AuthenticateAgentPhone,MtnPayTo, AgentRequest, AgentRequestLimit, SetUpMeeting, Complains,HoldAccounts,AgentRequestPayment, AddedToApprovedRequest, AddedToApprovedPayment)
+from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, AgentsFloat,PrivateChatId,PrivateUserMessage,GroupMessage,AgentPreregistration,RegisteredForFloat, AgentAccountsBalanceStarted, AgentAccountsBalanceClosed,FreeTrial,MonthlyPayments,AuthenticateAgentPhone,MtnPayTo, AgentRequest, AgentRequestLimit, SetUpMeeting, Complains,HoldAccounts,AgentRequestPayment, AddedToApprovedRequest, AddedToApprovedPayment,AddedToApprovedReBalancing)
 
+
+class AddedToApprovedReBalancingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AddedToApprovedReBalancing
+        fields = ['id','owner','rebalancing','date_approved']
+        read_only_fields = ['owner']
 class AddedToApprovedPaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = AddedToApprovedPayment
@@ -128,7 +134,7 @@ class NotificationSerializer(serializers.ModelSerializer):
 class AgentReBalancingSerializer(serializers.ModelSerializer):
     class Meta:
         model = AgentReBalancing
-        fields = ['id','agent','amount','bank','account_number','account_name','date_requested','get_agent_requesting_username','network','request_approved']
+        fields = ['id','agent','owner','amount','bank','account_number','account_name','date_requested','get_agent_requesting_username','network','request_approved']
 
 class AgentAccountsSerializer(serializers.ModelSerializer):
     class Meta:

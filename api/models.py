@@ -427,6 +427,7 @@ class PaymentForReBalancing(models.Model):
     def get_agents_username(self):
         return self.agent.username
 class AgentReBalancing(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="agents_owner_rebalancing")
     agent = models.ForeignKey(User, on_delete=models.CASCADE, related_name="rebalancing_agent")
     amount = models.DecimalField(max_digits=19, decimal_places=2, default=0.0, blank=True)
     network = models.CharField(max_length=20, choices=NETWORKS, blank=True, default="Select Network")
@@ -774,6 +775,13 @@ class AddedToApprovedPayment(models.Model):
 
     def __str__(self):
         return f"{self.payment.amount} was approved"
+class AddedToApprovedReBalancing(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="agents_owners")
+    rebalancing = models.ForeignKey(AgentReBalancing, on_delete=models.CASCADE)
+    date_approved = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.rebalancing.amount} was approved"
 
 class AgentRequestLimit(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="agents_owner_setting_limit")

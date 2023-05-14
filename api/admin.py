@@ -1,6 +1,7 @@
 from django.contrib import admin
-from .models import Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, AgentsFloat,PrivateChatId,PrivateUserMessage,GroupMessage,AgentPreregistration,RegisteredForFloat, AgentAccountsBalanceStarted, AgentAccountsBalanceClosed,FreeTrial,MonthlyPayments,AuthenticateAgentPhone,MtnPayTo,AgentRequest, AgentRequestLimit,SetUpMeeting,Complains,HoldAccounts, AgentRequestPayment,AddedToApprovedRequest,AddedToApprovedPayment
+from .models import Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, AgentsFloat,PrivateChatId,PrivateUserMessage,GroupMessage,AgentPreregistration,RegisteredForFloat, AgentAccountsBalanceStarted, AgentAccountsBalanceClosed,FreeTrial,MonthlyPayments,AuthenticateAgentPhone,MtnPayTo,AgentRequest, AgentRequestLimit,SetUpMeeting,Complains,HoldAccounts, AgentRequestPayment,AddedToApprovedRequest,AddedToApprovedPayment,AddedToApprovedReBalancing
 
+admin.site.register(AddedToApprovedReBalancing)
 admin.site.register(AddedToApprovedRequest)
 admin.site.register(AddedToApprovedPayment)
 admin.site.register(AgentRequestPayment)
