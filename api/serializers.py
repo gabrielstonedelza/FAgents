@@ -43,7 +43,7 @@ class SetUpMeetingSerializer(serializers.ModelSerializer):
 class AgentRequestLimitSerializer(serializers.ModelSerializer):
     class Meta:
         model = AgentRequestLimit
-        fields = ['id','agent','owner','request_limit','date_added']
+        fields = ['id','agent','owner','request_limit','date_added','get_agents_username']
         read_only_fields = ['owner']
 class AgentRequestSerializer(serializers.ModelSerializer):
     class Meta:

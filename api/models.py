@@ -793,6 +793,9 @@ class AgentRequestLimit(models.Model):
     def __str__(self):
         return self.agent.username
 
+    def get_agents_username(self):
+        return self.agent.username
+
 class SetUpMeeting(models.Model):
     administrator = models.ForeignKey(User, on_delete=models.CASCADE,related_name="admin",default=1)
     agent = models.ForeignKey(User, on_delete=models.CASCADE)
