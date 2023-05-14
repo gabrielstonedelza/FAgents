@@ -541,7 +541,8 @@ class RegisteredForFloat(models.Model):
     def get_agent_code(self):
         return self.agent.agent_unique_code
 
-class AgentsFloat(models.Model):
+class Floats(models.Model):
+    administrator = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     agent = models.ForeignKey(User, on_delete=models.CASCADE, related_name="requesting_agent")
     amount = models.DecimalField(max_digits=19, decimal_places=2, default=0.0, blank=True)
     paid = models.BooleanField(default=False)
@@ -551,7 +552,7 @@ class AgentsFloat(models.Model):
         return self.agent.username
 
     def get_agents_phone(self):
-        return self.agent.phone
+        return self.agent.phone_number
 
     def get_agent_username(self):
         return self.agent.username

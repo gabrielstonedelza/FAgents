@@ -183,6 +183,7 @@ urlpatterns = [
     path("get_all_my_agents_requests/",views.get_all_my_agents_requests),
     path("get_all_my_requests/",views.get_all_my_requests),
     path("get_unapproved_requests/",views.get_unapproved_requests),
+    path("get_unpaid_requests/",views.get_unpaid_requests),
     path("get_all_my_requests_today/",views.get_all_my_requests_today),
     path("update_agent_request/<int:pk>/",views.update_agent_request),
     path("delete_agent_request/<int:id>/",views.delete_agent_request),

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, AgentsFloat,PrivateChatId,PrivateUserMessage,GroupMessage,AgentPreregistration,RegisteredForFloat, AgentAccountsBalanceStarted, AgentAccountsBalanceClosed,FreeTrial,MonthlyPayments,AuthenticateAgentPhone,MtnPayTo, AgentRequest, AgentRequestLimit, SetUpMeeting, Complains,HoldAccounts,AgentRequestPayment, AddedToApprovedRequest, AddedToApprovedPayment,AddedToApprovedReBalancing)
+from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, Floats, PrivateChatId, PrivateUserMessage, GroupMessage, AgentPreregistration, RegisteredForFloat, AgentAccountsBalanceStarted, AgentAccountsBalanceClosed, FreeTrial, MonthlyPayments, AuthenticateAgentPhone, MtnPayTo, AgentRequest, AgentRequestLimit, SetUpMeeting, Complains, HoldAccounts, AgentRequestPayment, AddedToApprovedRequest, AddedToApprovedPayment, AddedToApprovedReBalancing)
 
 
 class AddedToApprovedReBalancingSerializer(serializers.ModelSerializer):
@@ -143,7 +143,7 @@ class AgentAccountsSerializer(serializers.ModelSerializer):
         # read_only_fields = ['agent']
 class AgentsFloatSerializer(serializers.ModelSerializer):
     class Meta:
-        model = AgentsFloat
+        model = Floats
         fields = ['id','amount','paid','date_added','get_agents_phone','get_agent_username']
 class FraudSerializer(serializers.ModelSerializer):
     class Meta:

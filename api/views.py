@@ -9,8 +9,8 @@ from datetime import datetime
 from users.models import User
 from users.serializers import UsersSerializer
 from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, \
-    PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, AgentsFloat, \
-    GroupMessage, PrivateUserMessage, AgentPreregistration, RegisteredForFloat,AgentAccountsBalanceStarted, AgentAccountsBalanceClosed,FreeTrial,MonthlyPayments,AuthenticateAgentPhone,MtnPayTo, AgentRequest, AgentRequestLimit,SetUpMeeting,Complains,HoldAccounts,AgentRequestPayment,AddedToApprovedRequest,AddedToApprovedPayment)
+                     PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, Floats, \
+                     GroupMessage, PrivateUserMessage, AgentPreregistration, RegisteredForFloat, AgentAccountsBalanceStarted, AgentAccountsBalanceClosed, FreeTrial, MonthlyPayments, AuthenticateAgentPhone, MtnPayTo, AgentRequest, AgentRequestLimit, SetUpMeeting, Complains, HoldAccounts, AgentRequestPayment, AddedToApprovedRequest, AddedToApprovedPayment)
 from .serializers import (CustomerSerializer, CustomerAccountsSerializer, BankDepositSerializer, MomoDepositSerializer, \
                           MomoWithdrawalSerializer, BankWithdrawalSerializer, PaymentForReBalancingSerializer,
                           ReportSerializer, \
@@ -845,7 +845,7 @@ def request_float(request):
 
 class SearchAgentsFloats(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
-    queryset = AgentsFloat.objects.all().order_by('-date_added')
+    queryset = Floats.objects.all().order_by('-date_added')
     serializer_class = AgentsFloatSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['date_added']
@@ -853,7 +853,7 @@ class SearchAgentsFloats(generics.ListAPIView):
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
 def float_details(request, pk):
-    agent_float = AgentsFloat.objects.get(pk=pk)
+    agent_float = Floats.objects.get(pk=pk)
     serializer = AgentsFloatSerializer(agent_float, many=False)
     return Response(serializer.data)
 
@@ -861,21 +861,21 @@ def float_details(request, pk):
 @permission_classes([permissions.IsAuthenticated])
 def get_user_float_requests(request, username):
     user = get_object_or_404(User, username=username)
-    agent_float = AgentsFloat.objects.filter(agent=user).order_by('-date_added')
+    agent_float = Floats.objects.filter(agent=user).order_by('-date_added')
     serializer = AgentsFloatSerializer(agent_float, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
 def get_all_floats(request):
-    floats = AgentsFloat.objects.all().order_by('-date_added')
+    floats = Floats.objects.all().order_by('-date_added')
     serializer = AgentsFloatSerializer(floats, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
 def get_my_float_requests(request):
-    floats = AgentsFloat.objects.filter(agent=request.user).order_by('-date_added')
+    floats = Floats.objects.filter(agent=request.user).order_by('-date_added')
     serializer = AgentsFloatSerializer(floats, many=True)
     return Response(serializer.data)
 
@@ -1250,6 +1250,13 @@ def delete_agent_request(request, id):
 @permission_classes([permissions.IsAuthenticated])
 def get_unapproved_requests(request):
     all_requests = AgentRequest.objects.filter(request_approved="Pending").order_by("-date_requested")
+    serializer = AgentRequestSerializer(all_requests,many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_unpaid_requests(request):
+    all_requests = AgentRequest.objects.filter(request_paid="Pending").order_by("-date_requested")
     serializer = AgentRequestSerializer(all_requests,many=True)
     return Response(serializer.data)
 
