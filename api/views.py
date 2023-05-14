@@ -1219,6 +1219,13 @@ def delete_agent_request(request, id):
         return Http404
     return Response(status=status.HTTP_204_NO_CONTENT)
 
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_unapproved_requests(request):
+    all_requests = AgentRequest.objects.filter(request_approved="Pending").order_by("-date_requested")
+    serializer = AgentRequestSerializer(all_requests,many=True)
+    return Response(serializer.data)
+
 # agent request limit
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])
@@ -1402,7 +1409,12 @@ def delete_agent_payment_request(request, id):
         return Http404
     return Response(status=status.HTTP_204_NO_CONTENT)
 
-
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_unapproved_payment_requests(request):
+    payment_requests = AgentRequestPayment.objects.filter(payment_approved="Pending").order_by("-date_requested")
+    serializer = AgentRequestPaymentSerializer(payment_requests,many=True)
+    return Response(serializer.data)
 
 
 # approvals

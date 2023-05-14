@@ -42,7 +42,7 @@ class AgentRequestLimitSerializer(serializers.ModelSerializer):
 class AgentRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = AgentRequest
-        fields = ['id','agent','owner','amount','bank','network','request_approved','request_paid','date_requested','reference','payment_approved']
+        fields = ['id','agent','owner','amount','bank','network','request_approved','request_paid','date_requested','reference',]
 
 class MtnPayToSerializer(serializers.ModelSerializer):
     class Meta:

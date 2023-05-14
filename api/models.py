@@ -739,7 +739,6 @@ class AgentRequest(models.Model):
     bank = models.CharField(max_length=50, choices=BANKS, blank=True, default="")
     network = models.CharField(max_length=20, blank=True, default="", choices=NETWORKS)
     request_approved = models.CharField(max_length=20,choices=REQUEST_STATUS,default="Pending")
-    payment_approved = models.CharField(max_length=20,choices=REQUEST_STATUS,default="Pending")
     request_paid = models.CharField(max_length=20,choices=REQUEST_STATUS,default="Pending")
     reference = models.CharField(max_length=255, blank=True, default="")
     date_requested = models.DateField(auto_now_add=True)
