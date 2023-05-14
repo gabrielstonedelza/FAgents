@@ -147,6 +147,13 @@ def get_supervisor_with_code(request,unique_code):
     serializer = UsersSerializer(user, many=True)
     return Response(serializer.data)
 
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_supervisor_agents(request,supervisors_code):
+    agents = User.objects.filter(supervisor=supervisors_code)
+    serializer = UsersSerializer(agents, many=True)
+    return Response(serializer.data)
+
 
 @api_view(['GET', 'PUT'])
 @permission_classes([permissions.IsAuthenticated])
