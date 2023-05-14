@@ -1316,3 +1316,13 @@ def get_all_my_request_to_hold_account(request):
     my_requests = HoldAccounts.objects.filter(agent=request.user).order_by("-date_added")
     serializer = HoldAccountsSerializer(my_requests, many=True)
     return Response(serializer.data)
+
+
+# agent request by username
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_agents_request_username(request, username):
+    user = get_object_or_404(User, username=username)
+    all_requests = AgentRequest.objects.filter(agent=user).order_by('-date_requested')
+    serializer = AgentRequestSerializer(all_requests, many=True)
+    return Response(serializer.data)
