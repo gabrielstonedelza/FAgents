@@ -202,4 +202,17 @@ urlpatterns = [
     path("request_to_hold_account/",views.request_to_hold_account),
     path("get_all_request_to_hold_account/",views.get_all_request_to_hold_account),
     path("get_all_my_request_to_hold_account/",views.get_all_my_request_to_hold_account),
+
+#     request payments
+    path("make_request_payment/",views.make_request_payment),
+    path("get_all_my_agents_payment_requests/",views.get_all_my_agents_payment_requests),
+    path("get_all_my_payment_requests/",views.get_all_my_payment_requests),
+    path("get_all_my_payment_requests_today/",views.get_all_my_payment_requests_today),
+    path("update_agent_payment_request/<int:pk>/",views.update_agent_payment_request),
+    path("delete_agent_payment_request/<int:id>/",views.delete_agent_payment_request),
+    path("get_agents_payment_request_username/<str:username>/",views.get_agents_payment_request_username),
+
+#     approvals
+    path("add_to_approve_request_payment/",views.add_to_approve_request_payment),
+    path("add_to_approve_request/",views.add_to_approve_request_payment),
 ]

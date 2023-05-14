@@ -10,14 +10,14 @@ from users.models import User
 from users.serializers import UsersSerializer
 from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, \
     PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, AgentsFloat, \
-    GroupMessage, PrivateUserMessage, AgentPreregistration, RegisteredForFloat,AgentAccountsBalanceStarted, AgentAccountsBalanceClosed,FreeTrial,MonthlyPayments,AuthenticateAgentPhone,MtnPayTo, AgentRequest, AgentRequestLimit,SetUpMeeting,Complains,HoldAccounts)
+    GroupMessage, PrivateUserMessage, AgentPreregistration, RegisteredForFloat,AgentAccountsBalanceStarted, AgentAccountsBalanceClosed,FreeTrial,MonthlyPayments,AuthenticateAgentPhone,MtnPayTo, AgentRequest, AgentRequestLimit,SetUpMeeting,Complains,HoldAccounts,AgentRequestPayment,AddedToApprovedRequest,AddedToApprovedPayment)
 from .serializers import (CustomerSerializer, CustomerAccountsSerializer, BankDepositSerializer, MomoDepositSerializer, \
                           MomoWithdrawalSerializer, BankWithdrawalSerializer, PaymentForReBalancingSerializer,
                           ReportSerializer, \
                           AddToBlockListSerializer, NotificationSerializer, AgentReBalancingSerializer,
                           AgentAccountsSerializer, \
                           AgentsFloatSerializer, FraudSerializer, GroupMessageSerializer, PrivateUserMessageSerializer,
-                          AgentPreregistrationSerializer, RegisteredForFloatSerializer,AgentAccountsBalanceStartedSerializer, AgentAccountsBalanceClosedSerializer,AuthenticateAgentPhoneSerializer,FreeTrialSerializer,MonthlyPaymentsSerializer,MtnPayToSerializer,AgentRequestLimitSerializer,AgentRequestSerializer,SetUpMeetingSerializer,ComplainsSerializer,HoldAccountsSerializer)
+                          AgentPreregistrationSerializer, RegisteredForFloatSerializer,AgentAccountsBalanceStartedSerializer, AgentAccountsBalanceClosedSerializer,AuthenticateAgentPhoneSerializer,FreeTrialSerializer,MonthlyPaymentsSerializer,MtnPayToSerializer,AgentRequestLimitSerializer,AgentRequestSerializer,SetUpMeetingSerializer,ComplainsSerializer,HoldAccountsSerializer,AddedToApprovedPaymentSerializer,AddedToApprovedRequestSerializer,AgentRequestPaymentSerializer)
 
 
 # float joining
@@ -1198,7 +1198,7 @@ def update_agent_request(request,pk):
     a_request = get_object_or_404(AgentRequest, pk=pk)
     serializer = AgentRequestSerializer(a_request,data=request.data)
     if serializer.is_valid():
-        serializer.save(agent=request.user)
+        serializer.save()
         return Response(serializer.data)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -1326,3 +1326,86 @@ def get_agents_request_username(request, username):
     all_requests = AgentRequest.objects.filter(agent=user).order_by('-date_requested')
     serializer = AgentRequestSerializer(all_requests, many=True)
     return Response(serializer.data)
+
+# agent make payment request
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def make_request_payment(request):
+    serializer = AgentRequestPaymentSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_all_my_agents_payment_requests(request):
+    payment_requests = AgentRequestPayment.objects.filter(owner=request.user).order_by("-date_requested")
+    serializer = AgentRequestPaymentSerializer(payment_requests,many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_all_my_payment_requests(request):
+    payment_requests = AgentRequestPayment.objects.filter(agent=request.user).order_by("-date_requested")
+    serializer = AgentRequestPaymentSerializer(payment_requests,many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_all_my_payment_requests_today(request):
+    my_date = datetime.today()
+    for_today = my_date.date()
+    agent_requests = AgentRequestPayment.objects.filter(agent=request.user).filter(date_requested=for_today).order_by('date_requested')
+    serializer = AgentRequestPaymentSerializer(agent_requests, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_agents_payment_request_username(request, username):
+    user = get_object_or_404(User, username=username)
+    all_requests = AgentRequestPayment.objects.filter(agent=user).order_by('-date_requested')
+    serializer = AgentRequestPaymentSerializer(all_requests, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET','PUT'])
+@permission_classes([permissions.IsAuthenticated])
+def update_agent_payment_request(request,pk):
+    a_request = get_object_or_404(AgentRequest, pk=pk)
+    serializer = AgentRequestPaymentSerializer(a_request,data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET', 'DELETE'])
+@permission_classes([permissions.AllowAny])
+def delete_agent_payment_request(request, id):
+    try:
+        payment_request = get_object_or_404(AgentRequestPayment, id=id)
+        payment_request.delete()
+    except AgentRequestPayment.DoesNotExist:
+        return Http404
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+
+# approvals
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def add_to_approve_request_payment(request):
+    serializer = AddedToApprovedPaymentSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(owner=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def add_to_approve_request(request):
+    serializer = AddedToApprovedRequestSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(owner=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

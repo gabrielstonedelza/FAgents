@@ -4,8 +4,8 @@ from django.dispatch import receiver
 
 from users.models import User
 from .models import (BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, \
-    Reports, Fraud, AgentReBalancing, Notifications, PrivateUserMessage, GroupMessage, AgentPreregistration, \
-    RegisteredForFloat,AgentRequest,SetUpMeeting, Complains,HoldAccounts)
+                     Reports, Fraud, AgentReBalancing, Notifications, PrivateUserMessage, GroupMessage, AgentPreregistration, \
+                     RegisteredForFloat, AgentRequest, SetUpMeeting, Complains, HoldAccounts, AgentRequestPayment, AddedToApprovedRequest, AddedToApprovedPayment)
 
 DeUser = settings.AUTH_USER_MODEL
 
@@ -221,3 +221,40 @@ def alert_private_message(sender, created, instance, **kwargs):
             Notifications.objects.create(item_id=instance.id, notification_title=title,
                                          notification_message=message, transaction_tag=transaction_tag,
                                          notification_to=instance.sender)
+
+@receiver(post_save, sender=AddedToApprovedPayment)
+def alert_cash_payment_approved(sender, created, instance, **kwargs):
+    title = "Payment approved"
+    message = f"Your payment of  GHC{instance.payment.amount} was approved"
+    tag = "Payment"
+
+    if created:
+        Notifications.objects.create(item_id=instance.id, notification_title=title,
+                                     notification_message=message, notification_from=instance.owner,
+                                     notification_to=instance.payment.agent,
+                                     transaction_tag=tag)
+
+@receiver(post_save, sender=AddedToApprovedRequest)
+def alert_agent_request_approved(sender, created, instance, **kwargs):
+    title = "Request approved"
+    message = f"Your request of  GHC{instance.agent_request.amount} was approved"
+    tag = "Request Approved"
+
+    if created:
+        Notifications.objects.create(item_id=instance.id, notification_title=title,
+                                     notification_message=message, notification_from=instance.owner,
+                                     notification_to=instance.agent_request.agent,
+                                     transaction_tag=tag)
+
+
+@receiver(post_save,sender=AgentRequestPayment)
+def alert_agent_payment(sender,created,instance,**kwargs):
+    title = "New Payment"
+    message = f"New payment from {instance.agent.username}"
+    tag = "Agent Payment"
+
+    if created:
+        Notifications.objects.create(item_id=instance.id, notification_title=title,
+                                     notification_message=message, notification_from=instance.agent,
+                                     notification_to=instance.owner,
+                                     transaction_tag=tag)

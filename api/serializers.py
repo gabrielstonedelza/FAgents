@@ -1,5 +1,21 @@
 from rest_framework import serializers
-from .models import Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, AgentsFloat,PrivateChatId,PrivateUserMessage,GroupMessage,AgentPreregistration,RegisteredForFloat, AgentAccountsBalanceStarted, AgentAccountsBalanceClosed,FreeTrial,MonthlyPayments,AuthenticateAgentPhone,MtnPayTo, AgentRequest, AgentRequestLimit, SetUpMeeting, Complains,HoldAccounts
+from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, AgentsFloat,PrivateChatId,PrivateUserMessage,GroupMessage,AgentPreregistration,RegisteredForFloat, AgentAccountsBalanceStarted, AgentAccountsBalanceClosed,FreeTrial,MonthlyPayments,AuthenticateAgentPhone,MtnPayTo, AgentRequest, AgentRequestLimit, SetUpMeeting, Complains,HoldAccounts,AgentRequestPayment, AddedToApprovedRequest, AddedToApprovedPayment)
+
+class AddedToApprovedPaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AddedToApprovedPayment
+        fields = ['id','owner','payment','date_approved']
+        read_only_fields = ['owner']
+
+class AddedToApprovedRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AddedToApprovedRequest
+        fields = ['id','owner','agent_request','date_approved']
+        read_only_fields = ['owner']
+class AgentRequestPaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AgentRequestPayment
+        fields = ['id','owner','agent','amount','payment_approved','reference','date_requested','get_agent_username']
 
 class HoldAccountsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -7,13 +23,11 @@ class HoldAccountsSerializer(serializers.ModelSerializer):
         fields = ['id','administrator','agent','amount','customer_number','reason','date_added']
         read_only_fields =['agent']
 
-
 class ComplainsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Complains
         fields = ['id','administrator','agent','title','complain','date_added','get_agent_username','get_agent_phone_number']
         read_only_fields = ['agent']
-
 
 class SetUpMeetingSerializer(serializers.ModelSerializer):
     class Meta:
