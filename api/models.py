@@ -760,8 +760,6 @@ class AgentRequestPayment(models.Model):
 
     def get_agent_username(self):
         return self.agent.username
-
-
 class AddedToApprovedRequest(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="agents_owner_request")
     agent_request = models.ForeignKey(AgentRequest, on_delete=models.CASCADE)

@@ -182,6 +182,7 @@ urlpatterns = [
     path("get_all_my_requests_today/",views.get_all_my_requests_today),
     path("update_agent_request/<int:pk>/",views.update_agent_request),
     path("delete_agent_request/<int:id>/",views.delete_agent_request),
+    path("request_detail/<int:pk>/",views.request_detail),
 
 # agent request limit
     path("add_agent_request_limit/",views.add_agent_request_limit),
@@ -211,6 +212,7 @@ urlpatterns = [
     path("update_agent_payment_request/<int:pk>/",views.update_agent_payment_request),
     path("delete_agent_payment_request/<int:id>/",views.delete_agent_payment_request),
     path("get_agents_payment_request_username/<str:username>/",views.get_agents_payment_request_username),
+    path("payment_request_detail/<int:pk>/",views.payment_request_detail),
 
 #     approvals
     path("add_to_approve_request_payment/",views.add_to_approve_request_payment),

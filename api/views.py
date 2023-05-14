@@ -1192,6 +1192,13 @@ def get_all_my_requests_today(request):
     serializer = AgentRequestSerializer(agent_requests, many=True)
     return Response(serializer.data)
 
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def request_detail(request,pk):
+    detail_request = get_object_or_404(AgentRequest,pk=pk)
+    serializer = AgentRequestSerializer(detail_request,many=False)
+    return Response(serializer.data)
+
 @api_view(['GET','PUT'])
 @permission_classes([permissions.IsAuthenticated])
 def update_agent_request(request,pk):
@@ -1342,6 +1349,13 @@ def make_request_payment(request):
 def get_all_my_agents_payment_requests(request):
     payment_requests = AgentRequestPayment.objects.filter(owner=request.user).order_by("-date_requested")
     serializer = AgentRequestPaymentSerializer(payment_requests,many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def payment_request_detail(request,pk):
+    payment_request = get_object_or_404(AgentRequestPayment,pk=pk)
+    serializer = AgentRequestPaymentSerializer(payment_request,many=False)
     return Response(serializer.data)
 
 @api_view(['GET'])
