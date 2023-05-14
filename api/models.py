@@ -436,7 +436,7 @@ class AgentReBalancing(models.Model):
     date_requested = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.message
+        return self.agent.username
 
     def get_agent_requesting_username(self):
         return self.agent.username
