@@ -678,6 +678,13 @@ def get_user_re_balancing_requests(request, username):
 
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
+def get_unapproved_re_balancing_requests(request):
+    balancing = AgentReBalancing.objects.filter(request_approved="Pending").order_by("-date_requested")
+    serializer = AgentReBalancingSerializer(balancing,many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
 def get_all_re_balancing(request):
     balancing = AgentReBalancing.objects.all().order_by('-date_requested')
     serializer = AgentReBalancingSerializer(balancing, many=True)

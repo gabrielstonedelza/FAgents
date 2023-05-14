@@ -433,6 +433,7 @@ class AgentReBalancing(models.Model):
     bank = models.CharField(max_length=50, choices=BANKS, blank=True, default="")
     account_number = models.CharField(max_length=16, blank=True)
     account_name = models.CharField(max_length=100, blank=True)
+    request_approved = models.CharField(max_length=20, choices=REQUEST_STATUS, default="Pending")
     date_requested = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
