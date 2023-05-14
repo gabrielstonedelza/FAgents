@@ -129,7 +129,7 @@ class AgentReBalancingSerializer(serializers.ModelSerializer):
     class Meta:
         model = AgentReBalancing
         fields = ['id','agent','amount','bank','account_number','account_name','date_requested','get_agent_requesting_username','network','request_approved']
-        read_only_fields = ['agent']
+
 class AgentAccountsSerializer(serializers.ModelSerializer):
     class Meta:
         model = AgentAccounts

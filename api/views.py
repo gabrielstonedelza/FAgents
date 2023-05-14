@@ -650,7 +650,7 @@ def get_my_payments(request):
 def request_for_re_balancing(request):
     serializer = AgentReBalancingSerializer(data=request.data)
     if serializer.is_valid():
-        serializer.save(agent=request.user)
+        serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -696,6 +696,16 @@ def get_my_re_balancing_requests(request):
     balancing = AgentReBalancing.objects.filter(agent=request.user).order_by('-date_requested')
     serializer = AgentReBalancingSerializer(balancing, many=True)
     return Response(serializer.data)
+
+@api_view(['GET','PUT'])
+@permission_classes([permissions.IsAuthenticated])
+def update_agent_rebalancing(request,pk):
+    a_request = get_object_or_404(AgentReBalancing, pk=pk)
+    serializer = AgentReBalancingSerializer(a_request,data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 # agents accounts registration

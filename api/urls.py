@@ -87,6 +87,7 @@ urlpatterns = [
     # rebalancing
     path("request_for_re_balancing/",views.request_for_re_balancing),
     path("re_balancing_details/<int:id>/",views.re_balancing_details),
+    path("update_agent_rebalancing/<int:pk>/",views.update_agent_rebalancing),
     path("get_user_re_balancing_requests/<str:username>/",views.get_user_re_balancing_requests),
     path("get_unapproved_re_balancing_requests/",views.get_unapproved_re_balancing_requests),
     path("get_all_re_balancing/",views.get_all_re_balancing),
