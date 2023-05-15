@@ -786,6 +786,13 @@ def get_my_accounts(request):
     serializer = AgentAccountsSerializer(accounts,many=True)
     return Response(serializer.data)
 
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_all_my_agents_accounts(request):
+    accounts = AgentAccounts.objects.filter(owner=request.user).order_by('-date_added')
+    serializer = AgentAccountsSerializer(accounts,many=True)
+    return Response(serializer.data)
+
 # notifications
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])

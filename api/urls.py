@@ -102,6 +102,7 @@ urlpatterns = [
     path("update_agents_accounts/<int:pk>/",views.update_agents_accounts),
     path("agent_account_delete/<int:pk>/",views.agent_account_delete),
     path("get_my_accounts/",views.get_my_accounts),
+    path("get_all_my_agents_accounts/",views.get_all_my_agents_accounts),
 
 
     path("get_my_notifications/",views.get_my_notifications),
