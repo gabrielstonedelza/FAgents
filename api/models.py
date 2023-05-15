@@ -444,6 +444,7 @@ class AgentReBalancing(models.Model):
         return self.agent.username
 
 class AgentAccounts(models.Model):
+    owner = models.ForeignKey(User,on_delete=models.CASCADE,related_name="owner_creating_account")
     agent = models.ForeignKey(User, on_delete=models.CASCADE)
     account_number = models.CharField(max_length=16, blank=True)
     account_name = models.CharField(max_length=100, blank=True)

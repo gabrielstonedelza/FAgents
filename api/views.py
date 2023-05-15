@@ -724,7 +724,7 @@ def update_agent_rebalancing(request,pk):
 def register_agents_accounts(request):
     serializer = AgentAccountsSerializer(data=request.data)
     if serializer.is_valid():
-        serializer.save()
+        serializer.save(owner=request.user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
