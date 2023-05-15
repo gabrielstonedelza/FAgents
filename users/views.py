@@ -5,8 +5,8 @@ from rest_framework import viewsets, permissions, generics, status
 from rest_framework.response import Response
 
 
-from .models import User, SupervisorProfile, AdminProfile, AgentProfile
-from .serializers import UsersSerializer, SupervisorProfileSerializer, AdminProfileSerializer, AgentProfileSerializer
+from .models import User, OwnerProfile, AdminProfile, AgentProfile
+from .serializers import UsersSerializer, OwnerProfileSerializer, AdminProfileSerializer, AgentProfileSerializer
 
 def home(request):
     return render(request, "users/fnet_home.html")
@@ -21,9 +21,9 @@ def get_user(request):
 
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
-def get_supervisors_profile(request):
-    my_profile = SupervisorProfile.objects.filter(user=request.user)
-    serializer = SupervisorProfileSerializer(my_profile, many=True)
+def get_owners_profile(request):
+    my_profile = OwnerProfile.objects.filter(user=request.user)
+    serializer = OwnerProfileSerializer(my_profile, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
@@ -43,9 +43,9 @@ def get_admins_profile(request):
 
 @api_view(['GET', 'PUT'])
 @permission_classes([permissions.IsAuthenticated])
-def update_supervisor_profile(request):
-    my_profile = SupervisorProfile.objects.get(user=request.user)
-    serializer = SupervisorProfileSerializer(my_profile, data=request.data)
+def update_owner_profile(request):
+    my_profile = OwnerProfile.objects.get(user=request.user)
+    serializer = OwnerProfileSerializer(my_profile, data=request.data)
     if serializer.is_valid():
         serializer.save(user=request.user)
         return Response(serializer.data)
@@ -95,7 +95,7 @@ class GetAllAgents(generics.ListAPIView):
 @api_view(['GET'])
 @permission_classes([permissions.AllowAny])
 def get_all_supervisors(request):
-    supervisors = User.objects.filter(user_type="Supervisor")
+    supervisors = User.objects.filter(user_type="Owner")
     serializer = UsersSerializer(supervisors, many=True)
     return Response(serializer.data)
 
@@ -149,8 +149,8 @@ def get_supervisor_with_code(request,unique_code):
 
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
-def get_supervisor_agents(request,supervisors_code):
-    agents = User.objects.filter(supervisor=supervisors_code)
+def get_owner_agents(request, owners_code):
+    agents = User.objects.filter(owner=owners_code)
     serializer = UsersSerializer(agents, many=True)
     return Response(serializer.data)
 
