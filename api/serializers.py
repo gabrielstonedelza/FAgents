@@ -26,7 +26,7 @@ class AgentRequestPaymentSerializer(serializers.ModelSerializer):
 class HoldAccountsSerializer(serializers.ModelSerializer):
     class Meta:
         model = HoldAccounts
-        fields = ['id','administrator','agent','amount','customer_number','reason','date_added']
+        fields = ['id','administrator','agent','amount','customer_number','reason','date_added','merchant_id','transaction_id']
         read_only_fields =['agent']
 
 class ComplainsSerializer(serializers.ModelSerializer):
@@ -38,7 +38,7 @@ class ComplainsSerializer(serializers.ModelSerializer):
 class SetUpMeetingSerializer(serializers.ModelSerializer):
     class Meta:
         model = SetUpMeeting
-        fields = ['id','administrator','agent','title','message','date_of_meeting','time_of_meeting','date_created']
+        fields = ['id','administrator','title','message','date_of_meeting','time_of_meeting','date_created']
         read_only_fields = ['administrator']
 class AgentRequestLimitSerializer(serializers.ModelSerializer):
     class Meta:

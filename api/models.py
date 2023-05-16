@@ -801,7 +801,6 @@ class AgentRequestLimit(models.Model):
 
 class SetUpMeeting(models.Model):
     administrator = models.ForeignKey(User, on_delete=models.CASCADE,related_name="admin",default=1)
-    agent = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     message = models.TextField()
     date_of_meeting = models.CharField(max_length=20)
@@ -833,6 +832,8 @@ class HoldAccounts(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=19, decimal_places=2,default=0.0)
     customer_number = models.CharField(max_length=20)
+    merchant_id = models.CharField(max_length=20,default="")
+    transaction_id = models.CharField(max_length=100,default="")
     reason = models.CharField(max_length=255)
     date_added = models.DateTimeField(auto_now_add=True)
 
