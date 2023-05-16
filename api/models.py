@@ -805,6 +805,7 @@ class SetUpMeeting(models.Model):
     message = models.TextField()
     date_of_meeting = models.CharField(max_length=20)
     time_of_meeting = models.CharField(max_length=20)
+    meeting_link = models.CharField(max_length=255,default="")
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

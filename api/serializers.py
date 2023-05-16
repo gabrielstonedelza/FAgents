@@ -38,7 +38,7 @@ class ComplainsSerializer(serializers.ModelSerializer):
 class SetUpMeetingSerializer(serializers.ModelSerializer):
     class Meta:
         model = SetUpMeeting
-        fields = ['id','administrator','title','message','date_of_meeting','time_of_meeting','date_created']
+        fields = ['id','administrator','title','message','date_of_meeting','time_of_meeting','date_created','meeting_link']
         read_only_fields = ['administrator']
 class AgentRequestLimitSerializer(serializers.ModelSerializer):
     class Meta:
