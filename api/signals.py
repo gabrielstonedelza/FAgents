@@ -40,7 +40,7 @@ def alert_meeting(sender,created,instance,**kwargs):
     message = f"{instance.administrator.username} has scheduled online meeting for {instance.date_of_meeting} {instance.time_of_meeting}"
     tag = "Owners Meeting"
     admin_user = User.objects.get(id=1)
-    admin_owners = User.objects.filter(supervisor=admin_user.agent_unique_code)
+    admin_owners = User.objects.filter(owner=admin_user.agent_unique_code)
 
     if created:
         for i in admin_owners:
