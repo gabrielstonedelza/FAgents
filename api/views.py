@@ -1126,8 +1126,8 @@ def get_all_my_pay_to(request):
 
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
-def get_all_my_agents(request):
-    agents = User.objects.filter(owner=request.user)
+def get_all_my_agents(request,owner):
+    agents = User.objects.filter(owner=owner)
     serializer = UsersSerializer(agents, many=True)
     return Response(serializer.data)
 
