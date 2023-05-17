@@ -860,7 +860,7 @@ class GroupOwnerMessage(models.Model):
         return self.owner.username
 
     def get_phone_number(self):
-        return self.user.phone_number
+        return self.owner.phone_number
 
     def get_date(self):
         return humanize.naturaltime(self.timestamp)
