@@ -1506,7 +1506,7 @@ def get_owners_group_messages(request):
 
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])
-def send_agents_group_message(request,owner):
+def send_agents_group_message(request):
     serializer = GroupAgentsMessageSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
