@@ -117,7 +117,7 @@ def alert_agent_preregistration(sender,created,instance,**kwargs):
 @receiver(post_save,sender=BankDeposit)
 def alert_bank_deposit(sender,created,instance,**kwargs):
     title = "New bank deposit"
-    message = f"{instance.agent.username} just made a bank deposit of {instance.cash_paid}"
+    message = f"{instance.agent.username} just made a bank deposit of {instance.amount}"
     tag = "Bank Deposit"
     admin_user = User.objects.get(id=1)
 
