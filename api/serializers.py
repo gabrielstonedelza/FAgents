@@ -8,7 +8,7 @@ class GroupAgentsMessageSerializer(serializers.ModelSerializer):
 class GroupOwnerMessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = GroupOwnerMessage
-        fields = ['id','owner','message','timestamp','get_username','get_phone_number','']
+        fields = ['id','owner','message','timestamp','get_username','get_phone_number']
         read_only_fields = ['owner']
 class AddedToApprovedReBalancingSerializer(serializers.ModelSerializer):
     class Meta:
