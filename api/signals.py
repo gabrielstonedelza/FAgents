@@ -298,5 +298,5 @@ def alert_agents_message(sender, created, instance, **kwargs):
         for i in agents:
             Notifications.objects.create(item_id=instance.id, transaction_tag=transaction_tag,
                                          notification_title=title, notification_message=message,
-                                         notification_from=instance.agent, notification_to=i.id,
+                                         notification_from=instance.agent, notification_to=i,
                                          )
