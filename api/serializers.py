@@ -1,7 +1,15 @@
 from rest_framework import serializers
-from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, Floats, PrivateChatId, PrivateUserMessage, GroupMessage, AgentPreregistration, RegisteredForFloat, AgentAccountsBalanceStarted, AgentAccountsBalanceClosed, FreeTrial, MonthlyPayments, AuthenticateAgentPhone, MtnPayTo, AgentRequest, AgentRequestLimit, SetUpMeeting, Complains, HoldAccounts, AgentRequestPayment, AddedToApprovedRequest, AddedToApprovedPayment, AddedToApprovedReBalancing)
+from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, Floats, PrivateChatId, PrivateUserMessage, GroupMessage, AgentPreregistration, RegisteredForFloat, AgentAccountsBalanceStarted, AgentAccountsBalanceClosed, FreeTrial, MonthlyPayments, AuthenticateAgentPhone, MtnPayTo, AgentRequest, AgentRequestLimit, SetUpMeeting, Complains, HoldAccounts, AgentRequestPayment, AddedToApprovedRequest, AddedToApprovedPayment, AddedToApprovedReBalancing,GroupOwnerMessage,GroupAgentsMessage)
 
-
+class GroupAgentsMessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GroupAgentsMessage
+        fields = ['id','owner','agent','message','timestamp','get_agent_username']
+class GroupOwnerMessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GroupOwnerMessage
+        fields = ['id','owner','message','timestamp','get_username','get_phone_number','']
+        read_only_fields = ['owner']
 class AddedToApprovedReBalancingSerializer(serializers.ModelSerializer):
     class Meta:
         model = AddedToApprovedReBalancing

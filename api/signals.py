@@ -5,7 +5,7 @@ from django.dispatch import receiver
 from users.models import User
 from .models import (BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, \
                      Reports, Fraud, AgentReBalancing, Notifications, PrivateUserMessage, GroupMessage, AgentPreregistration, \
-                     RegisteredForFloat, AgentRequest, SetUpMeeting, Complains, HoldAccounts, AgentRequestPayment, AddedToApprovedRequest, AddedToApprovedPayment,AddedToApprovedReBalancing)
+                     RegisteredForFloat, AgentRequest, SetUpMeeting, Complains, HoldAccounts, AgentRequestPayment, AddedToApprovedRequest, AddedToApprovedPayment,AddedToApprovedReBalancing,GroupOwnerMessage,GroupAgentsMessage)
 
 DeUser = settings.AUTH_USER_MODEL
 
@@ -270,3 +270,33 @@ def alert_agent_payment(sender,created,instance,**kwargs):
                                      notification_message=message, notification_from=instance.agent,
                                      notification_to=instance.owner,
                                      transaction_tag=tag)
+
+
+@receiver(post_save, sender=GroupOwnerMessage)
+def alert_owners_message(sender, created, instance, **kwargs):
+    title = f"New group message"
+    message = f"{instance.owner.username} sent a message to the group"
+    transaction_tag = "New group message"
+    owners = User.objects.filter(user_type="owner")
+
+    if created:
+        for i in owners:
+            Notifications.objects.create(item_id=instance.id, transaction_tag=transaction_tag,
+                                         notification_title=title, notification_message=message,
+                                         notification_from=instance.owner, notification_to=i,
+                                         )
+
+@receiver(post_save, sender=GroupAgentsMessage)
+def alert_agents_message(sender, created, instance, **kwargs):
+    title = f"New group message"
+    message = f"Got a new group message"
+    transaction_tag = "New group message"
+    owner = User.objects.get(owner=instance.owner)
+    agents = User.objects.filter(owner=owner.agent_unique_code)
+
+    if created:
+        for i in agents:
+            Notifications.objects.create(item_id=instance.id, transaction_tag=transaction_tag,
+                                         notification_title=title, notification_message=message,
+                                         notification_from=instance.agent, notification_to=i.id,
+                                         )

@@ -846,3 +846,43 @@ class HoldAccounts(models.Model):
 
     def get_agent_phone(self):
         return self.agent.phone_number
+# new chat for agents and owners
+
+class GroupOwnerMessage(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    message = models.TextField()
+    timestamp = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.owner.username
+
+    def get_username(self):
+        return self.owner.username
+
+    def get_phone_number(self):
+        return self.user.phone_number
+
+    def get_date(self):
+        return humanize.naturaltime(self.timestamp)
+
+class GroupAgentsMessage(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE,related_name="owner_chatters")
+    agent = models.ForeignKey(User, on_delete=models.CASCADE)
+    message = models.TextField()
+    timestamp = models.DateTimeField(default=timezone.now)
+
+
+    def get_agent_username(self):
+        return self.agent.username
+
+    def __str__(self):
+        return self.owner.username
+
+    def get_username(self):
+        return self.owner.username
+
+    def get_phone_number(self):
+        return self.user.phone_number
+
+    def get_date(self):
+        return humanize.naturaltime(self.timestamp)
