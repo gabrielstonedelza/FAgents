@@ -291,7 +291,7 @@ def alert_agents_message(sender, created, instance, **kwargs):
     title = f"New group message"
     message = f"Got a new group message"
     transaction_tag = "New group message"
-    owner = User.objects.get(owner=instance.owner)
+    owner = User.objects.get(owner=instance.owner.id)
     agents = User.objects.filter(owner=owner.agent_unique_code)
 
     if created:
