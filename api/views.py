@@ -1509,7 +1509,7 @@ def get_owners_group_messages(request):
 def send_agents_group_message(request,owner):
     serializer = GroupAgentsMessageSerializer(data=request.data)
     if serializer.is_valid():
-        serializer.save(owner=owner)
+        serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
