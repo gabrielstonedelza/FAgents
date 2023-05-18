@@ -154,7 +154,7 @@ def alert_momo_withdrawal(sender,created,instance,**kwargs):
 @receiver(post_save,sender=BankWithdrawal)
 def alert_bank_withdrawal(sender,created,instance,**kwargs):
     title = "New bank withdrawal"
-    message = f"{instance.agent.username} just made a bank withdrawal of {instance.cash_paid}"
+    message = f"{instance.agent.username} just made a bank withdrawal of {instance.amount}"
     tag = "Bank Withdrawal"
     admin_user = User.objects.get(id=1)
 
