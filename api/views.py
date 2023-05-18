@@ -1333,7 +1333,7 @@ def add_complain(request):
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
 def get_all_complains(request):
-    complains = Complains.objects.all().order_by("-date_created")
+    complains = Complains.objects.all().order_by("-date_added")
     serializer = ComplainsSerializer(complains,many=True)
     return Response(serializer.data)
 
