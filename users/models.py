@@ -29,7 +29,7 @@ class User(AbstractUser):
 
     def save(self, *args, **kwargs):
         a_unique = "EA"
-        a_code = a_unique + str(random.randint(0,9999)) + self.phone_number[4:6]+ self.user_type[:2]
+        a_code = a_unique + str(random.randint(0,9999)) + self.phone_number[4:6]
         self.agent_unique_code = a_code
         super().save(*args, **kwargs)
 
