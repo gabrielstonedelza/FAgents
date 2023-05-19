@@ -79,12 +79,11 @@ def alert_agent_reBalance(sender,created,instance,**kwargs):
     title = "New Agent ReBalancing"
     message = f"{instance.agent.username} wants rebalancing"
     tag = "Agent ReBalancing"
-    admin_user = User.objects.get(id=1)
 
     if created:
         Notifications.objects.create(item_id=instance.id, notification_title=title,
                                      notification_message=message, notification_from=instance.agent,
-                                     notification_to=admin_user,
+                                     notification_to=instance.owner,
                                      transaction_tag=tag)
 
 
@@ -97,7 +96,7 @@ def alert_payment_for_reBalancing(sender,created,instance,**kwargs):
 
     if created:
         Notifications.objects.create(item_id=instance.id, notification_title=title,
-                                     notification_message=message, notification_from=instance.agent, notification_to=admin_user,
+                                     notification_message=message, notification_from=instance.agent, notification_to=instance.owner,
                                      transaction_tag=tag)
 
 
@@ -119,11 +118,10 @@ def alert_bank_deposit(sender,created,instance,**kwargs):
     title = "New bank deposit"
     message = f"{instance.agent.username} just made a bank deposit of {instance.amount}"
     tag = "Bank Deposit"
-    admin_user = User.objects.get(id=1)
 
     if created:
         Notifications.objects.create(item_id=instance.id, notification_title=title,
-                                     notification_message=message, notification_from=instance.agent, notification_to=admin_user,
+                                     notification_message=message, notification_from=instance.agent, notification_to=instance.owner,
                                      transaction_tag=tag)
 
 @receiver(post_save,sender=MobileMoneyDeposit)
@@ -131,11 +129,10 @@ def alert_momo_deposit(sender,created,instance,**kwargs):
     title = "New momo deposit"
     message = f"{instance.agent.username} just made a momo deposit of {instance.amount_sent}"
     tag = "Momo Deposit"
-    admin_user = User.objects.get(id=1)
 
     if created:
         Notifications.objects.create(item_id=instance.id, notification_title=title,
-                                     notification_message=message, notification_from=instance.agent, notification_to=admin_user,
+                                     notification_message=message, notification_from=instance.agent, notification_to=instance.owner,
                                      transaction_tag=tag)
 
 
@@ -144,11 +141,10 @@ def alert_momo_withdrawal(sender,created,instance,**kwargs):
     title = "New momo withdrawal"
     message = f"{instance.agent.username} just made a momo withdrawal of {instance.cash_paid}"
     tag = "Momo Withdrawal"
-    admin_user = User.objects.get(id=1)
 
     if created:
         Notifications.objects.create(item_id=instance.id, notification_title=title,
-                                     notification_message=message, notification_from=instance.agent, notification_to=admin_user,
+                                     notification_message=message, notification_from=instance.agent, notification_to=instance.owner,
                                      transaction_tag=tag)
 
 @receiver(post_save,sender=BankWithdrawal)
@@ -156,11 +152,10 @@ def alert_bank_withdrawal(sender,created,instance,**kwargs):
     title = "New bank withdrawal"
     message = f"{instance.agent.username} just made a bank withdrawal of {instance.amount}"
     tag = "Bank Withdrawal"
-    admin_user = User.objects.get(id=1)
 
     if created:
         Notifications.objects.create(item_id=instance.id, notification_title=title,
-                                     notification_message=message, notification_from=instance.agent, notification_to=admin_user,
+                                     notification_message=message, notification_from=instance.agent, notification_to=instance.owner,
                                      transaction_tag=tag)
 
 @receiver(post_save,sender=Reports)

@@ -182,6 +182,7 @@ class CustomerAccounts(models.Model):
     def get_agent_username(self):
         return self.agent.username
 class BankDeposit(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="agents_owner_bank_deposit")
     agent = models.ForeignKey(User, on_delete=models.CASCADE, related_name="agent_requesting_bank")
     customer = models.CharField(max_length=100, blank=True, default="")
     depositor_name = models.CharField(max_length=30, blank=True, default="")
@@ -235,6 +236,7 @@ class BankDeposit(models.Model):
         return self.agent.username
 
 class MobileMoneyDeposit(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="agents_owner_momo_deposits")
     agent = models.ForeignKey(User, on_delete=models.CASCADE, related_name="agent_requesting")
     customer = models.CharField(max_length=100, blank=True, default="")
     depositor_name = models.CharField(max_length=30, blank=True, default="")
@@ -282,6 +284,7 @@ class MobileMoneyDeposit(models.Model):
         return self.agent.username
 
 class MobileMoneyWithdraw(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="agents_owner_momo_withdrawals")
     agent = models.ForeignKey(User, on_delete=models.CASCADE)
     customer = models.CharField(max_length=100, blank=True, default="")
     network = models.CharField(max_length=20, choices=NETWORKS, blank=True, default="Select Network")
@@ -332,6 +335,7 @@ class MobileMoneyWithdraw(models.Model):
         return self.agent.username
 
 class BankWithdrawal(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="agents_owner_banks_withdrawals")
     agent = models.ForeignKey(User, on_delete=models.CASCADE)
     customer = models.CharField(max_length=100, blank=True, default="")
     bank = models.CharField(max_length=100, choices=BANKS, default="GT Bank")
@@ -411,6 +415,7 @@ class Fraud(models.Model):
         return self.agent.username
 
 class PaymentForReBalancing(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="agents_owner_payment")
     agent = models.ForeignKey(User, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=19, decimal_places=2, default=0.0, blank=True)
     transaction_id = models.CharField(max_length=30, blank=True, default="")
@@ -771,7 +776,7 @@ class AddedToApprovedRequest(models.Model):
         return f"Ghs {self.agent_request.amount} was approved for {self.agent_request.agent.username}"
 
 class AddedToApprovedPayment(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="agents_owner_payment")
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="agents_owner_payments")
     payment = models.ForeignKey(AgentRequestPayment, on_delete=models.CASCADE)
     date_approved = models.DateTimeField(auto_now_add=True)
 
