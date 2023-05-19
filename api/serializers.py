@@ -119,7 +119,7 @@ class MomoWithdrawalSerializer(serializers.ModelSerializer):
 class BankWithdrawalSerializer(serializers.ModelSerializer):
     class Meta:
         model = BankWithdrawal
-        fields = ['id','agent','onwer','customer','bank','withdrawal_type','amount','date_of_withdrawal','get_agents_phone','get_agent_username','d_200','d_100','d_50','d_20','d_10','d_5','d_2','d_1','total']
+        fields = ['id','agent','owner','customer','bank','withdrawal_type','amount','date_of_withdrawal','get_agents_phone','get_agent_username','d_200','d_100','d_50','d_20','d_10','d_5','d_2','d_1','total']
         read_only_fields = ['agent']
 class PaymentForReBalancingSerializer(serializers.ModelSerializer):
     class Meta:
