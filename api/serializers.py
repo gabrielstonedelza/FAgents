@@ -103,28 +103,28 @@ class CustomerAccountsSerializer(serializers.ModelSerializer):
 class BankDepositSerializer(serializers.ModelSerializer):
     class Meta:
         model = BankDeposit
-        fields = ['id','agent','customer','bank','account_number','account_name','amount','depositor_name','depositor_number','get_agents_phone','get_agent_username','date_added','deposited_month','deposited_year','d_200','d_100','d_50','d_20','d_10','d_5','d_2','d_1','total']
+        fields = ['id','agent','owner','customer','bank','account_number','account_name','amount','depositor_name','depositor_number','get_agents_phone','get_agent_username','date_added','deposited_month','deposited_year','d_200','d_100','d_50','d_20','d_10','d_5','d_2','d_1','total']
         read_only_fields = ['agent']
 
 class MomoDepositSerializer(serializers.ModelSerializer):
     class Meta:
         model = MobileMoneyDeposit
-        fields = ['id','agent','customer','network','amount_sent','date_deposited','get_agents_phone','get_agent_username','type','d_200','d_100','d_50','d_20','d_10','d_5','d_2','d_1','total','depositor_name','depositor_number','cash_received']
+        fields = ['id','agent','owner','customer','network','amount_sent','date_deposited','get_agents_phone','get_agent_username','type','d_200','d_100','d_50','d_20','d_10','d_5','d_2','d_1','total','depositor_name','depositor_number','cash_received']
         read_only_fields = ['agent']
 class MomoWithdrawalSerializer(serializers.ModelSerializer):
     class Meta:
         model = MobileMoneyWithdraw
-        fields = ['id','agent','customer','network','cash_paid','date_of_withdrawal','get_agents_phone','get_agent_username','d_200','d_100','d_50','d_20','d_10','d_5','d_2','d_1','total','amount_received']
+        fields = ['id','agent','owner','customer','network','cash_paid','date_of_withdrawal','get_agents_phone','get_agent_username','d_200','d_100','d_50','d_20','d_10','d_5','d_2','d_1','total','amount_received']
         read_only_fields = ['agent']
 class BankWithdrawalSerializer(serializers.ModelSerializer):
     class Meta:
         model = BankWithdrawal
-        fields = ['id','agent','customer','bank','withdrawal_type','amount','date_of_withdrawal','get_agents_phone','get_agent_username','d_200','d_100','d_50','d_20','d_10','d_5','d_2','d_1','total']
+        fields = ['id','agent','onwer','customer','bank','withdrawal_type','amount','date_of_withdrawal','get_agents_phone','get_agent_username','d_200','d_100','d_50','d_20','d_10','d_5','d_2','d_1','total']
         read_only_fields = ['agent']
 class PaymentForReBalancingSerializer(serializers.ModelSerializer):
     class Meta:
         model = PaymentForReBalancing
-        fields = ['id','agent','reason_for_payment','amount','transaction_id','payment_status','date_created','time_created','get_agents_username']
+        fields = ['id','agent','owner','reason_for_payment','amount','transaction_id','payment_status','date_created','time_created','get_agents_username']
         read_only_fields = ['agent']
 class ReportSerializer(serializers.ModelSerializer):
     class Meta:
