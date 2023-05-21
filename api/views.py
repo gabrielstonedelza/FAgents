@@ -506,6 +506,16 @@ def report_detail(request, pk):
     serializer = ReportSerializer(report, many=False)
     return Response(serializer.data)
 
+@api_view(['GET', 'DELETE'])
+@permission_classes([permissions.AllowAny])
+def delete_report(request, id):
+    try:
+        report = get_object_or_404(Reports, id=id)
+        report.delete()
+    except Reports.DoesNotExist:
+        return Http404
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
 def get_user_reports(request, username):

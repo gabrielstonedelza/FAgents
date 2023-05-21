@@ -60,6 +60,7 @@ urlpatterns = [
 
     path("post_report/",views.post_report),
     path("report_detail/<int:id>/",views.report_detail),
+    path("delete_report/<int:id>/",views.delete_report),
     path("get_user_reports/<str:username>/",views.get_user_reports),
     path("get_all_reports/",views.get_all_reports),
     path("get_my_reports/",views.get_my_reports),
