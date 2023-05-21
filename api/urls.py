@@ -63,6 +63,7 @@ urlpatterns = [
     path("delete_report/<int:id>/",views.delete_report),
     path("get_user_reports/<str:username>/",views.get_user_reports),
     path("get_all_reports/",views.get_all_reports),
+    path("get_reports_today/",views.get_reports_today),
     path("get_my_reports/",views.get_my_reports),
 
 

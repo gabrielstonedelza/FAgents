@@ -531,6 +531,15 @@ def get_all_reports(request):
     serializer = ReportSerializer(reports, many=True)
     return Response(serializer.data)
 
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_reports_today(request):
+    my_date = datetime.today()
+    for_today = my_date.date()
+    reports = Reports.objects.filter(date_reported=for_today).order_by('date_reported')
+    serializer = ReportSerializer(reports, many=True)
+    return Response(serializer.data)
+
 
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
