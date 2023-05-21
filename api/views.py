@@ -510,7 +510,7 @@ def report_detail(request, pk):
 @permission_classes([permissions.IsAuthenticated])
 def get_user_reports(request, username):
     user = get_object_or_404(User, username=username)
-    reports = Reports.objects.filter(agent=user).order_by('-date_reported')
+    reports = Reports.objects.filter(user=user).order_by('-date_reported')
     serializer = ReportSerializer(reports, many=True)
     return Response(serializer.data)
 
@@ -525,7 +525,7 @@ def get_all_reports(request):
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
 def get_my_reports(request):
-    reports = BankWithdrawal.objects.filter(agent=request.user).order_by('-date_reported')
+    reports = Reports.objects.filter(user=request.user).order_by('-date_reported')
     serializer = ReportSerializer(reports, many=True)
     return Response(serializer.data)
 

@@ -161,13 +161,12 @@ def alert_bank_withdrawal(sender,created,instance,**kwargs):
 @receiver(post_save,sender=Reports)
 def alert_report(sender,created,instance,**kwargs):
     title = "New report"
-    message = f"{instance.agent.username} just added new report"
+    message = f"{instance.user.username} just added new report"
     tag = "Report"
-    admin_user = User.objects.get(id=1)
 
     if created:
         Notifications.objects.create(item_id=instance.id, notification_title=title,
-                                     notification_message=message, notification_from=instance.user, notification_to=admin_user,
+                                     notification_message=message, notification_from=instance.user, notification_to=instance.owner,
                                      transaction_tag=tag)
 
 @receiver(post_save,sender=Fraud)

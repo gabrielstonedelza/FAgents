@@ -129,7 +129,7 @@ class PaymentForReBalancingSerializer(serializers.ModelSerializer):
 class ReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reports
-        fields = ['id','user','report','read','date_reported','time_reported','get_username']
+        fields = ['id','user','report','read','date_reported','time_reported','get_username','owner']
         read_only_fields = ['user']
 class AddToBlockListSerializer(serializers.ModelSerializer):
     class Meta:

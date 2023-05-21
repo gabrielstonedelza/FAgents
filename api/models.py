@@ -379,6 +379,7 @@ class BankWithdrawal(models.Model):
         return self.agent.username
 
 class Reports(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="owner_reports")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     report = models.TextField()
     read = models.BooleanField(default=False)
