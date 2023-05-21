@@ -130,7 +130,7 @@ class ReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reports
         fields = ['id','user','report','read','date_reported','time_reported','get_username']
-        read_only_fields = ['agent']
+        read_only_fields = ['user']
 class AddToBlockListSerializer(serializers.ModelSerializer):
     class Meta:
         model = AddToBlockList

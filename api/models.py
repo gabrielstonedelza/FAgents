@@ -814,7 +814,6 @@ class SetUpMeeting(models.Model):
     def __str__(self):
         return self.title
 
-
 class Complains(models.Model):
     administrator = models.ForeignKey(User, on_delete=models.CASCADE, related_name="admin_complaining_to",default=1)
     agent = models.ForeignKey(User, on_delete=models.CASCADE)

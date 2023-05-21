@@ -495,7 +495,7 @@ def get_customer_bank_withdrawals(request,pk):
 def post_report(request):
     serializer = ReportSerializer(data=request.data)
     if serializer.is_valid():
-        serializer.save(agent=request.user)
+        serializer.save(user=request.user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
