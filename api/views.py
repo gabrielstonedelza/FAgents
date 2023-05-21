@@ -10,14 +10,14 @@ from users.models import User
 from users.serializers import UsersSerializer
 from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, \
                      PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, Floats, \
-                     GroupMessage, PrivateUserMessage, AgentPreregistration, RegisteredForFloat, AgentAccountsBalanceStarted, AgentAccountsBalanceClosed, FreeTrial, MonthlyPayments, AuthenticateAgentPhone, MtnPayTo, AgentRequest, AgentRequestLimit, SetUpMeeting, Complains, HoldAccounts, AgentRequestPayment, GroupOwnerMessage,GroupAgentsMessage)
+                     GroupMessage, PrivateUserMessage, AgentPreregistration, RegisteredForFloat, AgentAccountsBalanceStarted, FreeTrial, MonthlyPayments, AuthenticateAgentPhone, MtnPayTo, AgentRequest, AgentRequestLimit, SetUpMeeting, Complains, HoldAccounts, AgentRequestPayment, GroupOwnerMessage,GroupAgentsMessage)
 from .serializers import (CustomerSerializer, CustomerAccountsSerializer, BankDepositSerializer, MomoDepositSerializer, \
                           MomoWithdrawalSerializer, BankWithdrawalSerializer, PaymentForReBalancingSerializer,
                           ReportSerializer, \
                           AddToBlockListSerializer, NotificationSerializer, AgentReBalancingSerializer,
                           AgentAccountsSerializer, \
                           AgentsFloatSerializer, FraudSerializer, GroupMessageSerializer, PrivateUserMessageSerializer,
-                          AgentPreregistrationSerializer, RegisteredForFloatSerializer,AgentAccountsBalanceStartedSerializer, AgentAccountsBalanceClosedSerializer,AuthenticateAgentPhoneSerializer,FreeTrialSerializer,MonthlyPaymentsSerializer,MtnPayToSerializer,AgentRequestLimitSerializer,AgentRequestSerializer,SetUpMeetingSerializer,ComplainsSerializer,HoldAccountsSerializer,AddedToApprovedPaymentSerializer,AddedToApprovedRequestSerializer,AgentRequestPaymentSerializer,AddedToApprovedReBalancingSerializer,GroupAgentsMessageSerializer,GroupOwnerMessageSerializer)
+                          AgentPreregistrationSerializer, RegisteredForFloatSerializer,AgentAccountsBalanceStartedSerializer, AuthenticateAgentPhoneSerializer,FreeTrialSerializer,MonthlyPaymentsSerializer,MtnPayToSerializer,AgentRequestLimitSerializer,AgentRequestSerializer,SetUpMeetingSerializer,ComplainsSerializer,HoldAccountsSerializer,AddedToApprovedPaymentSerializer,AddedToApprovedRequestSerializer,AgentRequestPaymentSerializer,AddedToApprovedReBalancingSerializer,GroupAgentsMessageSerializer,GroupOwnerMessageSerializer)
 
 
 # float joining
@@ -965,32 +965,6 @@ def get_my_account_balance_started_today(request):
     for_today = my_date.date()
     my_account_balance = AgentAccountsBalanceStarted.objects.filter(agent=request.user).filter(date_posted=for_today).order_by('date_posted')
     serializer = AgentAccountsBalanceStartedSerializer(my_account_balance, many=True)
-    return Response(serializer.data)
-
-
-@api_view(['POST'])
-@permission_classes([permissions.IsAuthenticated])
-def close_balance(request):
-    serializer = AgentAccountsBalanceClosedSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save(agent=request.user)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-@api_view(['GET'])
-@permission_classes([permissions.IsAuthenticated])
-def get_my_account_balance_closed(request):
-    my_account_balance = AgentAccountsBalanceClosed.objects.filter(agent=request.user)
-    serializer = AgentAccountsBalanceClosedSerializer(my_account_balance, many=True)
-    return Response(serializer.data)
-
-@api_view(['GET'])
-@permission_classes([permissions.IsAuthenticated])
-def get_my_account_balance_closed_today(request):
-    my_date = datetime.today()
-    for_today = my_date.date()
-    my_account_balance = AgentAccountsBalanceClosed.objects.filter(agent=request.user).filter(date_closed=for_today)
-    serializer = AgentAccountsBalanceClosedSerializer(my_account_balance, many=True)
     return Response(serializer.data)
 
 

@@ -629,6 +629,7 @@ class AgentPreregistration(models.Model):
         return self.name
 
 class AgentAccountsBalanceStarted(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="owner_started_accounts")
     agent = models.ForeignKey(User, on_delete=models.CASCADE)
     physical = models.DecimalField(max_digits=19, decimal_places=2)
     mtn_e_cash = models.DecimalField(max_digits=19, decimal_places=2)
@@ -638,24 +639,12 @@ class AgentAccountsBalanceStarted(models.Model):
     isStarted = models.BooleanField(default=False)
     date_posted = models.DateField(auto_now_add=True)
     time_posted = models.TimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.agent.username
-
-    def save(self, *args, **kwargs):
-        e_total = self.mtn_e_cash + self.tigo_airtel_e_cash + self.vodafone_e_cash + self.physical
-        self.e_cash_total = e_total
-        super().save(*args, **kwargs)
-
-class AgentAccountsBalanceClosed(models.Model):
-    agent = models.ForeignKey(User, on_delete=models.CASCADE)
-    physical = models.DecimalField(max_digits=19, decimal_places=2)
-    mtn_e_cash = models.DecimalField(max_digits=19, decimal_places=2)
-    tigo_airtel_e_cash = models.DecimalField(max_digits=19, decimal_places=2)
-    vodafone_e_cash = models.DecimalField(max_digits=19, decimal_places=2)
-    e_cash_total = models.DecimalField(max_digits=19, decimal_places=2, blank=True)
+    close_physical = models.DecimalField(max_digits=19, decimal_places=2,blank=True, default=0.0)
+    closed_mtn_e_cash = models.DecimalField(max_digits=19, decimal_places=2,blank=True, default=0.0)
+    closed_tigo_airtel_e_cash = models.DecimalField(max_digits=19, decimal_places=2,blank=True, default=0.0)
+    closed_vodafone_e_cash = models.DecimalField(max_digits=19, decimal_places=2,blank=True, default=0.0)
+    closed_e_cash_total = models.DecimalField(max_digits=19, decimal_places=2, blank=True,default=0.0)
     isClosed = models.BooleanField(default=False)
-    date_closed = models.DateField(auto_now_add=True)
 
 
     def __str__(self):

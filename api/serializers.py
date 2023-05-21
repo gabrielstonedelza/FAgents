@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, Floats, PrivateChatId, PrivateUserMessage, GroupMessage, AgentPreregistration, RegisteredForFloat, AgentAccountsBalanceStarted, AgentAccountsBalanceClosed, FreeTrial, MonthlyPayments, AuthenticateAgentPhone, MtnPayTo, AgentRequest, AgentRequestLimit, SetUpMeeting, Complains, HoldAccounts, AgentRequestPayment, AddedToApprovedRequest, AddedToApprovedPayment, AddedToApprovedReBalancing,GroupOwnerMessage,GroupAgentsMessage)
+from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, Floats, PrivateChatId, PrivateUserMessage, GroupMessage, AgentPreregistration, RegisteredForFloat, AgentAccountsBalanceStarted, FreeTrial, MonthlyPayments, AuthenticateAgentPhone, MtnPayTo, AgentRequest, AgentRequestLimit, SetUpMeeting, Complains, HoldAccounts, AgentRequestPayment, AddedToApprovedRequest, AddedToApprovedPayment, AddedToApprovedReBalancing,GroupOwnerMessage,GroupAgentsMessage)
 
 class GroupAgentsMessageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -162,13 +162,7 @@ class FraudSerializer(serializers.ModelSerializer):
 class AgentAccountsBalanceStartedSerializer(serializers.ModelSerializer):
     class Meta:
         model = AgentAccountsBalanceStarted
-        fields = ['id','agent','physical','mtn_e_cash','tigo_airtel_e_cash','vodafone_e_cash','e_cash_total','isStarted','date_posted','time_posted']
-        read_only_fields = ['agent']
-
-class AgentAccountsBalanceClosedSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AgentAccountsBalanceClosed
-        fields = ['id','agent','physical','mtn_e_cash','tigo_airtel_e_cash','vodafone_e_cash','e_cash_total','isClosed','date_closed']
+        fields = ['id','agent','physical','mtn_e_cash','tigo_airtel_e_cash','vodafone_e_cash','e_cash_total','isStarted','date_posted','time_posted','close_physical','closed_mtn_e_cash','closed_tigo_airtel_e_cash','closed_vodafone_e_cash','closed_e_cash_total','owner']
         read_only_fields = ['agent']
 
 class AuthenticateAgentPhoneSerializer(serializers.ModelSerializer):

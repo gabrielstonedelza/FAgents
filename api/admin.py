@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, Floats,PrivateChatId,PrivateUserMessage,GroupMessage,AgentPreregistration,RegisteredForFloat, AgentAccountsBalanceStarted, AgentAccountsBalanceClosed,FreeTrial,MonthlyPayments,AuthenticateAgentPhone,MtnPayTo,AgentRequest, AgentRequestLimit,SetUpMeeting,Complains,HoldAccounts, AgentRequestPayment,AddedToApprovedRequest,AddedToApprovedPayment,AddedToApprovedReBalancing,GroupOwnerMessage,GroupAgentsMessage
+from .models import Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, Floats,PrivateChatId,PrivateUserMessage,GroupMessage,AgentPreregistration,RegisteredForFloat, AgentAccountsBalanceStarted, FreeTrial,MonthlyPayments,AuthenticateAgentPhone,MtnPayTo,AgentRequest, AgentRequestLimit,SetUpMeeting,Complains,HoldAccounts, AgentRequestPayment,AddedToApprovedRequest,AddedToApprovedPayment,AddedToApprovedReBalancing,GroupOwnerMessage,GroupAgentsMessage
 
 
 admin.site.register(GroupAgentsMessage)
@@ -18,7 +18,6 @@ admin.site.register(FreeTrial)
 admin.site.register(MonthlyPayments)
 admin.site.register(AuthenticateAgentPhone)
 admin.site.register(RegisteredForFloat)
-admin.site.register(AgentAccountsBalanceClosed)
 admin.site.register(AgentAccountsBalanceStarted)
 admin.site.register(AgentPreregistration)
 admin.site.register(GroupMessage)
