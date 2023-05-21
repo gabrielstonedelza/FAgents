@@ -148,6 +148,9 @@ urlpatterns = [
     path("update_balance_to_start/<int:pk>/",views.update_balance_to_start),
     path("get_my_account_balance_started/",views.get_my_account_balance_started),
     path("get_my_account_balance_started_today/",views.get_my_account_balance_started_today),
+    path("close_balance/",views.close_balance),
+    path("get_my_account_balance_closed/",views.get_my_account_balance_closed),
+    path("get_my_account_balance_closed_today/",views.get_my_account_balance_closed_today),
 
 #     authenticate phone
     path("authenticate_agent_phone/",views.authenticate_agent_phone),
