@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'api',
     'users',
     'crispy_forms',
+    "crispy_bootstrap4",
     'djoser',
     'corsheaders',
     'rest_framework',
