@@ -105,7 +105,6 @@ class BankDepositSerializer(serializers.ModelSerializer):
         model = BankDeposit
         fields = ['id','agent','owner','customer','bank','account_number','account_name','amount','depositor_name','depositor_number','get_agents_phone','get_agent_username','date_added','deposited_month','deposited_year','d_200','d_100','d_50','d_20','d_10','d_5','d_2','d_1','total']
         read_only_fields = ['agent']
-
 class MomoDepositSerializer(serializers.ModelSerializer):
     class Meta:
         model = MobileMoneyDeposit
@@ -143,7 +142,6 @@ class AgentReBalancingSerializer(serializers.ModelSerializer):
     class Meta:
         model = AgentReBalancing
         fields = ['id','agent','owner','amount','bank','account_number','account_name','date_requested','get_agent_requesting_username','network','request_approved']
-
 class AgentAccountsSerializer(serializers.ModelSerializer):
     class Meta:
         model = AgentAccounts
@@ -174,7 +172,7 @@ class AgentAccountsBalanceClosedSerializer(serializers.ModelSerializer):
 class AuthenticateAgentPhoneSerializer(serializers.ModelSerializer):
     class Meta:
         model = AuthenticateAgentPhone
-        fields = ['id','agent','phone_id','phone_model','phone_brand','finger_print','phone_authenticated','date_authenticated','get_agent_unique_code']
+        fields = ['id','agent','phone_id','phone_model','phone_brand','finger_print','phone_authenticated','date_authenticated','get_agent_unique_code','get_agent_username']
         read_only_fields = ['agent']
 
 class FreeTrialSerializer(serializers.ModelSerializer):

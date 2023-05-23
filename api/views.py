@@ -1017,8 +1017,16 @@ def authenticate_agent_phone(request):
 @api_view(['GET'])
 @permission_classes([permissions.AllowAny])
 def get_all_auth_phones(request):
-    my_details = AuthenticateAgentPhone.objects.filter(agent=request.user)
-    serializer = AuthenticateAgentPhoneSerializer(my_details, many=True)
+    auth_phones = AuthenticateAgentPhone.objects.all().order_by("-date_authenticated")
+    serializer = AuthenticateAgentPhoneSerializer(auth_phones, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([permissions.AllowAny])
+def get_all_auth_phone_agent_username(request,username):
+    user = get_object_or_404(User, username=username)
+    agent_auth_phone = AuthenticateAgentPhone.objects.filter(agent=user)
+    serializer = AuthenticateAgentPhoneSerializer(agent_auth_phone, many=True)
     return Response(serializer.data)
 
 @api_view(['GET', 'DELETE'])

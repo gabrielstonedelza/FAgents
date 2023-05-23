@@ -675,6 +675,9 @@ class AuthenticateAgentPhone(models.Model):
     phone_authenticated = models.BooleanField(default=False)
     date_authenticated = models.DateTimeField(auto_now_add=True)
 
+    def get_agent_username(self):
+        return self.agent.username
+
     def __str__(self):
         return self.agent.username
 
