@@ -156,7 +156,7 @@ urlpatterns = [
 #     authenticate phone
     path("authenticate_agent_phone/",views.authenticate_agent_phone),
     path("get_all_auth_phones/",views.get_all_auth_phones),
-    path("get_all_auth_phone_agent_username/<str:username>/",views.get_all_auth_phone_agent_username),
+    path("get_all_auth_phone_agent_username/<str:fin_print>/",views.get_all_auth_phone_agent_username),
     path("delete_auth_phone/<int:id>/",views.delete_auth_phone),
 
     # free trial and monthly payments
