@@ -157,6 +157,8 @@ urlpatterns = [
     path("authenticate_agent_phone/",views.authenticate_agent_phone),
     path("get_all_auth_phones/",views.get_all_auth_phones),
     path("delete_auth_phone/<int:id>/",views.delete_auth_phone),
+
+    # free trial and monthly payments
     path("update_free_trial/<int:pk>/",views.update_free_trial),
     path("start_free_trial/",views.start_free_trial),
     path("get_my_free_trial/",views.get_my_free_trial),

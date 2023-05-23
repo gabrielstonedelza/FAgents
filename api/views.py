@@ -1015,7 +1015,7 @@ def authenticate_agent_phone(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
-@permission_classes([permissions.IsAuthenticated])
+@permission_classes([permissions.AllowAny])
 def get_all_auth_phones(request):
     my_details = AuthenticateAgentPhone.objects.filter(agent=request.user)
     serializer = AuthenticateAgentPhoneSerializer(my_details, many=True)
