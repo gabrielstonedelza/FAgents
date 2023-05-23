@@ -1023,8 +1023,8 @@ def get_all_auth_phones(request):
 
 @api_view(['GET'])
 @permission_classes([permissions.AllowAny])
-def get_all_auth_phone_agent_username(request,fin_print):
-    agent_auth_phone = AuthenticateAgentPhone.objects.filter(finger_print=fin_print)
+def get_all_auth_phone_agent_by_phone_id(request,phone_id):
+    agent_auth_phone = AuthenticateAgentPhone.objects.filter(phone_id=phone_id)
     serializer = AuthenticateAgentPhoneSerializer(agent_auth_phone, many=True)
     return Response(serializer.data)
 
