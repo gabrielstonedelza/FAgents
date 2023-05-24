@@ -1028,6 +1028,14 @@ def get_all_auth_phone_agent_by_phone_id(request,phone_id):
     serializer = AuthenticateAgentPhoneSerializer(agent_auth_phone, many=True)
     return Response(serializer.data)
 
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_auth_phone_by_username(request, username):
+    user = get_object_or_404(User, username=username)
+    agent_auth_phone = AuthenticateAgentPhone.objects.filter(agent=user).order_by('-date_authenticated')
+    serializer = AuthenticateAgentPhoneSerializer(agent_auth_phone, many=True)
+    return Response(serializer.data)
+
 @api_view(['GET', 'DELETE'])
 @permission_classes([permissions.AllowAny])
 def delete_auth_phone(request, id):
