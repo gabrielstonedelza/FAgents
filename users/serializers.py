@@ -6,13 +6,13 @@ from .models import User, OwnerProfile, AdminProfile, AgentProfile
 class UserCreateSerializer(UserCreateSerializer):
     class Meta(UserCreateSerializer.Meta):
         model = User
-        fields = ['id', 'email', 'username', 'password', 'phone_number', 'full_name', 'user_type','owner','agent_unique_code']
+        fields = ['id', 'email', 'username', 'password', 'phone_number', 'full_name', 'user_type','owner','agent_unique_code','company_name','company_number','location','digital_address']
 
 
 class UsersSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'email', 'username', 'phone_number', 'full_name','agent_unique_code','owner','user_blocked','user_approved']
+        fields = ['id', 'email', 'username', 'phone_number', 'full_name','agent_unique_code','owner','user_blocked','user_approved','company_name','company_number','location','digital_address']
 
 
 class OwnerProfileSerializer(serializers.ModelSerializer):

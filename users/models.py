@@ -19,6 +19,10 @@ class User(AbstractUser):
     user_blocked = models.BooleanField(default=False)
     owner = models.CharField(max_length=100)
     agent_unique_code = models.CharField(max_length=15,unique=True)
+    company_name = models.CharField(max_length=255,unique=True,default="",blank=True)
+    company_number = models.CharField(max_length=16,default="",blank=True)
+    location = models.CharField(max_length=255,default="",blank=True)
+    digital_address = models.CharField(max_length=255,default="",blank=True)
     user_approved = models.BooleanField(default=False)
 
     REQUIRED_FIELDS = ['email','user_type', 'full_name', 'phone_number','owner']
