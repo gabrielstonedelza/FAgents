@@ -25,7 +25,7 @@ class User(AbstractUser):
     digital_address = models.CharField(max_length=255,default="",blank=True)
     user_approved = models.BooleanField(default=False)
 
-    REQUIRED_FIELDS = ['email','user_type', 'full_name', 'phone_number','owner']
+    REQUIRED_FIELDS = ['email','user_type', 'full_name', 'phone_number','owner','company_name','company_number','location','digital_address']
     USERNAME_FIELD = 'username'
 
     def get_username(self):
