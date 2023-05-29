@@ -99,6 +99,7 @@ urlpatterns = [
 
     path("register_agents_accounts/",views.register_agents_accounts),
     path("agent_accounts_details/<int:pk>/",views.agent_accounts_details),
+    path("get_agent_accounts_by_username/<str:username>/",views.get_agent_accounts_by_username),
     path("agent_accounts_details_by_account_number/<str:account_number>/",views.agent_accounts_details_by_account_number),
     path("agent_account_details_by_account_name/<str:account_name>/",views.agent_account_details_by_account_name),
     path("update_agents_accounts/<int:pk>/",views.update_agents_accounts),

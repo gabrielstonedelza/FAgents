@@ -760,6 +760,13 @@ def agent_accounts_details(request, pk):
     agent = AgentAccounts.objects.get(pk=pk)
     serializer = AgentAccountsSerializer(agent, many=False)
     return Response(serializer.data)
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_agent_accounts_by_username(request, username):
+    user = get_object_or_404(User, username=username)
+    agent = AgentAccounts.objects.filter(agent=user).order_by('-date_added')
+    serializer = AgentAccountsSerializer(agent, many=True)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
