@@ -1566,5 +1566,5 @@ def get_agents_group_messages(request,owner):
 @api_view(['GET'])
 @permission_classes([permissions.AllowAny])
 def send_otp(request,otp,email,username):
-    send_my_mail(f"Hi from Easy Agent", settings.EMAIL_HOST_USER, email, {"name": username},
+    send_my_mail(f"Hi from Easy Agent", settings.EMAIL_HOST_USER, email, {"name": username},{"OTP" : otp},
                  "email_templates/sendotp.html")
