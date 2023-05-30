@@ -5,7 +5,8 @@ from rest_framework import permissions, generics, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from datetime import datetime
-
+from .process_mail import send_my_mail
+from django.conf import settings
 from users.models import User
 from users.serializers import UsersSerializer
 from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, \
@@ -1561,3 +1562,9 @@ def get_agents_group_messages(request,owner):
     messages = GroupAgentsMessage.objects.filter(owner=owner).order_by('timestamp')
     serializer = GroupAgentsMessageSerializer(messages,many=True)
     return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([permissions.AllowAny])
+def send_otp(request,otp,email,username):
+    send_my_mail(f"Hi from Easy Agent", settings.EMAIL_HOST_USER, email, {"name": username},
+                 "email_templates/sendotp.html")

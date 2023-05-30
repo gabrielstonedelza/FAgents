@@ -238,4 +238,7 @@ urlpatterns = [
     path("get_owners_group_messages/",views.get_owners_group_messages),
     path("send_agents_group_message/",views.send_agents_group_message),
     path("get_agents_group_messages/<str:owner>/",views.get_agents_group_messages),
+
+#     send otp
+    path("send_otp/<str:email>/<str:username>/",views.send_otp)
 ]
