@@ -18,7 +18,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['.fnetagents.xyz','134.122.20.133','localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['.fnetagents.xyz','134.122.20.133','localhost','127.0.0.1']
 
 
 # Application definition
