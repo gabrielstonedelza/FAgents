@@ -1,10 +1,6 @@
 from rest_framework import serializers
 from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, Floats, PrivateChatId, PrivateUserMessage, GroupMessage, AgentPreregistration, RegisteredForFloat, AgentAccountsBalanceStarted, AgentAccountsBalanceClosed, FreeTrial, MonthlyPayments, AuthenticateAgentPhone, MtnPayTo, AgentRequest, AgentRequestLimit, SetUpMeeting, Complains, HoldAccounts, AgentRequestPayment, AddedToApprovedRequest, AddedToApprovedPayment, AddedToApprovedReBalancing,GroupOwnerMessage,GroupAgentsMessage,SendOTP)
 
-class SendOTPSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SendOTP
-        fields = ['id','otp','date_added']
 
 class GroupAgentsMessageSerializer(serializers.ModelSerializer):
     class Meta:

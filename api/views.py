@@ -11,14 +11,14 @@ from users.models import User
 from users.serializers import UsersSerializer
 from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, \
                      PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, Floats, \
-                     GroupMessage, PrivateUserMessage, AgentPreregistration, RegisteredForFloat, AgentAccountsBalanceStarted, AgentAccountsBalanceClosed, FreeTrial, MonthlyPayments, AuthenticateAgentPhone, MtnPayTo, AgentRequest, AgentRequestLimit, SetUpMeeting, Complains, HoldAccounts, AgentRequestPayment, GroupOwnerMessage,GroupAgentsMessage,SendOTP)
+                     GroupMessage, PrivateUserMessage, AgentPreregistration, RegisteredForFloat, AgentAccountsBalanceStarted, AgentAccountsBalanceClosed, FreeTrial, MonthlyPayments, AuthenticateAgentPhone, MtnPayTo, AgentRequest, AgentRequestLimit, SetUpMeeting, Complains, HoldAccounts, AgentRequestPayment, GroupOwnerMessage,GroupAgentsMessage)
 from .serializers import (CustomerSerializer, CustomerAccountsSerializer, BankDepositSerializer, MomoDepositSerializer, \
                           MomoWithdrawalSerializer, BankWithdrawalSerializer, PaymentForReBalancingSerializer,
                           ReportSerializer, \
                           AddToBlockListSerializer, NotificationSerializer, AgentReBalancingSerializer,
                           AgentAccountsSerializer, \
                           AgentsFloatSerializer, FraudSerializer, GroupMessageSerializer, PrivateUserMessageSerializer,
-                          AgentPreregistrationSerializer, RegisteredForFloatSerializer,AgentAccountsBalanceStartedSerializer, AgentAccountsBalanceClosedSerializer,AuthenticateAgentPhoneSerializer,FreeTrialSerializer,MonthlyPaymentsSerializer,MtnPayToSerializer,AgentRequestLimitSerializer,AgentRequestSerializer,SetUpMeetingSerializer,ComplainsSerializer,HoldAccountsSerializer,AddedToApprovedPaymentSerializer,AddedToApprovedRequestSerializer,AgentRequestPaymentSerializer,AddedToApprovedReBalancingSerializer,GroupAgentsMessageSerializer,GroupOwnerMessageSerializer,SendOTPSerializer)
+                          AgentPreregistrationSerializer, RegisteredForFloatSerializer,AgentAccountsBalanceStartedSerializer, AgentAccountsBalanceClosedSerializer,AuthenticateAgentPhoneSerializer,FreeTrialSerializer,MonthlyPaymentsSerializer,MtnPayToSerializer,AgentRequestLimitSerializer,AgentRequestSerializer,SetUpMeetingSerializer,ComplainsSerializer,HoldAccountsSerializer,AddedToApprovedPaymentSerializer,AddedToApprovedRequestSerializer,AgentRequestPaymentSerializer,AddedToApprovedReBalancingSerializer,GroupAgentsMessageSerializer,GroupOwnerMessageSerializer)
 
 
 # float joining
