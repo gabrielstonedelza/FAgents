@@ -1,7 +1,11 @@
 from rest_framework import serializers
-from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, Floats, PrivateChatId, PrivateUserMessage, GroupMessage, AgentPreregistration, RegisteredForFloat, AgentAccountsBalanceStarted, AgentAccountsBalanceClosed, FreeTrial, MonthlyPayments, AuthenticateAgentPhone, MtnPayTo, AgentRequest, AgentRequestLimit, SetUpMeeting, Complains, HoldAccounts, AgentRequestPayment, AddedToApprovedRequest, AddedToApprovedPayment, AddedToApprovedReBalancing,GroupOwnerMessage,GroupAgentsMessage)
+from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, Floats, PrivateChatId, PrivateUserMessage, GroupMessage, AgentPreregistration, RegisteredForFloat, AgentAccountsBalanceStarted, AgentAccountsBalanceClosed, FreeTrial, MonthlyPayments, AuthenticateAgentPhone, MtnPayTo, AgentRequest, AgentRequestLimit, SetUpMeeting, Complains, HoldAccounts, AgentRequestPayment, AddedToApprovedRequest, AddedToApprovedPayment, AddedToApprovedReBalancing,GroupOwnerMessage,GroupAgentsMessage,OwnerMtnPayTo)
 
-
+class OwnerMtnPayToSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OwnerMtnPayTo
+        fields = ['id','owner','agent_or_merchant','amount','reference','pay_to_type','date_added']
+        read_only_fields = ['owner']
 class GroupAgentsMessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = GroupAgentsMessage

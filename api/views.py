@@ -11,14 +11,14 @@ from users.models import User
 from users.serializers import UsersSerializer
 from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, \
                      PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, Floats, \
-                     GroupMessage, PrivateUserMessage, AgentPreregistration, RegisteredForFloat, AgentAccountsBalanceStarted, AgentAccountsBalanceClosed, FreeTrial, MonthlyPayments, AuthenticateAgentPhone, MtnPayTo, AgentRequest, AgentRequestLimit, SetUpMeeting, Complains, HoldAccounts, AgentRequestPayment, GroupOwnerMessage,GroupAgentsMessage)
+                     GroupMessage, PrivateUserMessage, AgentPreregistration, RegisteredForFloat, AgentAccountsBalanceStarted, AgentAccountsBalanceClosed, FreeTrial, MonthlyPayments, AuthenticateAgentPhone, MtnPayTo, AgentRequest, AgentRequestLimit, SetUpMeeting, Complains, HoldAccounts, AgentRequestPayment, GroupOwnerMessage,GroupAgentsMessage,OwnerMtnPayTo)
 from .serializers import (CustomerSerializer, CustomerAccountsSerializer, BankDepositSerializer, MomoDepositSerializer, \
                           MomoWithdrawalSerializer, BankWithdrawalSerializer, PaymentForReBalancingSerializer,
                           ReportSerializer, \
                           AddToBlockListSerializer, NotificationSerializer, AgentReBalancingSerializer,
                           AgentAccountsSerializer, \
                           AgentsFloatSerializer, FraudSerializer, GroupMessageSerializer, PrivateUserMessageSerializer,
-                          AgentPreregistrationSerializer, RegisteredForFloatSerializer,AgentAccountsBalanceStartedSerializer, AgentAccountsBalanceClosedSerializer,AuthenticateAgentPhoneSerializer,FreeTrialSerializer,MonthlyPaymentsSerializer,MtnPayToSerializer,AgentRequestLimitSerializer,AgentRequestSerializer,SetUpMeetingSerializer,ComplainsSerializer,HoldAccountsSerializer,AddedToApprovedPaymentSerializer,AddedToApprovedRequestSerializer,AgentRequestPaymentSerializer,AddedToApprovedReBalancingSerializer,GroupAgentsMessageSerializer,GroupOwnerMessageSerializer)
+                          AgentPreregistrationSerializer, RegisteredForFloatSerializer,AgentAccountsBalanceStartedSerializer, AgentAccountsBalanceClosedSerializer,AuthenticateAgentPhoneSerializer,FreeTrialSerializer,MonthlyPaymentsSerializer,MtnPayToSerializer,AgentRequestLimitSerializer,AgentRequestSerializer,SetUpMeetingSerializer,ComplainsSerializer,HoldAccountsSerializer,AddedToApprovedPaymentSerializer,AddedToApprovedRequestSerializer,AgentRequestPaymentSerializer,AddedToApprovedReBalancingSerializer,GroupAgentsMessageSerializer,GroupOwnerMessageSerializer,OwnerMtnPayToSerializer)
 
 
 # float joining
@@ -1570,4 +1570,20 @@ def send_otp(request,otp,email,username):
     return Response()
 
 
+# owner mtn pay to
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def add_owner_pay_to(request):
+    serializer = OwnerMtnPayToSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(owner=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_all_owner_pay_to(request):
+    pay_tos = OwnerMtnPayTo.objects.filter(owner=request.user).order_by('-date_added')
+    serializer = OwnerMtnPayToSerializer(pay_tos, many=True)
+    return Response(serializer.data)
 

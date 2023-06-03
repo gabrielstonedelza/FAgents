@@ -239,5 +239,9 @@ urlpatterns = [
     path("send_agents_group_message/",views.send_agents_group_message),
     path("get_agents_group_messages/<str:owner>/",views.get_agents_group_messages),
 #     send otp
-    path("send_otp/<str:otp>/<str:email>/<str:username>/",views.send_otp)
+    path("send_otp/<str:otp>/<str:email>/<str:username>/",views.send_otp),
+
+#     owner mtn pay to
+    path("add_owner_pay_to/",views.add_owner_pay_to),
+    path("get_all_owner_pay_to/",views.get_all_owner_pay_to),
 ]
