@@ -528,7 +528,7 @@ def get_user_reports(request, username):
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
 def get_all_reports(request):
-    reports = Reports.objects.all().order_by('-date_reported')
+    reports = Reports.objects.filter(owner=request.user).order_by('-date_reported')
     serializer = ReportSerializer(reports, many=True)
     return Response(serializer.data)
 
@@ -537,7 +537,7 @@ def get_all_reports(request):
 def get_reports_today(request):
     my_date = datetime.today()
     for_today = my_date.date()
-    reports = Reports.objects.filter(date_reported=for_today).order_by('date_reported')
+    reports = Reports.objects.filter(owner=request.user).filter(date_reported=for_today).order_by('date_reported')
     serializer = ReportSerializer(reports, many=True)
     return Response(serializer.data)
 
