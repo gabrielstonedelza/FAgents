@@ -256,8 +256,14 @@ class MobileMoneyDeposit(models.Model):
     d_2 = models.IntegerField(default=0, blank=True)
     d_1 = models.IntegerField(default=0, blank=True)
     date_deposited = models.DateTimeField(auto_now_add=True)
+    deposited_month = models.CharField(max_length=10, blank=True, default="")
+    deposited_year = models.CharField(max_length=10, blank=True, default="")
 
     def save(self, *args, **kwargs):
+        my_date = datetime.today()
+        de_date = my_date.date()
+        self.deposited_month = de_date.month
+        self.deposited_year = de_date.year
         two_h_cedis_values = self.d_200 * 200
         one_h_cedis_values = self.d_100 * 100
         fifty_cedis_values = self.d_50 * 50
@@ -291,6 +297,15 @@ class MobileMoneyWithdraw(models.Model):
     cash_paid = models.DecimalField(max_digits=19, decimal_places=2, blank=True)
     amount_received = models.DecimalField(max_digits=19, decimal_places=2, blank=True,default=0.0)
     date_of_withdrawal = models.DateTimeField(auto_now_add=True)
+    withdrawal_month = models.CharField(max_length=10, blank=True, default="")
+    withdrawal_year = models.CharField(max_length=10, blank=True, default="")
+
+    def save(self, *args, **kwargs):
+        my_date = datetime.today()
+        de_date = my_date.date()
+        self.withdrawal_month = de_date.month
+        self.withdrawal_year = de_date.year
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Withdrawal made for {self.cash_paid}"
