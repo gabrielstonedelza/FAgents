@@ -297,8 +297,8 @@ class MobileMoneyWithdraw(models.Model):
     cash_paid = models.DecimalField(max_digits=19, decimal_places=2, blank=True)
     amount_received = models.DecimalField(max_digits=19, decimal_places=2, blank=True,default=0.0)
     date_of_withdrawal = models.DateTimeField(auto_now_add=True)
-    withdrawal_month = models.CharField(max_length=10, blank=True, default="")
-    withdrawal_year = models.CharField(max_length=10, blank=True, default="")
+    withdrawal_month = models.CharField(max_length=10, blank=True)
+    withdrawal_year = models.CharField(max_length=10, blank=True)
 
     def save(self, *args, **kwargs):
         my_date = datetime.today()

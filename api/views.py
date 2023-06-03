@@ -1588,3 +1588,18 @@ def get_all_owner_pay_to(request):
     return Response(serializer.data)
 
 # cash in and cash out by monthly
+@api_view(['GET'])
+@permission_classes([permissions.AllowAny])
+def get_agents_cash_in_commission_by_monthly(request, username, d_month,):
+    user = get_object_or_404(User, username=username)
+    momo_deposit = MobileMoneyDeposit.objects.filter(agent=user).filter(deposited_month=d_month)
+    serializer = MomoDepositSerializer(momo_deposit, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([permissions.AllowAny])
+def get_agents_cash_out_commission_by_monthly(request, username, d_month,):
+    user = get_object_or_404(User, username=username)
+    momo_withdraws = MobileMoneyWithdraw.objects.filter(agent=user).filter(withdrawal_month=d_month)
+    serializer = MomoWithdrawalSerializer(momo_withdraws, many=True)
+    return Response(serializer.data)

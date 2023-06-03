@@ -244,4 +244,8 @@ urlpatterns = [
 #     owner mtn pay to
     path("add_owner_pay_to/",views.add_owner_pay_to),
     path("get_all_owner_pay_to/",views.get_all_owner_pay_to),
+
+#     momo monthly commissions
+    path("get_agents_cash_in_commission_by_monthly/<str:username>/<str:d_month>/",views.get_agents_cash_in_commission_by_monthly),
+    path("get_agents_cash_out_commission_by_monthly/<str:username>/<str:d_month>/",views.get_agents_cash_out_commission_by_monthly),
 ]
