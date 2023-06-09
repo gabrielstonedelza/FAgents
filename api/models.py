@@ -244,7 +244,7 @@ class MobileMoneyDeposit(models.Model):
     reference = models.CharField(max_length=100, blank=True, default="")
     network = models.CharField(max_length=20, choices=NETWORKS, blank=True, default="Select Network")
     type = models.CharField(max_length=20, blank=True, choices=MOBILE_MONEY_DEPOSIT_TYPE,default="")
-    total = models.DecimalField(decimal_places=2, max_digits=19, default=0.0)
+    # total = models.DecimalField(decimal_places=2, max_digits=19, default=0.0)
     amount_sent = models.DecimalField(decimal_places=2, max_digits=19, default=0.0)
     cash_received = models.DecimalField(decimal_places=2, max_digits=19, default=0.0)
     # d_200 = models.IntegerField(default=0, blank=True)

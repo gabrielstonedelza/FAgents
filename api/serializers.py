@@ -113,7 +113,7 @@ class BankDepositSerializer(serializers.ModelSerializer):
 class MomoDepositSerializer(serializers.ModelSerializer):
     class Meta:
         model = MobileMoneyDeposit
-        fields = ['id','agent','owner','customer','network','amount_sent','date_deposited','get_agents_phone','get_agent_username','type','total','depositor_name','depositor_number','cash_received','deposited_month','deposited_year']
+        fields = ['id','agent','owner','customer','network','amount_sent','date_deposited','get_agents_phone','get_agent_username','type','depositor_name','depositor_number','cash_received','deposited_month','deposited_year']
         read_only_fields = ['agent']
 class MomoWithdrawalSerializer(serializers.ModelSerializer):
     class Meta:
