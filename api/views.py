@@ -952,7 +952,7 @@ def get_customer_by_phone(request, customer):
 def add_balance_to_start(request):
     serializer = AgentAccountsBalanceStartedSerializer(data=request.data)
     if serializer.is_valid():
-        serializer.save(agent=request.user)
+        serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -1602,4 +1602,14 @@ def get_agents_cash_out_commission_by_monthly(request, username, d_month,d_year)
     user = get_object_or_404(User, username=username)
     momo_withdraws = MobileMoneyWithdraw.objects.filter(agent=user).filter(withdrawal_month=d_month).filter(withdrawal_year=d_year).order_by("-date_of_withdrawal")
     serializer = MomoWithdrawalSerializer(momo_withdraws, many=True)
+    return Response(serializer.data)
+
+
+# get agents accounts started with
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_my_agent_account_started_with(request, username):
+    user = get_object_or_404(User, username=username)
+    account_balance = AgentAccountsBalanceStarted.objects.filter(agent=user).order_by('-date_posted')
+    serializer = AgentAccountsBalanceStartedSerializer(account_balance, many=True)
     return Response(serializer.data)

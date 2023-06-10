@@ -248,4 +248,7 @@ urlpatterns = [
 #     momo monthly commissions
     path("get_agents_cash_in_commission_by_monthly/<str:username>/<str:d_month>/<str:d_year>/",views.get_agents_cash_in_commission_by_monthly),
     path("get_agents_cash_out_commission_by_monthly/<str:username>/<str:d_month>/<str:d_year>/",views.get_agents_cash_out_commission_by_monthly),
+
+    # get agent account started with
+    path("get_my_agent_account_started_with/<str:username>/", views.get_my_agent_account_started_with)
 ]
