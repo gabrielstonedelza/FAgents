@@ -748,6 +748,9 @@ class AgentRequest(models.Model):
     def __str__(self):
         return self.agent.username
 
+    def get_agent_username(self):
+        return self.agent.username
+
 class AgentRequestPayment(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="agents_owner_receiving_payment")
     agent = models.ForeignKey(User, on_delete=models.CASCADE)
