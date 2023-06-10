@@ -165,7 +165,7 @@ class FraudSerializer(serializers.ModelSerializer):
 class AgentAccountsBalanceStartedSerializer(serializers.ModelSerializer):
     class Meta:
         model = AgentAccountsBalanceStarted
-        fields = ['id','agent','physical','mtn_e_cash','tigo_airtel_e_cash','vodafone_e_cash','e_cash_total','isStarted','date_posted','time_posted']
+        fields = ['id','agent','physical','mtn_e_cash','tigo_airtel_e_cash','vodafone_e_cash','e_cash_total','isStarted','date_posted','time_posted','get_agent_username']
         # read_only_fields = ['agent']
 
 class AgentAccountsBalanceClosedSerializer(serializers.ModelSerializer):
