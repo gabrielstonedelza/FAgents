@@ -1,7 +1,5 @@
-import random
-from decimal import Decimal
 from datetime import datetime, timedelta
-from email.policy import default
+from decimal import Decimal
 
 from django.conf import settings
 from django.contrib.humanize.templatetags import humanize
