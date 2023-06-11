@@ -186,6 +186,8 @@ urlpatterns = [
     path("get_agents_momo_pay_to/<str:username>/", views.get_agents_momo_pay_to),
     path("get_agents_request_username/<str:username>/", views.get_agents_request_username),
     path("get_agents_reports/<str:username>/", views.get_agents_reports),
+    path("delete_agent_momo_deposit/<int:id>/", views.delete_agent_momo_deposit),
+    path("delete_agent_momo_withdrawals/<int:id>/", views.delete_agent_momo_withdrawals),
     # agent requests
     path("agent_request_from_owner/",views.agent_request_from_owner),
     path("get_all_my_agents_requests/",views.get_all_my_agents_requests),

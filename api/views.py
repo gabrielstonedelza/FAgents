@@ -1210,6 +1210,17 @@ def get_agents_momo_deposits(request, username):
     serializer = MomoDepositSerializer(deposits, many=True)
     return Response(serializer.data)
 
+@api_view(['GET', 'DELETE'])
+@permission_classes([permissions.AllowAny])
+def delete_agent_momo_deposit(request, id):
+    try:
+        agent_deposits = get_object_or_404(MobileMoneyDeposit, id=id)
+        agent_deposits.delete()
+    except MobileMoneyDeposit.DoesNotExist:
+        return Http404
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+
 
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
@@ -1218,6 +1229,17 @@ def get_agents_momo_withdrawals(request, username):
     withdrawals = MobileMoneyWithdraw.objects.filter(agent=user).order_by('-date_of_withdrawal')
     serializer = MomoWithdrawalSerializer(withdrawals, many=True)
     return Response(serializer.data)
+
+
+@api_view(['GET', 'DELETE'])
+@permission_classes([permissions.AllowAny])
+def delete_agent_momo_withdrawals(request, id):
+    try:
+        withdrawals = get_object_or_404(MobileMoneyWithdraw, id=id)
+        withdrawals.delete()
+    except MobileMoneyWithdraw.DoesNotExist:
+        return Http404
+    return Response(status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
