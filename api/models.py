@@ -253,6 +253,7 @@ class MobileMoneyDeposit(models.Model):
     # d_5 = models.IntegerField(default=0, blank=True)
     # d_2 = models.IntegerField(default=0, blank=True)
     # d_1 = models.IntegerField(default=0, blank=True)
+    d_date = models.DateField(default=timezone.now)
     date_deposited = models.DateTimeField(auto_now_add=True)
     deposited_month = models.CharField(max_length=10, blank=True, default="")
     deposited_year = models.CharField(max_length=10, blank=True, default="")
@@ -297,6 +298,7 @@ class MobileMoneyWithdraw(models.Model):
     date_of_withdrawal = models.DateTimeField(auto_now_add=True)
     withdrawal_month = models.CharField(max_length=10, blank=True)
     withdrawal_year = models.CharField(max_length=10, blank=True)
+    d_date = models.DateField(default=timezone.now)
 
     def save(self, *args, **kwargs):
         my_date = datetime.today()
