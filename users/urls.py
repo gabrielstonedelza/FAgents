@@ -29,6 +29,7 @@ urlpatterns = [
     path('update_admins_profile/', views.update_admins_profile),
     path('update_user_details/', views.update_user_details),
     path('all_agents/', views.GetAllAgents.as_view()),
+    path('search_agent_or_owner/', views.SearchAgentOrOwner.as_view()),
     path('update_blocked/<int:id>/', views.update_blocked),
     path('approve_user/<int:id>/', views.approve_user),
     path('get_all_blocked_users/', views.get_all_blocked_users),

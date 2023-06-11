@@ -90,6 +90,12 @@ class GetAllAgents(generics.ListAPIView):
     def get_queryset(self):
         return User.objects.exclude(id=1).order_by('-date_joined')
 
+class SearchAgentOrOwner(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = UsersSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['username','full_name','phone_number','company_name']
+
 
 # get all supervisors
 @api_view(['GET'])
