@@ -92,6 +92,7 @@ class GetAllAgents(generics.ListAPIView):
 
 class SearchAgentOrOwner(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
+    queryset = User.objects.all()
     serializer_class = UsersSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['username','full_name','phone_number','company_name']
