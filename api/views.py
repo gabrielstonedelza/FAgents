@@ -1642,7 +1642,7 @@ def get_agent_cash_out_commission_today(request, username):
     user = get_object_or_404(User, username=username)
     my_date = datetime.today()
     for_today = my_date.date()
-    momo_withdrawal = MobileMoneyWithdraw.objects.filter(agent=user).filter(d_date=for_today).order_by('date_of_withdrawal')
+    momo_withdrawal = MobileMoneyWithdraw.objects.filter(agent=user).filter(d_date=for_today).order_by('-date_of_withdrawal')
     serializer = MomoWithdrawalSerializer(momo_withdrawal, many=True)
     return Response(serializer.data)
 
