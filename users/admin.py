@@ -9,7 +9,7 @@ class AdminUserProfile(admin.ModelAdmin):
     class Meta:
         model = User
 
-admin.site.register(User)
+admin.site.register(User,AdminUserProfile)
 admin.site.register(OwnerProfile)
 admin.site.register(AdminProfile)
 admin.site.register(AgentProfile)
