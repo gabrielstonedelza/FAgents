@@ -1320,7 +1320,7 @@ def delete_agent_request(request, id):
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
 def get_unapproved_requests(request):
-    all_requests = AgentRequest.objects.filter(request_approved="Pending").order_by("-date_requested")
+    all_requests = AgentRequest.objects.filter(owner=request.user).filter(request_approved="Pending").order_by("-date_requested")
     serializer = AgentRequestSerializer(all_requests,many=True)
     return Response(serializer.data)
 
