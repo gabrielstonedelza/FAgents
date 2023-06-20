@@ -6,6 +6,9 @@ class AdminUserProfile(admin.ModelAdmin):
     list_display = ['id','user_type','email','full_name','phone_number','username']
     search_fields = ['id','user_type','email','full_name','phone_number','username']
 
+    class Meta:
+        model = User
+
 admin.site.register(User)
 admin.site.register(OwnerProfile)
 admin.site.register(AdminProfile)
