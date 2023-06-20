@@ -1657,7 +1657,7 @@ def get_my_agent_account_started_with(request, username):
     return Response(serializer.data)
 
 @api_view(['GET'])
-@permission_classes([permissions.IsAuthenticated])
+@permission_classes([permissions.AllowAny])
 def check_app_version(request):
     app_version = CheckAppVersion.objects.order_by('-date_added')[:1]
     serializer = CheckAppVersionSerializer(app_version, many=True)
