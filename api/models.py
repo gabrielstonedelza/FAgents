@@ -900,3 +900,11 @@ class OwnerMtnPayTo(models.Model):
 
     def __str__(self):
         return self.agent_or_merchant
+
+
+class CheckAppVersion(models.Model):
+    app_version = models.IntegerField()
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"App version is currently {self.app_version}"
