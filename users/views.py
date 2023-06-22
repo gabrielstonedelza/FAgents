@@ -163,8 +163,8 @@ def get_supervisor_with_code(request,username):
 
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
-def get_owner_agents(request, supervisors_code):
-    agents = User.objects.filter(owner=supervisors_code)
+def get_owner_agents(request, username):
+    agents = User.objects.filter(owner=username)
     serializer = UsersSerializer(agents, many=True)
     return Response(serializer.data)
 
