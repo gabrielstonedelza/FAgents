@@ -24,8 +24,9 @@ class User(AbstractUser):
     location = models.CharField(max_length=255,default="",blank=True)
     digital_address = models.CharField(max_length=255,default="",blank=True)
     user_approved = models.BooleanField(default=False)
+    abag_code = models.CharField(max_length=15,default="",blank=True)
 
-    REQUIRED_FIELDS = ['email','user_type', 'full_name', 'phone_number','owner','company_name','company_number','location','digital_address']
+    REQUIRED_FIELDS = ['email','user_type', 'full_name', 'phone_number','owner','company_name','company_number','location','digital_address','abag_code']
     USERNAME_FIELD = 'username'
 
     def get_username(self):
@@ -33,7 +34,7 @@ class User(AbstractUser):
 
     def save(self, *args, **kwargs):
         a_unique = "EA"
-        a_code = a_unique + str(random.randint(0,9999)) + self.phone_number[4:6]
+        a_code = a_unique + str(random.randint(0,9999)) + self.phone_number[4:9]
         self.agent_unique_code = a_code
         super().save(*args, **kwargs)
 
