@@ -156,8 +156,8 @@ def get_supervisor_with_code(request,unique_code):
 
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
-def get_supervisor_with_code(request,unique_code):
-    user = User.objects.filter(agent_unique_code=unique_code)
+def get_supervisor_with_code(request,username):
+    user = User.objects.filter(username=username)
     serializer = UsersSerializer(user, many=True)
     return Response(serializer.data)
 
