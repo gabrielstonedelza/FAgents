@@ -1,7 +1,7 @@
 from django.urls import path
 
 from . import views
-
+# EA965922
 urlpatterns = [
     path("register_customer/",views.register_customer),
     path("search_customer/",views.SearchCustomers.as_view()),
