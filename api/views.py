@@ -1663,16 +1663,34 @@ def check_app_version(request):
     serializer = CheckAppVersionSerializer(app_version, many=True)
     return Response(serializer.data)
 
+
+# getting necessary transactions and sending csv data
 import csv
 from django.core.mail import EmailMessage
 from django.http import HttpResponse
 
+@api_view(['GET'])
+@permission_classes([permissions.AllowAny])
+def get_agents_cash_in_by_monthly(request, username, d_month,d_year):
+    user = get_object_or_404(User, username=username)
+    momo_deposit = MobileMoneyDeposit.objects.filter(agent=user).filter(deposited_month=d_month).filter(deposited_year=d_year).order_by("-date_deposited")
+    serializer = MomoDepositSerializer(momo_deposit, many=True)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 @permission_classes([permissions.AllowAny])
-def export_transactions_csv(request):
+def get_agents_cash_out_by_monthly(request, username, d_month,d_year):
+    user = get_object_or_404(User, username=username)
+    momo_withdraws = MobileMoneyWithdraw.objects.filter(agent=user).filter(withdrawal_month=d_month).filter(withdrawal_year=d_year).order_by("-date_of_withdrawal")
+    serializer = MomoWithdrawalSerializer(momo_withdraws, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([permissions.AllowAny])
+def export_transactions_csv(request, username, d_month,d_year):
+    user = get_object_or_404(User, username=username)
     # Query data from the BankTransaction model
-    transactions = MobileMoneyDeposit.objects.all()
+    transactions = MobileMoneyDeposit.objects.filter(agent=user).filter(deposited_month=d_month).filter(deposited_year=d_year).order_by("-date_deposited")
 
     # Create a CSV file
     response = HttpResponse(content_type='text/csv')
