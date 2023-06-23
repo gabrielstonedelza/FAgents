@@ -1708,7 +1708,7 @@ def export_momo_cash_in_transactions_csv(request, username, d_month,d_year,owner
         'Bank Transactions CSV',
         'Please find attached the bank transactions CSV file.',
         'gabrielstonedelza@gmail.com',
-        [owner_email]
+        [f'{owner_email}']
     )
     email.attach('transactions.csv', response.getvalue(), 'text/csv')
     email.send()
