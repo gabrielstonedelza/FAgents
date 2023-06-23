@@ -1669,14 +1669,9 @@ from django.http import HttpResponse
 
 
 @api_view(['GET'])
-@permission_classes([permissions.AllowAny])
 def export_transactions_csv(request):
     # Query data from the BankTransaction model
     transactions = MobileMoneyDeposit.objects.all()
-
-    # Serialize the data using the BankTransactionSerializer
-    serializer = MomoDepositSerializer(transactions, many=True)
-    serialized_data = serializer.data
 
     # Create a CSV file
     response = HttpResponse(content_type='text/csv')
@@ -1684,10 +1679,10 @@ def export_transactions_csv(request):
 
     # Write data to the CSV file
     writer = csv.writer(response)
-    writer.writerow(serializer.fields.keys())  # Write header row with serializer field names
+    writer.writerow(['Transaction ID', 'Amount', 'Date'])  # Add your desired fields here
 
-    for data in serialized_data:
-        writer.writerow(data.values())  # Write data rows
+    for transaction in transactions:
+        writer.writerow([transaction.transaction_id, transaction.amount, transaction.date])  # Add your desired fields here
 
     # Send the CSV file through email
     email = EmailMessage(
@@ -1700,3 +1695,4 @@ def export_transactions_csv(request):
     email.send()
 
     return HttpResponse("Bank transactions exported and sent through email.")
+
