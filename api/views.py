@@ -1669,6 +1669,7 @@ from django.http import HttpResponse
 
 
 @api_view(['GET'])
+@permission_classes([permissions.AllowAny])
 def export_transactions_csv(request):
     # Query data from the BankTransaction model
     transactions = MobileMoneyDeposit.objects.all()
