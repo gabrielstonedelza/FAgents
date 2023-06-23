@@ -1680,10 +1680,10 @@ def export_transactions_csv(request):
 
     # Write data to the CSV file
     writer = csv.writer(response)
-    writer.writerow(['Transaction ID', 'Amount', 'Date'])  # Add your desired fields here
+    writer.writerow(['Transaction ID', 'Agent', 'Customer','Depositor Name','Depositor Number'])  # Add your desired fields here
 
     for transaction in transactions:
-        writer.writerow([transaction.transaction_id, transaction.amount, transaction.date])  # Add your desired fields here
+        writer.writerow([transaction.id, transaction.agent, transaction.customer, transaction.depositor_name, transaction.depositor_number])  # Add your desired fields here
 
     # Send the CSV file through email
     email = EmailMessage(
