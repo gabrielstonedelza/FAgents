@@ -1663,3 +1663,39 @@ def check_app_version(request):
     serializer = CheckAppVersionSerializer(app_version, many=True)
     return Response(serializer.data)
 
+import csv
+from django.core.mail import EmailMessage
+from django.http import HttpResponse
+
+
+@api_view(['GET'])
+def export_transactions_csv(request):
+    # Query data from the BankTransaction model
+    transactions = MobileMoneyDeposit.objects.all()
+
+    # Serialize the data using the BankTransactionSerializer
+    serializer = MomoDepositSerializer(transactions, many=True)
+    serialized_data = serializer.data
+
+    # Create a CSV file
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="transactions.csv"'
+
+    # Write data to the CSV file
+    writer = csv.writer(response)
+    writer.writerow(serializer.fields.keys())  # Write header row with serializer field names
+
+    for data in serialized_data:
+        writer.writerow(data.values())  # Write data rows
+
+    # Send the CSV file through email
+    email = EmailMessage(
+        'Bank Transactions CSV',
+        'Please find attached the bank transactions CSV file.',
+        'gabrielstonedelza@gmail.com',
+        ['gabrielstonedelza@gmail.com']
+    )
+    email.attach('transactions.csv', response.getvalue(), 'text/csv')
+    email.send()
+
+    return HttpResponse("Bank transactions exported and sent through email.")
