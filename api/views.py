@@ -1687,7 +1687,7 @@ def get_agents_cash_out_by_monthly(request, username, d_month,d_year):
 
 @api_view(['GET'])
 @permission_classes([permissions.AllowAny])
-def export_transactions_csv(request, username, d_month,d_year):
+def export_momo_cash_in_transactions_csv(request, username, d_month,d_year,owner_email):
     user = get_object_or_404(User, username=username)
     # Query data from the BankTransaction model
     transactions = MobileMoneyDeposit.objects.filter(agent=user).filter(deposited_month=d_month).filter(deposited_year=d_year).order_by("-date_deposited")
@@ -1708,10 +1708,10 @@ def export_transactions_csv(request, username, d_month,d_year):
         'Bank Transactions CSV',
         'Please find attached the bank transactions CSV file.',
         'gabrielstonedelza@gmail.com',
-        ['gabrielstonedelza@gmail.com']
+        [owner_email]
     )
     email.attach('transactions.csv', response.getvalue(), 'text/csv')
     email.send()
 
-    return HttpResponse("Bank transactions exported and sent through email.")
+    return HttpResponse("Momo cash in transactions exported and sent through email.")
 

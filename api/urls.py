@@ -259,5 +259,5 @@ urlpatterns = [
     path("get_agent_cash_out_commission_today/<str:username>/", views.get_agent_cash_out_commission_today),
     path("check_app_version/", views.check_app_version),
 #     testing csv
-    path("export_transactions_csv/<str:username>/<str:d_month>/<str:d_year>/", views.export_transactions_csv)
+    path("export_momo_cash_in_transactions_csv/<str:username>/<str:d_month>/<str:d_year>/<str:owner_email>/", views.export_momo_cash_in_transactions_csv)
 ]
