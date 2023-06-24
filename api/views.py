@@ -1777,7 +1777,7 @@ def export_bank_deposit_transactions_csv(request, username, d_month,d_year,owner
     writer.writerow(['Transaction ID', 'Agent', 'Customer','Depositor Name','Depositor Number','Bank','Account Number','Account Name','Amount','Total','GHC 200','GHC 100','GHC 50','GHC 20','GHC 10','GHC 5','GHC 2','GHC 1','Date'])  # Add your desired fields here
 
     for transaction in transactions:
-        writer.writerow([transaction.id, transaction.agent, transaction.customer,transaction.depositor_name,transaction.depositor_number,transaction.bank,transaction.account_naumber,transaction.account_name,transaction.amount,transaction.total,transaction.d_200,transaction.d_100,transaction.d_50,transaction.d_20,transaction.d_10,transaction.d_5,transaction.d_2,transaction.d_1,transaction.date_added ])  # Add your desired fields here
+        writer.writerow([transaction.id, transaction.agent, transaction.customer,transaction.depositor_name,transaction.depositor_number,transaction.bank,transaction.account_number,transaction.account_name,transaction.amount,transaction.total,transaction.d_200,transaction.d_100,transaction.d_50,transaction.d_20,transaction.d_10,transaction.d_5,transaction.d_2,transaction.d_1,transaction.date_added ])  # Add your desired fields here
 
     # Send the CSV file through email
     email = EmailMessage(
