@@ -280,7 +280,7 @@ class MobileMoneyDeposit(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"Mobile money request made for {self.amount_sent}"
+        return f"Mobile money request made for {self.amount_sent} by {self.agent.username}"
 
     def get_agents_phone(self):
         return self.agent.phone_number
@@ -308,7 +308,7 @@ class MobileMoneyWithdraw(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"Withdrawal made for {self.cash_paid}"
+        return f"Withdrawal made for {self.cash_paid} by {self.agent.username}"
 
     def get_customer_name(self):
         return self.customer.name
