@@ -1795,7 +1795,7 @@ def export_bank_deposit_transactions_csv(request, username, d_month,d_year,owner
 def export_bank_withdrawal_transactions_csv(request, username, d_month,d_year,owner_email):
     user = get_object_or_404(User, username=username)
     # Query data from the BankTransaction model
-    transactions = MobileMoneyWithdraw.objects.filter(agent=user).filter(withdrawal_month=d_month).filter(withdrawal_year=d_year).order_by("-date_of_withdrawal")
+    transactions = BankWithdrawal.objects.filter(agent=user).filter(withdrawal_month=d_month).filter(withdrawal_year=d_year).order_by("-date_of_withdrawal")
 
     # Create a CSV file
     response = HttpResponse(content_type='text/csv')
