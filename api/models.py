@@ -339,6 +339,8 @@ class BankWithdrawal(models.Model):
     d_2 = models.IntegerField(default=0, blank=True)
     d_1 = models.IntegerField(default=0, blank=True)
     date_of_withdrawal = models.DateTimeField(auto_now_add=True)
+    withdrawal_month = models.CharField(max_length=10, blank=True, default="")
+    withdrawal_year = models.CharField(max_length=10, blank=True, default="")
 
     def save(self, *args, **kwargs):
         two_h_cedis_values = self.d_200 * 200
@@ -355,6 +357,11 @@ class BankWithdrawal(models.Model):
             twenty_cedis_values) + Decimal(ten_cedis_values) + Decimal(five_cedis_values) + Decimal(
             two_cedis_values) + Decimal(one_cedi_values)
         self.total = Decimal(amount_total)
+
+        my_date = datetime.today()
+        de_date = my_date.date()
+        self.withdrawal_month = de_date.month
+        self.withdrawal_year = de_date.year
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -908,3 +915,6 @@ class CheckAppVersion(models.Model):
 
     def __str__(self):
         return f"App version is currently {self.app_version}"
+
+
+# t

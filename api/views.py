@@ -1669,6 +1669,7 @@ import csv
 from django.core.mail import EmailMessage
 from django.http import HttpResponse
 
+# for cash in and cash out
 @api_view(['GET'])
 @permission_classes([permissions.AllowAny])
 def get_agents_cash_in_by_monthly(request, username, d_month,d_year):
@@ -1705,13 +1706,115 @@ def export_momo_cash_in_transactions_csv(request, username, d_month,d_year,owner
 
     # Send the CSV file through email
     email = EmailMessage(
-        'Bank Transactions CSV',
-        'Please find attached the bank transactions CSV file.',
+        'Momo Cash In Transactions CSV',
+        'Please find attached the momo cash in transactions CSV file.',
         'gabrielstonedelza@gmail.com',
         [f'{owner_email}']
     )
     email.attach('transactions.csv', response.getvalue(), 'text/csv')
     email.send()
-
     return HttpResponse("Momo cash in transactions exported and sent through email.")
 
+@api_view(['GET'])
+@permission_classes([permissions.AllowAny])
+def export_momo_cash_out_transactions_csv(request, username, d_month,d_year,owner_email):
+    user = get_object_or_404(User, username=username)
+    # Query data from the BankTransaction model
+    transactions = MobileMoneyWithdraw.objects.filter(agent=user).filter(withdrawal_month=d_month).filter(withdrawal_year=d_year).order_by("-date_of_withdrawal")
+
+    # Create a CSV file
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="transactions.csv"'
+
+    # Write data to the CSV file
+    writer = csv.writer(response)
+    writer.writerow(['Transaction ID', 'Agent', 'Customer','Amount Received','Cash Paid','Network','Date'])  # Add your desired fields here
+
+    for transaction in transactions:
+        writer.writerow([transaction.id, transaction.agent, transaction.customer, transaction.amount_received,transaction.cash_paid, transaction.network,transaction.d_date])  # Add your desired fields here
+
+    # Send the CSV file through email
+    email = EmailMessage(
+        'Momo Cash Out Transactions CSV',
+        'Please find attached the momo cash out transactions CSV file.',
+        'gabrielstonedelza@gmail.com',
+        [f'{owner_email}']
+    )
+    email.attach('transactions.csv', response.getvalue(), 'text/csv')
+    email.send()
+    return HttpResponse("Momo cash out transactions exported and sent through email.")
+
+# for bank deposit and withdrawals
+@api_view(['GET'])
+@permission_classes([permissions.AllowAny])
+def get_agents_bank_deposit_by_monthly(request, username, d_month,d_year):
+    user = get_object_or_404(User, username=username)
+    momo_deposit = BankDeposit.objects.filter(agent=user).filter(deposited_month=d_month).filter(deposited_year=d_year).order_by("-date_added")
+    serializer = BankDepositSerializer(momo_deposit, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([permissions.AllowAny])
+def get_agents_bank_withdrawal_by_monthly(request, username, d_month,d_year):
+    user = get_object_or_404(User, username=username)
+    momo_withdraws = BankWithdrawal.objects.filter(agent=user).filter(withdrawal_month=d_month).filter(withdrawal_year=d_year).order_by("-date_of_withdrawal")
+    serializer = BankWithdrawalSerializer(momo_withdraws, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([permissions.AllowAny])
+def export_bank_deposit_transactions_csv(request, username, d_month,d_year,owner_email):
+    user = get_object_or_404(User, username=username)
+    # Query data from the BankTransaction model
+    transactions = BankDeposit.objects.filter(agent=user).filter(deposited_month=d_month).filter(deposited_year=d_year).order_by("-date_added")
+
+    # Create a CSV file
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="transactions.csv"'
+
+    # Write data to the CSV file
+    writer = csv.writer(response)
+    writer.writerow(['Transaction ID', 'Agent', 'Customer','Depositor Name','Depositor Number','Bank','Account Number','Account Name','Amount','Total','GHC 200','GHC 100','GHC 50','GHC 20','GHC 10','GHC 5','GHC 2','GHC 1','Date'])  # Add your desired fields here
+
+    for transaction in transactions:
+        writer.writerow([transaction.id, transaction.agent, transaction.customer,transaction.depositor_name,transaction.depositornumber,transaction.bank,transaction.account_naumber,transaction.account_name,transaction.amount,transaction.total,transaction.d_200,transaction.d_100,transaction.d_50,transaction.d_20,transaction.d_10,transaction.d_5,transaction.d_2,transaction.d_1,transaction.date_added ])  # Add your desired fields here
+
+    # Send the CSV file through email
+    email = EmailMessage(
+        'Bank Deposit Transactions CSV',
+        'Please find attached the bank deposit transactions CSV file.',
+        'gabrielstonedelza@gmail.com',
+        [f'{owner_email}']
+    )
+    email.attach('transactions.csv', response.getvalue(), 'text/csv')
+    email.send()
+    return HttpResponse("Bank Deposit transactions exported and sent through email.")
+
+@api_view(['GET'])
+@permission_classes([permissions.AllowAny])
+def export_bank_withdrawal_transactions_csv(request, username, d_month,d_year,owner_email):
+    user = get_object_or_404(User, username=username)
+    # Query data from the BankTransaction model
+    transactions = MobileMoneyWithdraw.objects.filter(agent=user).filter(withdrawal_month=d_month).filter(withdrawal_year=d_year).order_by("-date_of_withdrawal")
+
+    # Create a CSV file
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="transactions.csv"'
+
+    # Write data to the CSV file
+    writer = csv.writer(response)
+    writer.writerow(['Transaction ID', 'Agent', 'Customer','Bank','Withdrawal Type','Amount','Total','GHC 200','GHC 100','GHC 50','GHC 20','GHC 10','GHC 5','GHC 2','GHC 1','Date'])  # Add your desired fields here
+
+    for transaction in transactions:
+        writer.writerow([transaction.id, transaction.agent, transaction.customer,transaction.bank,transaction.amount,transaction.total,transaction.d_200,transaction.d_100,transaction.d_50,transaction.d_20,transaction.d_10,transaction.d_5,transaction.d_2,transaction.d_1,transaction.date_of_withdrawal])  # Add your desired fields here
+
+    # Send the CSV file through email
+    email = EmailMessage(
+        'Bank Withdrawal Transactions CSV',
+        'Please find attached the bank withdrawal transactions CSV file.',
+        'gabrielstonedelza@gmail.com',
+        [f'{owner_email}']
+    )
+    email.attach('transactions.csv', response.getvalue(), 'text/csv')
+    email.send()
+    return HttpResponse("Bank Withdrawal transactions exported and sent through email.")

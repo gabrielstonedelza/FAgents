@@ -258,6 +258,15 @@ urlpatterns = [
     path("get_agent_cash_in_commission_today/<str:username>/", views.get_agent_cash_in_commission_today),
     path("get_agent_cash_out_commission_today/<str:username>/", views.get_agent_cash_out_commission_today),
     path("check_app_version/", views.check_app_version),
-#     testing csv
-    path("export_momo_cash_in_transactions_csv/<str:username>/<str:d_month>/<str:d_year>/<str:owner_email>/", views.export_momo_cash_in_transactions_csv)
+    #     testing csv
+    #     for cash in and cash out
+    path("get_agents_cash_in_by_monthly/<str:username>/<str:d_month>/<str:d_year>/",views.get_agents_cash_in_by_monthly),
+    path("get_agents_cash_out_by_monthly/<str:username>/<str:d_month>/<str:d_year>/",views.get_agents_cash_out_by_monthly),
+    path("export_momo_cash_in_transactions_csv/<str:username>/<str:d_month>/<str:d_year>/<str:owner_email>/", views.export_momo_cash_in_transactions_csv),
+    path("export_momo_cash_out_transactions_csv/<str:username>/<str:d_month>/<str:d_year>/<str:owner_email>/", views.export_momo_cash_out_transactions_csv),
+#     for bank deposit and withdrawal
+    path("get_agents_bank_deposit_by_monthly/<str:username>/<str:d_month>/<str:d_year>/",views.get_agents_bank_deposit_by_monthly),
+    path("get_agents_bank_withdrawal_by_monthly/<str:username>/<str:d_month>/<str:d_year>/",views.get_agents_bank_withdrawal_by_monthly),
+    path("export_bank_deposit_transactions_csv/<str:username>/<str:d_month>/<str:d_year>/<str:owner_email>/", views.export_bank_deposit_transactions_csv),
+    path("export_bank_withdrawal_transactions_csv/<str:username>/<str:d_month>/<str:d_year>/<str:owner_email>/", views.export_bank_withdrawal_transactions_csv),
 ]
