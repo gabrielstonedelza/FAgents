@@ -9,7 +9,6 @@ from .process_mail import send_my_mail
 from django.conf import settings
 from users.models import User
 from users.serializers import UsersSerializer
-import asyncio
 from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, \
                      PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, Floats, \
                      GroupMessage, PrivateUserMessage, AgentPreregistration, RegisteredForFloat, AgentAccountsBalanceStarted, AgentAccountsBalanceClosed, FreeTrial, MonthlyPayments, AuthenticateAgentPhone, MtnPayTo, AgentRequest, AgentRequestLimit, SetUpMeeting, Complains, HoldAccounts, AgentRequestPayment, GroupOwnerMessage,GroupAgentsMessage,OwnerMtnPayTo,CheckAppVersion)
@@ -123,10 +122,10 @@ def private_message_detail(request, user1, user2):
 # for customers
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])
-async def register_customer(request):
+def register_customer(request):
     serializer = CustomerSerializer(data=request.data)
     if serializer.is_valid():
-        await asyncio.get_event_loop().run_in_executor(None, serializer.save(agent=request.user))
+        serializer.save(agent=request.user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -1761,8 +1760,6 @@ def get_agents_bank_withdrawal_by_monthly(request, username, d_month,d_year):
     momo_withdraws = BankWithdrawal.objects.filter(agent=user).filter(withdrawal_month=d_month).filter(withdrawal_year=d_year).order_by("-date_of_withdrawal")
     serializer = BankWithdrawalSerializer(momo_withdraws, many=True)
     return Response(serializer.data)
-
-
 
 @api_view(['GET'])
 @permission_classes([permissions.AllowAny])
