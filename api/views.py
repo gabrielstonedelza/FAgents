@@ -122,7 +122,7 @@ def private_message_detail(request, user1, user2):
 # for customers
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])
-def register_customer(request):
+async def register_customer(request):
     serializer = CustomerSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save(agent=request.user)
@@ -1760,6 +1760,8 @@ def get_agents_bank_withdrawal_by_monthly(request, username, d_month,d_year):
     momo_withdraws = BankWithdrawal.objects.filter(agent=user).filter(withdrawal_month=d_month).filter(withdrawal_year=d_year).order_by("-date_of_withdrawal")
     serializer = BankWithdrawalSerializer(momo_withdraws, many=True)
     return Response(serializer.data)
+
+
 
 @api_view(['GET'])
 @permission_classes([permissions.AllowAny])
