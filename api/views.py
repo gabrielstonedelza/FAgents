@@ -8,7 +8,6 @@ from datetime import datetime
 from .process_mail import send_my_mail
 from django.conf import settings
 from users.models import User
-from asgiref.sync import sync_to_async
 from users.serializers import UsersSerializer
 from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, \
                      PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, Floats, \
@@ -1754,21 +1753,12 @@ def get_agents_bank_deposit_by_monthly(request, username, d_month,d_year):
     serializer = BankDepositSerializer(momo_deposit, many=True)
     return Response(serializer.data)
 
-# @api_view(['GET'])
-# @permission_classes([permissions.AllowAny])
-# def get_agents_bank_withdrawal_by_monthly(request, username, d_month,d_year):
-#     user = get_object_or_404(User, username=username)
-#     momo_withdraws = BankWithdrawal.objects.filter(agent=user).filter(withdrawal_month=d_month).filter(withdrawal_year=d_year).order_by("-date_of_withdrawal")
-#     serializer = BankWithdrawalSerializer(momo_withdraws, many=True)
-#     return Response(serializer.data)
-
-
 @api_view(['GET'])
 @permission_classes([permissions.AllowAny])
-async def get_agents_bank_withdrawal_by_monthly(request, username, d_month, d_year):
-    user = await sync_to_async(get_object_or_404)(User, username=username)
-    momo_withdraws = await sync_to_async(BankWithdrawal.objects.filter)(agent=user).filter(withdrawal_month=d_month).filter(withdrawal_year=d_year).order_by("-date_of_withdrawal")
-    serializer = await sync_to_async(BankWithdrawalSerializer)(momo_withdraws, many=True)
+def get_agents_bank_withdrawal_by_monthly(request, username, d_month,d_year):
+    user = get_object_or_404(User, username=username)
+    momo_withdraws = BankWithdrawal.objects.filter(agent=user).filter(withdrawal_month=d_month).filter(withdrawal_year=d_year).order_by("-date_of_withdrawal")
+    serializer = BankWithdrawalSerializer(momo_withdraws, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
