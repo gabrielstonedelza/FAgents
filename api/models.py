@@ -917,4 +917,21 @@ class CheckAppVersion(models.Model):
         return f"App version is currently {self.app_version}"
 
 
-# t
+class CheckOwnerAppVersion(models.Model):
+    app_version = models.IntegerField()
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"App version is currently {self.app_version}"
+
+class LoginTracker(models.Model):
+    agent = models.ForeignKey(User, on_delete=models.CASCADE)
+    app_version_logged_in_with = models.IntegerField(default=0)
+    date_logged_in = models.DateField(auto_now_add=True)
+    time_logged_in = models.TimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.agent.username} logged in with app version {self.app_version_logged_in_with}"
+
+    def get_agent_username(self):
+        return self.agent.username

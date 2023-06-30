@@ -10,15 +10,28 @@ from django.conf import settings
 from users.models import User
 from users.serializers import UsersSerializer
 from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, \
-                     PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, Floats, \
-                     GroupMessage, PrivateUserMessage, AgentPreregistration, RegisteredForFloat, AgentAccountsBalanceStarted, AgentAccountsBalanceClosed, FreeTrial, MonthlyPayments, AuthenticateAgentPhone, MtnPayTo, AgentRequest, AgentRequestLimit, SetUpMeeting, Complains, HoldAccounts, AgentRequestPayment, GroupOwnerMessage,GroupAgentsMessage,OwnerMtnPayTo,CheckAppVersion)
+                     PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications,
+                     AgentAccounts, Floats, \
+                     GroupMessage, PrivateUserMessage, AgentPreregistration, RegisteredForFloat,
+                     AgentAccountsBalanceStarted, AgentAccountsBalanceClosed, FreeTrial, MonthlyPayments,
+                     AuthenticateAgentPhone, MtnPayTo, AgentRequest, AgentRequestLimit, SetUpMeeting, Complains,
+                     HoldAccounts, AgentRequestPayment, GroupOwnerMessage, GroupAgentsMessage, OwnerMtnPayTo,
+                     CheckAppVersion, LoginTracker, CheckOwnerAppVersion)
 from .serializers import (CustomerSerializer, CustomerAccountsSerializer, BankDepositSerializer, MomoDepositSerializer, \
                           MomoWithdrawalSerializer, BankWithdrawalSerializer, PaymentForReBalancingSerializer,
                           ReportSerializer, \
                           AddToBlockListSerializer, NotificationSerializer, AgentReBalancingSerializer,
                           AgentAccountsSerializer, \
                           AgentsFloatSerializer, FraudSerializer, GroupMessageSerializer, PrivateUserMessageSerializer,
-                          AgentPreregistrationSerializer, RegisteredForFloatSerializer,AgentAccountsBalanceStartedSerializer, AgentAccountsBalanceClosedSerializer,AuthenticateAgentPhoneSerializer,FreeTrialSerializer,MonthlyPaymentsSerializer,MtnPayToSerializer,AgentRequestLimitSerializer,AgentRequestSerializer,SetUpMeetingSerializer,ComplainsSerializer,HoldAccountsSerializer,AddedToApprovedPaymentSerializer,AddedToApprovedRequestSerializer,AgentRequestPaymentSerializer,AddedToApprovedReBalancingSerializer,GroupAgentsMessageSerializer,GroupOwnerMessageSerializer,OwnerMtnPayToSerializer,CheckAppVersionSerializer)
+                          AgentPreregistrationSerializer, RegisteredForFloatSerializer,
+                          AgentAccountsBalanceStartedSerializer, AgentAccountsBalanceClosedSerializer,
+                          AuthenticateAgentPhoneSerializer, FreeTrialSerializer, MonthlyPaymentsSerializer,
+                          MtnPayToSerializer, AgentRequestLimitSerializer, AgentRequestSerializer,
+                          SetUpMeetingSerializer, ComplainsSerializer, HoldAccountsSerializer,
+                          AddedToApprovedPaymentSerializer, AddedToApprovedRequestSerializer,
+                          AgentRequestPaymentSerializer, AddedToApprovedReBalancingSerializer,
+                          GroupAgentsMessageSerializer, GroupOwnerMessageSerializer, OwnerMtnPayToSerializer,
+                          CheckAppVersionSerializer, LoginTrackerSerializer, CheckOwnerAppVersionSerializer)
 
 
 # float joining
@@ -1663,6 +1676,13 @@ def check_app_version(request):
     serializer = CheckAppVersionSerializer(app_version, many=True)
     return Response(serializer.data)
 
+@api_view(['GET'])
+@permission_classes([permissions.AllowAny])
+def check_owner_app_version(request):
+    app_version = CheckOwnerAppVersion.objects.order_by('-date_added')[:1]
+    serializer = CheckOwnerAppVersionSerializer(app_version, many=True)
+    return Response(serializer.data)
+
 
 # getting necessary transactions and sending csv data
 import csv
@@ -1818,3 +1838,14 @@ def export_bank_withdrawal_transactions_csv(request, username, d_month,d_year,ow
     email.attach('transactions.csv', response.getvalue(), 'text/csv')
     email.send()
     return HttpResponse("Bank Withdrawal transactions exported and sent through email.")
+
+
+# login tracker
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def track_login(request):
+    serializer = LoginTrackerSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(agent=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

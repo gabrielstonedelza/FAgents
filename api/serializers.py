@@ -1,9 +1,20 @@
 from rest_framework import serializers
-from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, Floats, PrivateChatId, PrivateUserMessage, GroupMessage, AgentPreregistration, RegisteredForFloat, AgentAccountsBalanceStarted, AgentAccountsBalanceClosed, FreeTrial, MonthlyPayments, AuthenticateAgentPhone, MtnPayTo, AgentRequest, AgentRequestLimit, SetUpMeeting, Complains, HoldAccounts, AgentRequestPayment, AddedToApprovedRequest, AddedToApprovedPayment, AddedToApprovedReBalancing,GroupOwnerMessage,GroupAgentsMessage,OwnerMtnPayTo,CheckAppVersion)
+from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, Floats, PrivateChatId, PrivateUserMessage, GroupMessage, AgentPreregistration, RegisteredForFloat, AgentAccountsBalanceStarted, AgentAccountsBalanceClosed, FreeTrial, MonthlyPayments, AuthenticateAgentPhone, MtnPayTo, AgentRequest, AgentRequestLimit, SetUpMeeting, Complains, HoldAccounts, AgentRequestPayment, AddedToApprovedRequest, AddedToApprovedPayment, AddedToApprovedReBalancing,GroupOwnerMessage,GroupAgentsMessage,OwnerMtnPayTo,CheckAppVersion,LoginTracker,CheckOwnerAppVersion)
+
+class LoginTrackerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LoginTracker
+        fields = ['id','agent','app_version_logged_in_with','date_logged_in','time_logged_in']
+        read_only_fields = ['agent']
 
 class CheckAppVersionSerializer(serializers.ModelSerializer):
     class Meta:
         model = CheckAppVersion
+        fields = ['id','app_version','date_added']
+
+class CheckOwnerAppVersionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CheckOwnerAppVersion
         fields = ['id','app_version','date_added']
 
 class OwnerMtnPayToSerializer(serializers.ModelSerializer):

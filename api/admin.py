@@ -1,6 +1,15 @@
 from django.contrib import admin
-from .models import Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, Floats,PrivateChatId,PrivateUserMessage,GroupMessage,AgentPreregistration,RegisteredForFloat, AgentAccountsBalanceStarted, FreeTrial,MonthlyPayments,AuthenticateAgentPhone,MtnPayTo,AgentRequest, AgentRequestLimit,SetUpMeeting,Complains,HoldAccounts, AgentRequestPayment,AddedToApprovedRequest,AddedToApprovedPayment,AddedToApprovedReBalancing,GroupOwnerMessage,GroupAgentsMessage,OwnerMtnPayTo, CheckAppVersion
+from .models import Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, Floats,PrivateChatId,PrivateUserMessage,GroupMessage,AgentPreregistration,RegisteredForFloat, AgentAccountsBalanceStarted, FreeTrial,MonthlyPayments,AuthenticateAgentPhone,MtnPayTo,AgentRequest, AgentRequestLimit,SetUpMeeting,Complains,HoldAccounts, AgentRequestPayment,AddedToApprovedRequest,AddedToApprovedPayment,AddedToApprovedReBalancing,GroupOwnerMessage,GroupAgentsMessage,OwnerMtnPayTo, CheckAppVersion, LoginTracker
 
+
+class AdminUserLoginTracker(admin.ModelAdmin):
+    list_display = ['id','agent','app_version_logged_in_with','date_logged_in','time_logged_in']
+    search_fields = ['id','agent','app_version_logged_in_with','date_logged_in','time_logged_in']
+
+    class Meta:
+        model = LoginTracker
+
+admin.site.register(LoginTracker,AdminUserLoginTracker)
 admin.site.register(CheckAppVersion)
 admin.site.register(OwnerMtnPayTo)
 admin.site.register(GroupAgentsMessage)
