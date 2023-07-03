@@ -1,6 +1,11 @@
 from django.contrib import admin
 from .models import Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, Floats,PrivateChatId,PrivateUserMessage,GroupMessage,AgentPreregistration,RegisteredForFloat, AgentAccountsBalanceStarted, FreeTrial,MonthlyPayments,AuthenticateAgentPhone,MtnPayTo,AgentRequest, AgentRequestLimit,SetUpMeeting,Complains,HoldAccounts, AgentRequestPayment,AddedToApprovedRequest,AddedToApprovedPayment,AddedToApprovedReBalancing,GroupOwnerMessage,GroupAgentsMessage,OwnerMtnPayTo, CheckAppVersion, LoginTracker, CheckOwnerAppVersion
 
+class AdminAgentAccountStartedWith(admin.ModelAdmin):
+    list_display = ['id', 'physical', 'mtn_e_cash', 'tigo_airtel_e_cash', 'vodafone_e_cash','e_cash_total','date_posted','time_posted']
+
+    class Meta:
+        model = AgentAccountsBalanceStarted
 
 class AdminUserLoginTracker(admin.ModelAdmin):
     list_display = ['id','agent','app_version_logged_in_with','date_logged_in','time_logged_in']
