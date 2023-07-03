@@ -3,7 +3,7 @@ from .models import Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit,
 
 class AdminAgentAccountStartedWith(admin.ModelAdmin):
     list_display = ['id', 'agent','physical', 'mtn_e_cash', 'tigo_airtel_e_cash', 'vodafone_e_cash','e_cash_total','date_posted','time_posted']
-    search_fields = ['id', 'agent',,'date_posted','time_posted']
+    search_fields = ['id', 'agent','date_posted','time_posted']
 
     class Meta:
         model = AgentAccountsBalanceStarted
