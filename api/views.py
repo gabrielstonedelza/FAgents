@@ -1665,7 +1665,7 @@ def get_agent_cash_out_commission_today(request, username):
 @permission_classes([permissions.IsAuthenticated])
 def get_my_agent_account_started_with(request, username):
     user = get_object_or_404(User, username=username)
-    account_balance = AgentAccountsBalanceStarted.objects.filter(agent=user).order_by('-date_posted').first()
+    account_balance = AgentAccountsBalanceStarted.objects.filter(agent=user).order_by('date_posted')
     serializer = AgentAccountsBalanceStartedSerializer(account_balance, many=True)
     return Response(serializer.data)
 
