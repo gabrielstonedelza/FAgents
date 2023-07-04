@@ -134,6 +134,12 @@ REQUEST_STATUS = (
     ("Pending", "Pending"),
 )
 
+AGENT_REQUEST_TYPE = (
+    ("Network", "Network"),
+    ("Bank", "Bank"),
+    ("Cash", "Cash"),
+)
+
 class Customer(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=150, blank=True)
@@ -746,6 +752,7 @@ class AgentRequest(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE,related_name="agents_owner")
     agent = models.ForeignKey(User, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=19, decimal_places=2)
+    request_type = models.CharField(max_length=20,choices=AGENT_REQUEST_TYPE, default="Network")
     cash = models.DecimalField(max_digits=19, decimal_places=2,blank=True,default=0.0)
     bank = models.CharField(max_length=50, choices=BANKS, blank=True, default="")
     network = models.CharField(max_length=20, blank=True, default="", choices=NETWORKS)
