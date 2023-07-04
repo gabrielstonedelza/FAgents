@@ -1340,7 +1340,7 @@ def get_unapproved_requests(request):
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
 def get_unpaid_requests(request):
-    all_requests = AgentRequest.objects.filter(request_paid="Pending").order_by("-date_requested")
+    all_requests = AgentRequest.objects.filter(agent=request.user).filter(request_paid="Pending").order_by("-date_requested")
     serializer = AgentRequestSerializer(all_requests,many=True)
     return Response(serializer.data)
 
