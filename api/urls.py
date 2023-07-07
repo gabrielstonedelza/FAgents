@@ -253,6 +253,7 @@ urlpatterns = [
 
     # get agent account started with
     path("get_my_agent_account_started_with/<str:username>/", views.get_my_agent_account_started_with),
+    path("get_my_agent_account_started_with_latest/<str:username>/", views.get_my_agent_account_started_with_latest),
 
 #     commissions for today
     path("get_agent_cash_in_commission_today/<str:username>/", views.get_agent_cash_in_commission_today),
