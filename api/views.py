@@ -8,29 +8,46 @@ from datetime import datetime
 from .process_mail import send_my_mail
 from django.conf import settings
 from users.models import User
+import csv
+from django.core.mail import EmailMessage
+from django.http import HttpResponse
 from users.serializers import UsersSerializer
 from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, \
                  Reports, AddToBlockList, Fraud, Notifications,
                       Floats, \
                      GroupMessage, PrivateUserMessage, AgentPreregistration, RegisteredForFloat,
-                     AgentAccountsBalanceStarted, AgentAccountsBalanceClosed, FreeTrial, MonthlyPayments,
+                FreeTrial, MonthlyPayments,
                      AuthenticateAgentPhone, MtnPayTo,  SetUpMeeting, Complains,
                      HoldAccounts,  GroupOwnerMessage, GroupAgentsMessage, OwnerMtnPayTo,
-                     CheckAppVersion, CheckOwnerAppVersion)
+                     CheckAppVersion, CheckOwnerAppVersion,AgentAndOwnerAccounts)
 from .serializers import (CustomerSerializer, CustomerAccountsSerializer, BankDepositSerializer, MomoDepositSerializer, \
                           MomoWithdrawalSerializer, BankWithdrawalSerializer,
                           ReportSerializer, \
                           AddToBlockListSerializer, NotificationSerializer,
                           AgentsFloatSerializer, FraudSerializer, GroupMessageSerializer, PrivateUserMessageSerializer,
                           AgentPreregistrationSerializer, RegisteredForFloatSerializer,
-                          AgentAccountsBalanceStartedSerializer, AgentAccountsBalanceClosedSerializer,
                           AuthenticateAgentPhoneSerializer, FreeTrialSerializer, MonthlyPaymentsSerializer,
                           MtnPayToSerializer,
                           SetUpMeetingSerializer, ComplainsSerializer, HoldAccountsSerializer,
 
-                          GroupAgentsMessageSerializer, GroupOwnerMessageSerializer, OwnerMtnPayToSerializer,
+                          GroupAgentsMessageSerializer, GroupOwnerMessageSerializer, OwnerMtnPayToSerializer,AgentAndOwnerAccountsSerializer,
                           CheckAppVersionSerializer,CheckOwnerAppVersionSerializer)
 
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def add_to_user_accounts(request):
+    serializer = AgentAndOwnerAccountsSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(agent=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_my_user_accounts(request):
+    my_accounts = AgentAndOwnerAccounts.objects.filter(agent=request.user).order_by('-date_added')
+    serializer = AgentAndOwnerAccountsSerializer(my_accounts, many=True)
+    return Response(serializer.data)
 
 # float joining
 @api_view(['POST'])
@@ -753,72 +770,6 @@ def get_customer_by_phone(request, customer):
     serializer = CustomerSerializer(customer, many=True)
     return Response(serializer.data)
 
-
-# agents accounts added and closed
-@api_view(['POST'])
-@permission_classes([permissions.IsAuthenticated])
-def add_balance_to_start(request):
-    serializer = AgentAccountsBalanceStartedSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-@api_view(['GET','PUT'])
-@permission_classes([permissions.IsAuthenticated])
-def update_balance_to_start(request,pk):
-    account_balance = get_object_or_404(AgentAccountsBalanceStarted,pk=pk)
-    serializer = AgentAccountsBalanceStartedSerializer(account_balance,data=request.data)
-    if serializer.is_valid():
-        serializer.save(agent=request.user)
-        return Response(serializer.data)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-@api_view(['GET'])
-@permission_classes([permissions.IsAuthenticated])
-def get_my_account_balance_started(request):
-    my_account_balance = AgentAccountsBalanceStarted.objects.filter(agent=request.user).order_by('-date_posted')
-    serializer = AgentAccountsBalanceStartedSerializer(my_account_balance, many=True)
-    return Response(serializer.data)
-
-
-@api_view(['GET'])
-@permission_classes([permissions.IsAuthenticated])
-def get_my_account_balance_started_today(request):
-    my_date = datetime.today()
-    for_today = my_date.date()
-    my_account_balance = AgentAccountsBalanceStarted.objects.filter(agent=request.user).filter(date_posted=for_today).order_by('date_posted')
-    serializer = AgentAccountsBalanceStartedSerializer(my_account_balance, many=True)
-    return Response(serializer.data)
-
-
-@api_view(['POST'])
-@permission_classes([permissions.IsAuthenticated])
-def close_balance(request):
-    serializer = AgentAccountsBalanceClosedSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save(agent=request.user)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-@api_view(['GET'])
-@permission_classes([permissions.IsAuthenticated])
-def get_my_account_balance_closed(request):
-    my_account_balance = AgentAccountsBalanceClosed.objects.filter(agent=request.user)
-    serializer = AgentAccountsBalanceClosedSerializer(my_account_balance, many=True)
-    return Response(serializer.data)
-
-@api_view(['GET'])
-@permission_classes([permissions.IsAuthenticated])
-def get_my_account_balance_closed_today(request):
-    my_date = datetime.today()
-    for_today = my_date.date()
-    my_account_balance = AgentAccountsBalanceClosed.objects.filter(agent=request.user).filter(date_closed=for_today)
-    serializer = AgentAccountsBalanceClosedSerializer(my_account_balance, many=True)
-    return Response(serializer.data)
-
-
 # authenticate agent phone
 @api_view(['GET','POST'])
 @permission_classes([permissions.IsAuthenticated])
@@ -1235,23 +1186,6 @@ def get_agent_cash_out_commission_today(request, username):
     return Response(serializer.data)
 
 
-# get agents accounts started with
-@api_view(['GET'])
-@permission_classes([permissions.IsAuthenticated])
-def get_my_agent_account_started_with(request, username):
-    user = get_object_or_404(User, username=username)
-    account_balance = AgentAccountsBalanceStarted.objects.filter(agent=user).order_by('date_posted')
-    serializer = AgentAccountsBalanceStartedSerializer(account_balance, many=True)
-    return Response(serializer.data)
-
-@api_view(['GET'])
-@permission_classes([permissions.IsAuthenticated])
-def get_my_agent_account_started_with_latest(request, username):
-    user = get_object_or_404(User, username=username)
-    account_balance = AgentAccountsBalanceStarted.objects.filter(agent=user).order_by('-date_posted')
-    serializer = AgentAccountsBalanceStartedSerializer(account_balance, many=True)
-    return Response(serializer.data)
-
 @api_view(['GET'])
 @permission_classes([permissions.AllowAny])
 def check_app_version(request):
@@ -1265,12 +1199,7 @@ def check_owner_app_version(request):
     app_version = CheckOwnerAppVersion.objects.order_by('-date_added')[:1]
     serializer = CheckOwnerAppVersionSerializer(app_version, many=True)
     return Response(serializer.data)
-
-
 # getting necessary transactions and sending csv data
-import csv
-from django.core.mail import EmailMessage
-from django.http import HttpResponse
 
 # for cash in and cash out
 @api_view(['GET'])

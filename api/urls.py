@@ -116,14 +116,6 @@ urlpatterns = [
     path("get_request_to_join_float/",views.get_request_to_join_float),
     path("get_my_request_to_join_float/",views.get_my_request_to_join_float),
 
-#     agent account started and closed
-    path("add_balance_to_start/",views.add_balance_to_start),
-    path("update_balance_to_start/<int:pk>/",views.update_balance_to_start),
-    path("get_my_account_balance_started/",views.get_my_account_balance_started),
-    path("get_my_account_balance_started_today/",views.get_my_account_balance_started_today),
-    path("close_balance/",views.close_balance),
-    path("get_my_account_balance_closed/",views.get_my_account_balance_closed),
-    path("get_my_account_balance_closed_today/",views.get_my_account_balance_closed_today),
 
 #     authenticate phone
     path("authenticate_agent_phone/",views.authenticate_agent_phone),
@@ -190,10 +182,6 @@ urlpatterns = [
     path("get_agents_cash_in_commission_by_monthly/<str:username>/<str:d_month>/<str:d_year>/",views.get_agents_cash_in_commission_by_monthly),
     path("get_agents_cash_out_commission_by_monthly/<str:username>/<str:d_month>/<str:d_year>/",views.get_agents_cash_out_commission_by_monthly),
 
-    # get agent account started with
-    path("get_my_agent_account_started_with/<str:username>/", views.get_my_agent_account_started_with),
-    path("get_my_agent_account_started_with_latest/<str:username>/", views.get_my_agent_account_started_with_latest),
-
 #     commissions for today
     path("get_agent_cash_in_commission_today/<str:username>/", views.get_agent_cash_in_commission_today),
     path("get_agent_cash_out_commission_today/<str:username>/", views.get_agent_cash_out_commission_today),
@@ -211,4 +199,7 @@ urlpatterns = [
     path("export_bank_deposit_transactions_csv/<str:username>/<str:d_month>/<str:d_year>/<str:owner_email>/", views.export_bank_deposit_transactions_csv),
     path("export_bank_withdrawal_transactions_csv/<str:username>/<str:d_month>/<str:d_year>/<str:owner_email>/", views.export_bank_withdrawal_transactions_csv),
 
+#     add to agent accounts
+    path("add_to_user_accounts/", views.add_to_user_accounts),
+    path("get_my_user_accounts/", views.get_my_user_accounts),
 ]

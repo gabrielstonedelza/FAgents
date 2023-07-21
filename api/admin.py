@@ -1,13 +1,8 @@
 from django.contrib import admin
-from .models import Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, Reports, AddToBlockList, Fraud,  Notifications,  Floats,PrivateChatId,PrivateUserMessage,GroupMessage,AgentPreregistration,RegisteredForFloat, AgentAccountsBalanceStarted, FreeTrial,MonthlyPayments,AuthenticateAgentPhone,MtnPayTo,SetUpMeeting,Complains,HoldAccounts, GroupOwnerMessage,GroupAgentsMessage,OwnerMtnPayTo, CheckAppVersion,  CheckOwnerAppVersion
+from .models import Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, Reports, AddToBlockList, Fraud,  Notifications,  Floats,PrivateChatId,PrivateUserMessage,GroupMessage,AgentPreregistration,RegisteredForFloat, FreeTrial,MonthlyPayments,AuthenticateAgentPhone,MtnPayTo,SetUpMeeting,Complains,HoldAccounts, GroupOwnerMessage,GroupAgentsMessage,OwnerMtnPayTo, CheckAppVersion,  CheckOwnerAppVersion, AgentAndOwnerAccounts
 
-class AdminAgentAccountStartedWith(admin.ModelAdmin):
-    list_display = ['id', 'agent','physical', 'mtn_e_cash', 'tigo_airtel_e_cash', 'vodafone_e_cash','e_cash_total','date_posted','time_posted']
-    search_fields = ['id', 'agent','date_posted','time_posted']
 
-    class Meta:
-        model = AgentAccountsBalanceStarted
-
+admin.site.register(AgentAndOwnerAccounts)
 admin.site.register(CheckOwnerAppVersion)
 admin.site.register(CheckAppVersion)
 admin.site.register(OwnerMtnPayTo)
@@ -24,7 +19,6 @@ admin.site.register(FreeTrial)
 admin.site.register(MonthlyPayments)
 admin.site.register(AuthenticateAgentPhone)
 admin.site.register(RegisteredForFloat)
-admin.site.register(AgentAccountsBalanceStarted,AdminAgentAccountStartedWith)
 admin.site.register(AgentPreregistration)
 admin.site.register(GroupMessage)
 admin.site.register(PrivateUserMessage)
