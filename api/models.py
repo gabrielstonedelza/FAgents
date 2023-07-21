@@ -416,58 +416,6 @@ class Fraud(models.Model):
     def get_agents_username(self):
         return self.agent.username
 
-class PaymentForReBalancing(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="agents_owner_payment")
-    agent = models.ForeignKey(User, on_delete=models.CASCADE)
-    amount = models.DecimalField(max_digits=19, decimal_places=2, default=0.0, blank=True)
-    transaction_id = models.CharField(max_length=30, blank=True, default="")
-    reason_for_payment = models.CharField(max_length=200)
-    payment_status = models.CharField(max_length=50, choices=PAYMENT_STATUS, default="Pending")
-    date_created = models.DateField(auto_now_add=True)
-    time_created = models.TimeField(auto_now_add=True)
-
-    def __str__(self):
-        if self.payment_status == "Pending":
-            return f"{self.agent.username}'s payment is pending"
-        return f"{self.agent.username}'s payment is approved"
-
-    def get_agents_username(self):
-        return self.agent.username
-class AgentReBalancing(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="agents_owner_rebalancing")
-    agent = models.ForeignKey(User, on_delete=models.CASCADE, related_name="rebalancing_agent")
-    amount = models.DecimalField(max_digits=19, decimal_places=2, default=0.0, blank=True)
-    network = models.CharField(max_length=20, choices=NETWORKS, blank=True, default="Select Network")
-    bank = models.CharField(max_length=50, choices=BANKS, blank=True, default="")
-    account_number = models.CharField(max_length=16, blank=True)
-    account_name = models.CharField(max_length=100, blank=True)
-    request_approved = models.CharField(max_length=20, choices=REQUEST_STATUS, default="Pending")
-    date_requested = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.agent.username
-
-    def get_agent_requesting_username(self):
-        return self.agent.username
-
-class AgentAccounts(models.Model):
-    owner = models.ForeignKey(User,on_delete=models.CASCADE,related_name="owner_creating_account")
-    agent = models.ForeignKey(User, on_delete=models.CASCADE)
-    account_number = models.CharField(max_length=16, blank=True)
-    account_name = models.CharField(max_length=100, blank=True)
-    bank = models.CharField(max_length=100, choices=BANKS, default="Access Bank")
-    branch = models.CharField(max_length=100, blank=True)
-    date_added = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.agent.username
-
-    def get_agents_phone(self):
-        return self.agent.phone_number
-
-    def get_agent_username(self):
-        return self.agent.username
-
 class Notifications(models.Model):
     item_id = models.CharField(max_length=100, blank=True, default="")
     transaction_tag = models.CharField(max_length=100, blank=True, default="")
@@ -748,73 +696,6 @@ class MtnPayTo(models.Model):
     def __str__(self):
         return self.customer
 
-class AgentRequest(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE,related_name="agents_owner")
-    agent = models.ForeignKey(User, on_delete=models.CASCADE)
-    amount = models.DecimalField(max_digits=19, decimal_places=2)
-    request_type = models.CharField(max_length=20,choices=AGENT_REQUEST_TYPE, default="Network")
-    cash = models.DecimalField(max_digits=19, decimal_places=2,blank=True,default=0.0)
-    bank = models.CharField(max_length=50, choices=BANKS, blank=True, default="")
-    network = models.CharField(max_length=20, blank=True, default="", choices=NETWORKS)
-    request_approved = models.CharField(max_length=20,choices=REQUEST_STATUS,default="Pending")
-    request_paid = models.CharField(max_length=20,choices=REQUEST_STATUS,default="Pending")
-    reference = models.CharField(max_length=255, blank=True, default="")
-    date_requested = models.DateField(auto_now_add=True)
-
-    def __str__(self):
-        return self.agent.username
-
-    def get_agent_username(self):
-        return self.agent.username
-
-class AgentRequestPayment(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="agents_owner_receiving_payment")
-    agent = models.ForeignKey(User, on_delete=models.CASCADE)
-    amount = models.DecimalField(max_digits=19, decimal_places=2,default=0.0)
-    payment_approved = models.CharField(max_length=20, choices=REQUEST_STATUS, default="Pending")
-    reference = models.CharField(max_length=255, blank=True, default="")
-    date_requested = models.DateField(auto_now_add=True)
-
-    def __str__(self):
-        return self.agent.username
-
-    def get_agent_username(self):
-        return self.agent.username
-class AddedToApprovedRequest(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="agents_owner_request")
-    agent_request = models.ForeignKey(AgentRequest, on_delete=models.CASCADE)
-    date_approved = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"Ghs {self.agent_request.amount} was approved for {self.agent_request.agent.username}"
-
-class AddedToApprovedPayment(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="agents_owner_payments")
-    payment = models.ForeignKey(AgentRequestPayment, on_delete=models.CASCADE)
-    date_approved = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.payment.amount} was approved"
-class AddedToApprovedReBalancing(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="agents_owners")
-    rebalancing = models.ForeignKey(AgentReBalancing, on_delete=models.CASCADE)
-    date_approved = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.rebalancing.amount} was approved"
-
-class AgentRequestLimit(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="agents_owner_setting_limit")
-    agent = models.ForeignKey(User, on_delete=models.CASCADE)
-    request_limit = models.IntegerField(default=0)
-    date_added = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.agent.username
-
-    def get_agents_username(self):
-        return self.agent.username
-
 class SetUpMeeting(models.Model):
     administrator = models.ForeignKey(User, on_delete=models.CASCADE,related_name="admin",default=1)
     title = models.CharField(max_length=255)
@@ -930,15 +811,3 @@ class CheckOwnerAppVersion(models.Model):
 
     def __str__(self):
         return f"App version is currently {self.app_version}"
-
-class LoginTracker(models.Model):
-    agent = models.ForeignKey(User, on_delete=models.CASCADE)
-    app_version_logged_in_with = models.IntegerField(default=0)
-    date_logged_in = models.DateField(auto_now_add=True)
-    time_logged_in = models.TimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.agent.username} logged in with app version {self.app_version_logged_in_with}"
-
-    def get_agent_username(self):
-        return self.agent.username

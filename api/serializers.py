@@ -1,11 +1,6 @@
 from rest_framework import serializers
-from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, PaymentForReBalancing, Reports, AddToBlockList, Fraud, AgentReBalancing, Notifications, AgentAccounts, Floats, PrivateChatId, PrivateUserMessage, GroupMessage, AgentPreregistration, RegisteredForFloat, AgentAccountsBalanceStarted, AgentAccountsBalanceClosed, FreeTrial, MonthlyPayments, AuthenticateAgentPhone, MtnPayTo, AgentRequest, AgentRequestLimit, SetUpMeeting, Complains, HoldAccounts, AgentRequestPayment, AddedToApprovedRequest, AddedToApprovedPayment, AddedToApprovedReBalancing,GroupOwnerMessage,GroupAgentsMessage,OwnerMtnPayTo,CheckAppVersion,LoginTracker,CheckOwnerAppVersion)
+from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, Reports, AddToBlockList, Fraud,  Notifications, Floats, PrivateChatId, PrivateUserMessage, GroupMessage, AgentPreregistration, RegisteredForFloat, AgentAccountsBalanceStarted, AgentAccountsBalanceClosed, FreeTrial, MonthlyPayments, AuthenticateAgentPhone, MtnPayTo, SetUpMeeting, Complains, HoldAccounts,GroupOwnerMessage,GroupAgentsMessage,OwnerMtnPayTo,CheckAppVersion,CheckOwnerAppVersion)
 
-class LoginTrackerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = LoginTracker
-        fields = ['id','agent','app_version_logged_in_with','date_logged_in','time_logged_in']
-        read_only_fields = ['agent']
 
 class CheckAppVersionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -31,26 +26,7 @@ class GroupOwnerMessageSerializer(serializers.ModelSerializer):
         model = GroupOwnerMessage
         fields = ['id','owner','message','timestamp','get_username','get_phone_number']
         read_only_fields = ['owner']
-class AddedToApprovedReBalancingSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AddedToApprovedReBalancing
-        fields = ['id','owner','rebalancing','date_approved']
-        read_only_fields = ['owner']
-class AddedToApprovedPaymentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AddedToApprovedPayment
-        fields = ['id','owner','payment','date_approved']
-        read_only_fields = ['owner']
 
-class AddedToApprovedRequestSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AddedToApprovedRequest
-        fields = ['id','owner','agent_request','date_approved']
-        read_only_fields = ['owner']
-class AgentRequestPaymentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AgentRequestPayment
-        fields = ['id','owner','agent','amount','payment_approved','reference','date_requested','get_agent_username']
 
 class HoldAccountsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -69,15 +45,7 @@ class SetUpMeetingSerializer(serializers.ModelSerializer):
         model = SetUpMeeting
         fields = ['id','administrator','title','message','date_of_meeting','time_of_meeting','date_created','meeting_link']
         read_only_fields = ['administrator']
-class AgentRequestLimitSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AgentRequestLimit
-        fields = ['id','agent','owner','request_limit','date_added','get_agents_username']
-        read_only_fields = ['owner']
-class AgentRequestSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AgentRequest
-        fields = ['id','agent','owner','amount','bank','network','cash','request_approved','request_paid','date_requested','reference','get_agent_username','request_type']
+
 
 class MtnPayToSerializer(serializers.ModelSerializer):
     class Meta:
@@ -141,11 +109,7 @@ class BankWithdrawalSerializer(serializers.ModelSerializer):
         model = BankWithdrawal
         fields = ['id','agent','owner','customer','bank','withdrawal_type','amount','date_of_withdrawal','get_agents_phone','get_agent_username','d_200','d_100','d_50','d_20','d_10','d_5','d_2','d_1','total','withdrawal_year','withdrawal_month']
         read_only_fields = ['agent']
-class PaymentForReBalancingSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PaymentForReBalancing
-        fields = ['id','agent','owner','reason_for_payment','amount','transaction_id','payment_status','date_created','time_created','get_agents_username']
-        read_only_fields = ['agent']
+
 class ReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reports
@@ -159,15 +123,8 @@ class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notifications
         fields = ['id','item_id','transaction_tag','notification_title','notification_message','read','notification_trigger','notification_from','notification_to','fraud_id','floating_id','report_id','payment_id','date_created',]
-class AgentReBalancingSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AgentReBalancing
-        fields = ['id','agent','owner','amount','bank','account_number','account_name','date_requested','get_agent_requesting_username','network','request_approved']
-class AgentAccountsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AgentAccounts
-        fields = ['id','agent','owner','account_number','account_name','branch','bank','date_added','get_agents_phone','get_agent_username']
-        read_only_fields = ['owner']
+
+
 class AgentsFloatSerializer(serializers.ModelSerializer):
     class Meta:
         model = Floats

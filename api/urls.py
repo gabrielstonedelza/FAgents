@@ -79,35 +79,6 @@ urlpatterns = [
     path("search_fraudsters/",views.SearchFraudsters.as_view()),
 
 
-    path("post_payment_for_re_balancing/",views.post_payment_for_re_balancing),
-    path("search_payment/",views.SearchPaymentForReBalancing.as_view()),
-    path("payment_details/<int:pk>/",views.payment_details),
-    path("get_user_payments/<str:username>/",views.get_user_payments),
-    path("get_all_payments/",views.get_all_payments),
-    path("get_my_payments/",views.get_my_payments),
-
-    # rebalancing
-    path("request_for_re_balancing/",views.request_for_re_balancing),
-    path("re_balancing_details/<int:id>/",views.re_balancing_details),
-    path("delete_agent_rebalancing/<int:id>/",views.delete_agent_rebalancing),
-    path("update_agent_rebalancing/<int:pk>/",views.update_agent_rebalancing),
-    path("get_user_re_balancing_requests/<str:username>/",views.get_user_re_balancing_requests),
-    path("get_unapproved_re_balancing_requests/",views.get_unapproved_re_balancing_requests),
-    path("get_all_re_balancing/",views.get_all_re_balancing),
-    path("get_my_re_balancing_requests/",views.get_my_re_balancing_requests),
-
-
-    path("register_agents_accounts/",views.register_agents_accounts),
-    path("agent_accounts_details/<int:pk>/",views.agent_accounts_details),
-    path("get_agent_accounts_by_username/<str:username>/",views.get_agent_accounts_by_username),
-    path("agent_accounts_details_by_account_number/<str:account_number>/",views.agent_accounts_details_by_account_number),
-    path("agent_account_details_by_account_name/<str:account_name>/",views.agent_account_details_by_account_name),
-    path("update_agents_accounts/<int:pk>/",views.update_agents_accounts),
-    path("agent_account_delete/<int:pk>/",views.agent_account_delete),
-    path("get_my_accounts/",views.get_my_accounts),
-    path("get_all_my_agents_accounts/",views.get_all_my_agents_accounts),
-
-
     path("get_my_notifications/",views.get_my_notifications),
     path("get_my_unread_notifications/",views.get_my_unread_notifications),
     path("read_notification/",views.read_notification),
@@ -184,26 +155,10 @@ urlpatterns = [
     path("get_agents_momo_deposits/<str:username>/", views.get_agents_momo_deposits),
     path("get_agents_momo_withdrawals/<str:username>/", views.get_agents_momo_withdrawals),
     path("get_agents_momo_pay_to/<str:username>/", views.get_agents_momo_pay_to),
-    path("get_agents_request_username/<str:username>/", views.get_agents_request_username),
     path("get_agents_reports/<str:username>/", views.get_agents_reports),
     path("delete_agent_momo_deposit/<int:id>/", views.delete_agent_momo_deposit),
     path("delete_agent_momo_withdrawals/<int:id>/", views.delete_agent_momo_withdrawals),
-    # agent requests
-    path("agent_request_from_owner/",views.agent_request_from_owner),
-    path("get_all_my_agents_requests/",views.get_all_my_agents_requests),
-    path("get_all_my_requests/",views.get_all_my_requests),
-    path("get_unapproved_requests/",views.get_unapproved_requests),
-    path("get_unpaid_requests/",views.get_unpaid_requests),
-    path("get_all_my_requests_today/",views.get_all_my_requests_today),
-    path("update_agent_request/<int:pk>/",views.update_agent_request),
-    path("delete_agent_request/<int:id>/",views.delete_agent_request),
-    path("request_detail/<int:pk>/",views.request_detail),
 
-# agent request limit
-    path("add_agent_request_limit/",views.add_agent_request_limit),
-    path("get_all_my_agents_request_limits/",views.get_all_my_agents_request_limits),
-    path("get_all_my_request_limit/",views.get_all_my_request_limit),
-    path("update_agent_request_limit/<int:pk>/",views.update_agent_request_limit),
 
 #     meetings
     path("admin_set_up_meeting/",views.admin_set_up_meeting),
@@ -218,22 +173,6 @@ urlpatterns = [
     path("request_to_hold_account/",views.request_to_hold_account),
     path("get_all_request_to_hold_account/",views.get_all_request_to_hold_account),
     path("get_all_my_request_to_hold_account/",views.get_all_my_request_to_hold_account),
-
-#     request payments
-    path("make_request_payment/",views.make_request_payment),
-    path("get_all_my_agents_payment_requests/",views.get_all_my_agents_payment_requests),
-    path("get_all_my_payment_requests/",views.get_all_my_payment_requests),
-    path("get_unapproved_payment_requests/",views.get_unapproved_payment_requests),
-    path("get_all_my_payment_requests_today/",views.get_all_my_payment_requests_today),
-    path("update_agent_payment_request/<int:pk>/",views.update_agent_payment_request),
-    path("delete_agent_payment_request/<int:id>/",views.delete_agent_payment_request),
-    path("get_agents_payment_request_username/<str:username>/",views.get_agents_payment_request_username),
-    path("payment_request_detail/<int:pk>/",views.payment_request_detail),
-
-#     approvals
-    path("add_to_approve_request_payment/",views.add_to_approve_request_payment),
-    path("add_to_approve_request/",views.add_to_approve_request_payment),
-    path("add_to_approve_request_rebalancing/",views.add_to_approve_request_rebalancing),
 
 #     owners and agents messages
     path("send_owners_group_message/",views.send_owners_group_message),
@@ -272,6 +211,4 @@ urlpatterns = [
     path("export_bank_deposit_transactions_csv/<str:username>/<str:d_month>/<str:d_year>/<str:owner_email>/", views.export_bank_deposit_transactions_csv),
     path("export_bank_withdrawal_transactions_csv/<str:username>/<str:d_month>/<str:d_year>/<str:owner_email>/", views.export_bank_withdrawal_transactions_csv),
 
-#     track login
-    path("track_login/", views.track_login)
 ]
