@@ -768,6 +768,7 @@ class CheckOwnerAppVersion(models.Model):
 
 class AgentAndOwnerAccounts(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE)
+    phone = models.CharField(max_length=100, blank=True, default="")
     account_number = models.CharField(max_length=16, blank=True)
     account_name = models.CharField(max_length=100, blank=True)
     bank = models.CharField(max_length=100, choices=BANKS, default="GT Bank")

@@ -5,7 +5,7 @@ from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit
 class AgentAndOwnerAccountsSerializer(serializers.ModelSerializer):
     class Meta:
         model = AgentAndOwnerAccounts
-        fields = ['id','agent','account_number','account_name','bank','date_added']
+        fields = ['id','agent','account_number','account_name','bank','date_added','phone']
         read_only_fields = ['agent']
 
 class CheckAppVersionSerializer(serializers.ModelSerializer):

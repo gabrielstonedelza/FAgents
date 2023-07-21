@@ -49,6 +49,13 @@ def get_my_user_accounts(request):
     serializer = AgentAndOwnerAccountsSerializer(my_accounts, many=True)
     return Response(serializer.data)
 
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_my_accounts_detail(request,phone,bank):
+    my_accounts = AgentAndOwnerAccounts.objects.filter(phone=phone).filter(bank=bank).order_by('-date_added')
+    serializer = AgentAndOwnerAccountsSerializer(my_accounts, many=True)
+    return Response(serializer.data)
+
 # float joining
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])
