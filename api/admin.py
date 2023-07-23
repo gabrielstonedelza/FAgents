@@ -1,7 +1,8 @@
 from django.contrib import admin
-from .models import Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, Reports, AddToBlockList, Fraud,  Notifications,  Floats,PrivateChatId,PrivateUserMessage,GroupMessage,AgentPreregistration,RegisteredForFloat, FreeTrial,MonthlyPayments,AuthenticateAgentPhone,MtnPayTo,SetUpMeeting,Complains,HoldAccounts, GroupOwnerMessage,GroupAgentsMessage,OwnerMtnPayTo, CheckAppVersion,  CheckOwnerAppVersion, AgentAndOwnerAccounts
+from .models import Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, Reports, AddToBlockList, Fraud,  Notifications,  Floats,PrivateChatId,PrivateUserMessage,GroupMessage,AgentPreregistration,RegisteredForFloat, FreeTrial,MonthlyPayments,AuthenticateAgentPhone,MtnPayTo,SetUpMeeting,Complains,HoldAccounts, GroupOwnerMessage,GroupAgentsMessage,OwnerMtnPayTo, CheckAppVersion,  CheckOwnerAppVersion, AgentAndOwnerAccounts,AgentAccounts
 
 
+admin.site.register(AgentAccounts)
 admin.site.register(AgentAndOwnerAccounts)
 admin.site.register(CheckOwnerAppVersion)
 admin.site.register(CheckAppVersion)
