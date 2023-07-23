@@ -207,7 +207,7 @@ urlpatterns = [
 
 #     agent accounts
     path("add_to_agent_accounts/",views.add_to_agent_accounts),
-    path("get_my_user_accounts/",views.get_my_user_accounts),
+    path("get_agent_accounts/",views.get_agent_accounts),
     path("get_my_agents_accounts_detail/",views.get_my_agents_accounts_detail),
     path("get_my_bank_accounts_detail/<str:phone>/<str:bank>/",views.get_my_bank_accounts_detail),
 ]

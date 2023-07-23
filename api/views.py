@@ -46,7 +46,7 @@ def add_to_agent_accounts(request):
 
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
-def get_my_user_accounts(request):
+def get_agent_accounts(request):
     my_accounts = AgentAccounts.objects.filter(agent=request.user).order_by('-date_added')
     serializer = AgentAccountsSerializer(my_accounts, many=True)
     return Response(serializer.data)
