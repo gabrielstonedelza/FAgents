@@ -200,8 +200,14 @@ urlpatterns = [
     path("export_bank_deposit_transactions_csv/<str:username>/<str:d_month>/<str:d_year>/<str:owner_email>/", views.export_bank_deposit_transactions_csv),
     path("export_bank_withdrawal_transactions_csv/<str:username>/<str:d_month>/<str:d_year>/<str:owner_email>/", views.export_bank_withdrawal_transactions_csv),
 
-#     add to agent accounts
+#     add to owner accounts
     path("add_to_user_accounts/", views.add_to_user_accounts),
     path("get_my_user_accounts/", views.get_my_user_accounts),
     path("get_my_accounts_detail/<str:phone>/<str:bank>/", views.get_my_accounts_detail),
+
+#     agent accounts
+    path("add_to_agent_accounts/",views.add_to_agent_accounts),
+    path("get_my_user_accounts/",views.get_my_user_accounts),
+    path("get_my_agents_accounts_detail/",views.get_my_agents_accounts_detail),
+    path("get_my_bank_accounts_detail/<str:phone>/<str:bank>/",views.get_my_bank_accounts_detail),
 ]
