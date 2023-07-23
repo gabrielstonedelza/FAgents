@@ -780,3 +780,19 @@ class AgentAndOwnerAccounts(models.Model):
 
     def get_agent_username(self):
         return self.agent.username
+
+class AgentAccounts(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='owner_with_agent_account')
+    agent = models.ForeignKey(User, on_delete=models.CASCADE)
+    phone = models.CharField(max_length=100, blank=True, default="")
+    account_number = models.CharField(max_length=16, blank=True)
+    account_name = models.CharField(max_length=100, blank=True)
+    mtn_linked_number = models.CharField(max_length=100,default="")
+    bank = models.CharField(max_length=100, choices=BANKS, default="GT Bank")
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.agent.username
+
+    def get_agent_username(self):
+        return self.agent.username

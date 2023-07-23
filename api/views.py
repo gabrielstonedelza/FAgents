@@ -13,7 +13,7 @@ from django.core.mail import EmailMessage
 from django.http import HttpResponse
 from users.serializers import UsersSerializer
 from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, \
-                 Reports, AddToBlockList, Fraud, Notifications,
+                 Reports, AddToBlockList, Fraud, Notifications,AgentAccounts,
                       Floats, \
                      GroupMessage, PrivateUserMessage, AgentPreregistration, RegisteredForFloat,
                 FreeTrial, MonthlyPayments,
@@ -23,7 +23,7 @@ from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit
 from .serializers import (CustomerSerializer, CustomerAccountsSerializer, BankDepositSerializer, MomoDepositSerializer, \
                           MomoWithdrawalSerializer, BankWithdrawalSerializer,
                           ReportSerializer, \
-                          AddToBlockListSerializer, NotificationSerializer,
+                          AddToBlockListSerializer, NotificationSerializer,AgentAccountsSerializer,
                           AgentsFloatSerializer, FraudSerializer, GroupMessageSerializer, PrivateUserMessageSerializer,
                           AgentPreregistrationSerializer, RegisteredForFloatSerializer,
                           AuthenticateAgentPhoneSerializer, FreeTrialSerializer, MonthlyPaymentsSerializer,
@@ -33,6 +33,40 @@ from .serializers import (CustomerSerializer, CustomerAccountsSerializer, BankDe
                           GroupAgentsMessageSerializer, GroupOwnerMessageSerializer, OwnerMtnPayToSerializer,AgentAndOwnerAccountsSerializer,
                           CheckAppVersionSerializer,CheckOwnerAppVersionSerializer)
 
+
+# add agent accounts
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def add_to_agent_accounts(request):
+    serializer = AgentAccountsSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(agent=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_my_user_accounts(request):
+    my_accounts = AgentAccounts.objects.filter(agent=request.user).order_by('-date_added')
+    serializer = AgentAccountsSerializer(my_accounts, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_my_accounts_detail(request,phone,bank):
+    my_accounts = AgentAccounts.objects.filter(phone=phone).filter(bank=bank).order_by('-date_added')
+    serializer = AgentAccountsSerializer(my_accounts, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_my_agents_accounts_detail(request):
+    my_accounts = AgentAccounts.objects.filter(owner=request.user).order_by('-date_added')
+    serializer = AgentAccountsSerializer(my_accounts, many=True)
+    return Response(serializer.data)
+
+# add owner accounts
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])
 def add_to_user_accounts(request):

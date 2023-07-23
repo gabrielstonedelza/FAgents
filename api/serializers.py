@@ -1,6 +1,12 @@
 from rest_framework import serializers
-from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, Reports, AddToBlockList, Fraud,  Notifications, Floats, PrivateChatId, PrivateUserMessage, GroupMessage, AgentPreregistration, RegisteredForFloat, FreeTrial, MonthlyPayments, AuthenticateAgentPhone, MtnPayTo, SetUpMeeting, Complains, HoldAccounts,GroupOwnerMessage,AgentAndOwnerAccounts,GroupAgentsMessage,OwnerMtnPayTo,CheckAppVersion,CheckOwnerAppVersion)
+from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, Reports, AddToBlockList, Fraud,  Notifications, Floats, PrivateChatId, PrivateUserMessage, GroupMessage, AgentPreregistration, RegisteredForFloat, FreeTrial, MonthlyPayments, AuthenticateAgentPhone, MtnPayTo, SetUpMeeting, Complains, HoldAccounts,GroupOwnerMessage,AgentAndOwnerAccounts,GroupAgentsMessage,OwnerMtnPayTo,CheckAppVersion,CheckOwnerAppVersion,AgentAccounts)
 
+
+class AgentAccountsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AgentAccounts
+        fields = ['id','agent','owner','account_number','account_name','mtn_linked_number','bank','date_added','phone']
+        read_only_fields = ['agent']
 
 class AgentAndOwnerAccountsSerializer(serializers.ModelSerializer):
     class Meta:
