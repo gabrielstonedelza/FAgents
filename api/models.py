@@ -771,6 +771,7 @@ class AgentAndOwnerAccounts(models.Model):
     phone = models.CharField(max_length=100, blank=True, default="")
     account_number = models.CharField(max_length=16, blank=True)
     account_name = models.CharField(max_length=100, blank=True)
+    mtn_linked_number = models.CharField(max_length=100,default="")
     bank = models.CharField(max_length=100, choices=BANKS, default="GT Bank")
     date_added = models.DateTimeField(auto_now_add=True)
 
