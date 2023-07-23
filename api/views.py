@@ -274,8 +274,8 @@ def customer_accounts_details_by_account_number(request, account_number):
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
 def customer_accounts_details_by_phone_number(request, phone_number):
-    customer = CustomerAccounts.objects.filter(customer=phone_number)
-    serializer = CustomerAccountsSerializer(customer, many=False)
+    customer = CustomerAccounts.objects.filter(customer=phone_number).order_by("-date_added")
+    serializer = CustomerAccountsSerializer(customer, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
