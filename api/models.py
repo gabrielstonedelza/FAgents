@@ -190,34 +190,34 @@ class BankDeposit(models.Model):
     account_number = models.TextField(blank=True, max_length=17)
     account_name = models.CharField(max_length=100, blank=True, default="")
     amount = models.DecimalField(max_digits=19, decimal_places=2, blank=True)
-    total = models.DecimalField(decimal_places=2, max_digits=19, default=0.0)
-    d_200 = models.IntegerField(default=0, blank=True)
-    d_100 = models.IntegerField(default=0, blank=True)
-    d_50 = models.IntegerField(default=0, blank=True)
-    d_20 = models.IntegerField(default=0, blank=True)
-    d_10 = models.IntegerField(default=0, blank=True)
-    d_5 = models.IntegerField(default=0, blank=True)
-    d_2 = models.IntegerField(default=0, blank=True)
-    d_1 = models.IntegerField(default=0, blank=True)
+    # total = models.DecimalField(decimal_places=2, max_digits=19, default=0.0)
+    # d_200 = models.IntegerField(default=0, blank=True)
+    # d_100 = models.IntegerField(default=0, blank=True)
+    # d_50 = models.IntegerField(default=0, blank=True)
+    # d_20 = models.IntegerField(default=0, blank=True)
+    # d_10 = models.IntegerField(default=0, blank=True)
+    # d_5 = models.IntegerField(default=0, blank=True)
+    # d_2 = models.IntegerField(default=0, blank=True)
+    # d_1 = models.IntegerField(default=0, blank=True)
     deposited_month = models.CharField(max_length=10, blank=True, default="")
     deposited_year = models.CharField(max_length=10, blank=True, default="")
     date_added = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
-        two_h_cedis_values = self.d_200 * 200
-        one_h_cedis_values = self.d_100 * 100
-        fifty_cedis_values = self.d_50 * 50
-        twenty_cedis_values = self.d_20 * 20
-        ten_cedis_values = self.d_10 * 10
-        five_cedis_values = self.d_5 * 5
-        two_cedis_values = self.d_2 * 2
-        one_cedi_values = self.d_1 * 1
-
-        amount_total = Decimal(two_h_cedis_values) + Decimal(one_h_cedis_values) + Decimal(
-            fifty_cedis_values) + Decimal(
-            twenty_cedis_values) + Decimal(ten_cedis_values) + Decimal(five_cedis_values) + Decimal(
-            two_cedis_values) + Decimal(one_cedi_values)
-        self.total = Decimal(amount_total)
+        # two_h_cedis_values = self.d_200 * 200
+        # one_h_cedis_values = self.d_100 * 100
+        # fifty_cedis_values = self.d_50 * 50
+        # twenty_cedis_values = self.d_20 * 20
+        # ten_cedis_values = self.d_10 * 10
+        # five_cedis_values = self.d_5 * 5
+        # two_cedis_values = self.d_2 * 2
+        # one_cedi_values = self.d_1 * 1
+        #
+        # amount_total = Decimal(two_h_cedis_values) + Decimal(one_h_cedis_values) + Decimal(
+        #     fifty_cedis_values) + Decimal(
+        #     twenty_cedis_values) + Decimal(ten_cedis_values) + Decimal(five_cedis_values) + Decimal(
+        #     two_cedis_values) + Decimal(one_cedi_values)
+        # self.total = Decimal(amount_total)
 
         my_date = datetime.today()
         de_date = my_date.date()
@@ -330,34 +330,34 @@ class BankWithdrawal(models.Model):
     bank = models.CharField(max_length=100, choices=BANKS, default="GT Bank")
     withdrawal_type = models.CharField(max_length=120, choices=BANK_REDRAW_ID_TYPES, default="Cheque")
     amount = models.DecimalField(max_digits=19, decimal_places=2)
-    total = models.DecimalField(decimal_places=2, max_digits=19, default=0.0)
-    d_200 = models.IntegerField(default=0, blank=True)
-    d_100 = models.IntegerField(default=0, blank=True)
-    d_50 = models.IntegerField(default=0, blank=True)
-    d_20 = models.IntegerField(default=0, blank=True)
-    d_10 = models.IntegerField(default=0, blank=True)
-    d_5 = models.IntegerField(default=0, blank=True)
-    d_2 = models.IntegerField(default=0, blank=True)
-    d_1 = models.IntegerField(default=0, blank=True)
+    # total = models.DecimalField(decimal_places=2, max_digits=19, default=0.0)
+    # d_200 = models.IntegerField(default=0, blank=True)
+    # d_100 = models.IntegerField(default=0, blank=True)
+    # d_50 = models.IntegerField(default=0, blank=True)
+    # d_20 = models.IntegerField(default=0, blank=True)
+    # d_10 = models.IntegerField(default=0, blank=True)
+    # d_5 = models.IntegerField(default=0, blank=True)
+    # d_2 = models.IntegerField(default=0, blank=True)
+    # d_1 = models.IntegerField(default=0, blank=True)
     date_of_withdrawal = models.DateTimeField(auto_now_add=True)
     withdrawal_month = models.CharField(max_length=10, blank=True, default="")
     withdrawal_year = models.CharField(max_length=10, blank=True, default="")
 
     def save(self, *args, **kwargs):
-        two_h_cedis_values = self.d_200 * 200
-        one_h_cedis_values = self.d_100 * 100
-        fifty_cedis_values = self.d_50 * 50
-        twenty_cedis_values = self.d_20 * 20
-        ten_cedis_values = self.d_10 * 10
-        five_cedis_values = self.d_5 * 5
-        two_cedis_values = self.d_2 * 2
-        one_cedi_values = self.d_1 * 1
-
-        amount_total = Decimal(two_h_cedis_values) + Decimal(one_h_cedis_values) + Decimal(
-            fifty_cedis_values) + Decimal(
-            twenty_cedis_values) + Decimal(ten_cedis_values) + Decimal(five_cedis_values) + Decimal(
-            two_cedis_values) + Decimal(one_cedi_values)
-        self.total = Decimal(amount_total)
+        # two_h_cedis_values = self.d_200 * 200
+        # one_h_cedis_values = self.d_100 * 100
+        # fifty_cedis_values = self.d_50 * 50
+        # twenty_cedis_values = self.d_20 * 20
+        # ten_cedis_values = self.d_10 * 10
+        # five_cedis_values = self.d_5 * 5
+        # two_cedis_values = self.d_2 * 2
+        # one_cedi_values = self.d_1 * 1
+        #
+        # amount_total = Decimal(two_h_cedis_values) + Decimal(one_h_cedis_values) + Decimal(
+        #     fifty_cedis_values) + Decimal(
+        #     twenty_cedis_values) + Decimal(ten_cedis_values) + Decimal(five_cedis_values) + Decimal(
+        #     two_cedis_values) + Decimal(one_cedi_values)
+        # self.total = Decimal(amount_total)
 
         my_date = datetime.today()
         de_date = my_date.date()
