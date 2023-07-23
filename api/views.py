@@ -208,6 +208,7 @@ def get_my_customers(request):
     serializer = CustomerSerializer(customers,many=True)
     return Response(serializer.data)
 
+
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
 def get_all_customers(request):
@@ -267,6 +268,13 @@ def customer_accounts_details(request, pk):
 @permission_classes([permissions.IsAuthenticated])
 def customer_accounts_details_by_account_number(request, account_number):
     customer = CustomerAccounts.objects.filter(account_number=account_number)
+    serializer = CustomerAccountsSerializer(customer, many=False)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def customer_accounts_details_by_phone_number(request, phone_number):
+    customer = CustomerAccounts.objects.filter(customer=phone_number)
     serializer = CustomerAccountsSerializer(customer, many=False)
     return Response(serializer.data)
 

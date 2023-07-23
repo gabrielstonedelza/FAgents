@@ -17,6 +17,7 @@ urlpatterns = [
     path("register_customer_accounts/",views.register_customer_accounts),
     path("search_customer_accounts/",views.SearchCustomersAccounts.as_view()),
     path("customer_accounts_details/<int:pk>/",views.customer_accounts_details),
+    path("customer_accounts_details_by_phone_number/<str:phone_number>/",views.customer_accounts_details_by_phone_number),
     path("customer_accounts_details_by_account_number/<str:account_number>/",views.customer_accounts_details_by_account_number),
     path("customer_account_details_by_account_name/<str:account_name>/",views.customer_account_details_by_account_name),
     path("update_customer_accounts/<int:pk>/",views.update_customer_accounts),
