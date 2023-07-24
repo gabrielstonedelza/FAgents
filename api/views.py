@@ -76,6 +76,16 @@ def update_agent_accounts_detail(request,pk):
         return Response(serializer.data)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['GET', 'DELETE'])
+@permission_classes([permissions.AllowAny])
+def delete_owner_bank_account(request, id):
+    try:
+        owner_bank_accounts = get_object_or_404(AgentAccounts, id=id)
+        owner_bank_accounts.delete()
+    except AgentAccounts.DoesNotExist:
+        return Http404
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
 # add owner accounts
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])
@@ -109,6 +119,16 @@ def update_my_accounts_detail(request,pk):
         serializer.save(agent=request.user)
         return Response(serializer.data)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET', 'DELETE'])
+@permission_classes([permissions.AllowAny])
+def delete_agent_bank_account(request, id):
+    try:
+        agent_bank_accounts = get_object_or_404(AgentAndOwnerAccounts, id=id)
+        agent_bank_accounts.delete()
+    except AgentAndOwnerAccounts.DoesNotExist:
+        return Http404
+    return Response(status=status.HTTP_204_NO_CONTENT)
 
 # float joining
 @api_view(['POST'])
