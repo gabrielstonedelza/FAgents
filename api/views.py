@@ -66,6 +66,16 @@ def get_my_agents_accounts_detail(request):
     serializer = AgentAccountsSerializer(my_accounts, many=True)
     return Response(serializer.data)
 
+@api_view(['GET','PUT'])
+@permission_classes([permissions.IsAuthenticated])
+def update_agent_accounts_detail(request,pk):
+    account = get_object_or_404(AgentAccounts, pk=pk)
+    serializer = AgentAccountsSerializer(account,data=request.data)
+    if serializer.is_valid():
+        serializer.save(agent=request.user)
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 # add owner accounts
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])
@@ -89,6 +99,16 @@ def get_my_accounts_detail(request,phone,bank):
     my_accounts = AgentAndOwnerAccounts.objects.filter(phone=phone).filter(bank=bank).order_by('-date_added')
     serializer = AgentAndOwnerAccountsSerializer(my_accounts, many=True)
     return Response(serializer.data)
+
+@api_view(['GET','PUT'])
+@permission_classes([permissions.IsAuthenticated])
+def update_my_accounts_detail(request,pk):
+    account = get_object_or_404(AgentAndOwnerAccounts, pk=pk)
+    serializer = AgentAndOwnerAccountsSerializer(account,data=request.data)
+    if serializer.is_valid():
+        serializer.save(agent=request.user)
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # float joining
 @api_view(['POST'])

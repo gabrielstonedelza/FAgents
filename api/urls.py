@@ -203,11 +203,13 @@ urlpatterns = [
 #     add to owner accounts
     path("add_to_user_accounts/", views.add_to_user_accounts),
     path("get_my_user_accounts/", views.get_my_user_accounts),
+    path("update_my_accounts_detail/<int:pk>/", views.update_my_accounts_detail),
     path("get_my_accounts_detail/<str:phone>/<str:bank>/", views.get_my_accounts_detail),
 
 #     agent accounts
     path("add_to_agent_accounts/",views.add_to_agent_accounts),
     path("get_agent_accounts/",views.get_agent_accounts),
+    path("update_agent_accounts_detail/<int:pk>/",views.update_agent_accounts_detail),
     path("get_my_agents_accounts_detail/",views.get_my_agents_accounts_detail),
     path("get_my_bank_accounts_detail/<str:phone>/<str:bank>/",views.get_my_bank_accounts_detail),
 ]
