@@ -214,4 +214,11 @@ urlpatterns = [
     path("delete_owner_bank_account/<int:id>/",views.delete_owner_bank_account),
     path("get_my_agents_accounts_detail/",views.get_my_agents_accounts_detail),
     path("get_my_bank_accounts_detail/<str:phone>/<str:bank>/",views.get_my_bank_accounts_detail),
+#     float from owners to admin
+    path("request_float/",views.request_float),
+    path("get_all_my_floats/",views.get_all_my_floats),
+    path("get_all_unapproved_floats/",views.get_all_unapproved_floats),
+    path("get_all_approved_floats/",views.get_all_approved_floats),
+    path("update_float/<int:pk>/",views.update_float),
+    path("delete_float/<int:id>/",views.delete_float),
 ]

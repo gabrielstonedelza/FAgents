@@ -19,7 +19,7 @@ from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit
                 FreeTrial, MonthlyPayments,
                      AuthenticateAgentPhone, MtnPayTo,  SetUpMeeting, Complains,
                      HoldAccounts,  GroupOwnerMessage, GroupAgentsMessage, OwnerMtnPayTo,
-                     CheckAppVersion, CheckOwnerAppVersion,AgentAndOwnerAccounts)
+                     CheckAppVersion, CheckOwnerAppVersion,AgentAndOwnerAccounts,RequestFloat)
 from .serializers import (CustomerSerializer, CustomerAccountsSerializer, BankDepositSerializer, MomoDepositSerializer, \
                           MomoWithdrawalSerializer, BankWithdrawalSerializer,
                           ReportSerializer, \
@@ -30,7 +30,7 @@ from .serializers import (CustomerSerializer, CustomerAccountsSerializer, BankDe
                           MtnPayToSerializer,
                           SetUpMeetingSerializer, ComplainsSerializer, HoldAccountsSerializer,
 
-                          GroupAgentsMessageSerializer, GroupOwnerMessageSerializer, OwnerMtnPayToSerializer,AgentAndOwnerAccountsSerializer,
+                          GroupAgentsMessageSerializer, GroupOwnerMessageSerializer, OwnerMtnPayToSerializer,AgentAndOwnerAccountsSerializer,RequestFloatSerializer,
                           CheckAppVersionSerializer,CheckOwnerAppVersionSerializer)
 
 
@@ -1440,3 +1440,57 @@ def export_bank_withdrawal_transactions_csv(request, username, d_month,d_year,ow
     email.attach('transactions.csv', response.getvalue(), 'text/csv')
     email.send()
     return HttpResponse("Bank Withdrawal transactions exported and sent through email.")
+
+
+# requesting for float
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def request_float(request):
+    serializer = RequestFloatSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_all_my_floats(request):
+    my_floats = RequestFloat.objects.filter(owner=request.user).order_by('-date_requested')
+    serializer = RequestFloatSerializer(my_floats, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_all_unapproved_floats(request):
+    floats = RequestFloat.objects.filter(approved=False).order_by('-date_requested')
+    serializer = RequestFloatSerializer(floats, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_all_approved_floats(request):
+    floats = RequestFloat.objects.filter(approved=True).order_by('-date_requested')
+    serializer = RequestFloatSerializer(floats, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET','PUT'])
+@permission_classes([permissions.IsAuthenticated])
+def update_float(request,pk):
+    de_float = get_object_or_404(RequestFloat, pk=pk)
+    serializer = RequestFloatSerializer(de_float,data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'DELETE'])
+@permission_classes([permissions.AllowAny])
+def delete_float(request, id):
+    try:
+        owner_float = get_object_or_404(RequestFloat, id=id)
+        owner_float.delete()
+    except RequestFloat.DoesNotExist:
+        return Http404
+    return Response(status=status.HTTP_204_NO_CONTENT)

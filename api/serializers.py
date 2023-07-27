@@ -1,5 +1,10 @@
 from rest_framework import serializers
-from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, Reports, AddToBlockList, Fraud,  Notifications, Floats, PrivateChatId, PrivateUserMessage, GroupMessage, AgentPreregistration, RegisteredForFloat, FreeTrial, MonthlyPayments, AuthenticateAgentPhone, MtnPayTo, SetUpMeeting, Complains, HoldAccounts,GroupOwnerMessage,AgentAndOwnerAccounts,GroupAgentsMessage,OwnerMtnPayTo,CheckAppVersion,CheckOwnerAppVersion,AgentAccounts)
+from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, Reports, AddToBlockList, Fraud,  Notifications, Floats, PrivateChatId, PrivateUserMessage, GroupMessage, AgentPreregistration, RegisteredForFloat, FreeTrial, MonthlyPayments, AuthenticateAgentPhone, MtnPayTo, SetUpMeeting, Complains, HoldAccounts,GroupOwnerMessage,AgentAndOwnerAccounts,GroupAgentsMessage,OwnerMtnPayTo,CheckAppVersion,CheckOwnerAppVersion,AgentAccounts,RequestFloat)
+
+class RequestFloatSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RequestFloat
+        fields = ['id','owner','float_to_exchange','exchange_for','amount','date_requested','approved']
 
 
 class AgentAccountsSerializer(serializers.ModelSerializer):
