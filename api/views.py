@@ -1469,8 +1469,8 @@ def get_all_unapproved_floats(request):
 
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
-def get_all_approved_floats(request):
-    floats = RequestFloat.objects.filter(approved=True).order_by('-date_requested')
+def get_all_floats(request):
+    floats = RequestFloat.objects.all().order_by('-date_requested')
     serializer = RequestFloatSerializer(floats, many=True)
     return Response(serializer.data)
 

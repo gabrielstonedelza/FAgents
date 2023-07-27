@@ -4,7 +4,7 @@ from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit
 class RequestFloatSerializer(serializers.ModelSerializer):
     class Meta:
         model = RequestFloat
-        fields = ['id','owner','float_request','date_requested','approved']
+        fields = ['id','owner','float_request','date_requested','approved','get_owner_username']
 
 
 class AgentAccountsSerializer(serializers.ModelSerializer):

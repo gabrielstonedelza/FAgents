@@ -743,7 +743,6 @@ class OwnerMtnPayTo(models.Model):
     agent_or_merchant = models.CharField(max_length=20, default="")
     amount = models.DecimalField(max_digits=19, decimal_places=2,default=0.0)
     reference = models.CharField(max_length=100,default="",blank=True)
-    # depositor_number = models.CharField(max_length=100, default="", blank=True)
     pay_to_type = models.CharField(max_length=50,default="Agent",choices=MTN_PAY_TO_TYPES)
     date_added = models.DateTimeField(auto_now_add=True)
 
@@ -805,5 +804,8 @@ class RequestFloat(models.Model):
     date_requested = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
+        return self.owner.username
+
+    def get_owner_username(self):
         return self.owner.username
 
