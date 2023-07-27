@@ -800,9 +800,7 @@ class AgentAccounts(models.Model):
 class RequestFloat(models.Model):
     administrator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='admin_owner',default=1)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    float_to_exchange = models.CharField(max_length=255)
-    exchange_for = models.CharField(max_length=255)
-    amount = models.DecimalField(max_digits=19, decimal_places=2, default=0.0)
+    float_request = models.CharField(max_length=255, default="")
     approved = models.BooleanField(default=False)
     date_requested = models.DateTimeField(auto_now_add=True)
 
