@@ -1214,7 +1214,7 @@ def get_agents_group_messages(request,owner):
     serializer = GroupAgentsMessageSerializer(messages,many=True)
     return Response(serializer.data)
 
-@api_view(['GET'])
+@api_view(['POST'])
 @permission_classes([permissions.AllowAny])
 def send_otp(request,otp,email,username):
     send_my_mail(f"Hi from Easy Agent", settings.EMAIL_HOST_USER, email, {"name": username,"OTP": otp},"email_templates/sendotp.html")
