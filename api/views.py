@@ -1455,7 +1455,7 @@ def request_float(request):
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
 def get_all_my_floats(request):
-    my_floats = RequestFloat.objects.filter(owner=request.user).order_by('-date_requested')
+    my_floats = RequestFloat.objects.filter(agent=request.user).order_by('-date_requested')
     serializer = RequestFloatSerializer(my_floats, many=True)
     return Response(serializer.data)
 
