@@ -223,4 +223,6 @@ urlpatterns = [
     path("update_float/<int:pk>/",views.update_float),
     path("delete_float/<int:id>/",views.delete_float),
     path("approve_float_request/<int:id>/",views.approve_float_request),
+#     payments
+    path('make_payments/', views.make_payments),
 ]
