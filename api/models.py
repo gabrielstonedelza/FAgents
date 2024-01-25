@@ -853,7 +853,7 @@ class RequestFloat(models.Model):
 class PayRequestedFloat(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE,related_name="owner_receiving_payments")
     agent = models.ForeignKey(User, on_delete=models.CASCADE,related_name="user_requesting_float")
-    mode_of_payment1 = models.CharField(max_length=30, choices=MODE_OF_PAYMENT, blank=True)
+    mode_of_payment1 = models.CharField(max_length=30, choices=MODE_OF_PAYMENT, blank=True,default="")
     mode_of_payment2 = models.CharField(max_length=30, choices=MODE_OF_PAYMENT, blank=True, default="")
     cash_at_location1 = models.CharField(max_length=30, choices=PAYMENT_OFFICES, blank=True, default="")
     cash_at_location2 = models.CharField(max_length=30, choices=PAYMENT_OFFICES, blank=True, default="")
