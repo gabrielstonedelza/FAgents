@@ -1542,7 +1542,7 @@ def make_payments(request):
 
 
 @api_view(['GET', 'PUT'])
-@permission_classes([permissions.AllowAny])
+@permission_classes([permissions.IsAuthenticated])
 def approve_payment(request, id):
     payment = get_object_or_404(PayRequestedFloat, id=id)
     serializer = PayRequestedFloatSerializer(payment, data=request.data)
@@ -1553,7 +1553,7 @@ def approve_payment(request, id):
 
 # admin update payment
 @api_view(['GET', 'PUT'])
-@permission_classes([permissions.AllowAny])
+@permission_classes([permissions.IsAuthenticated])
 def update_payment(request, id):
     payment = get_object_or_404(PayRequestedFloat, id=id)
     serializer = PayRequestedFloatSerializer(payment, data=request.data)

@@ -835,6 +835,7 @@ class AgentAccounts(models.Model):
 class RequestFloat(models.Model):
     administrator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='admin_owner',default=1)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    agent = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_requesting_for_float")
     float_request = models.CharField(max_length=255, default="Mtn")
     amount = models.DecimalField(max_digits=19, decimal_places=2, default=0.0)
     approved = models.BooleanField(default=False)
@@ -845,6 +846,9 @@ class RequestFloat(models.Model):
 
     def get_owner_username(self):
         return self.owner.username
+
+    def get_agent_username(self):
+        return self.agent.username
 
 class PayRequestedFloat(models.Model):
     float_request = models.ForeignKey(RequestFloat,on_delete=models.CASCADE)
@@ -884,3 +888,8 @@ class PayRequestedFloat(models.Model):
         self.amount = Decimal(amount_total)
         super().save(*args, **kwargs)
 
+    def get_float_amount(self):
+        return str(self.float_request.amount)
+
+    def get_float_type(self):
+        return self.float_request.float_request
