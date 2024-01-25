@@ -874,7 +874,7 @@ class PayRequestedFloat(models.Model):
     def get_agent_username(self):
         return self.agent.username
     def __str__(self):
-        return str(self.amount)
+        return self.agent.username
 
     def save(self, *args, **kwargs):
         my_date = datetime.today()
