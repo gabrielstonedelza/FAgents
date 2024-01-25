@@ -16,7 +16,7 @@ from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit
                  Reports, AddToBlockList, Fraud, Notifications,AgentAccounts,
                       Floats, \
                      GroupMessage, PrivateUserMessage, AgentPreregistration, RegisteredForFloat,
-                FreeTrial, MonthlyPayments,
+                FreeTrial, MonthlyPayments,PayRequestedFloat,
                      AuthenticateAgentPhone, MtnPayTo,  SetUpMeeting, Complains,
                      HoldAccounts,  GroupOwnerMessage, GroupAgentsMessage, OwnerMtnPayTo,
                      CheckAppVersion, CheckOwnerAppVersion,AgentAndOwnerAccounts,RequestFloat)
@@ -24,7 +24,7 @@ from .serializers import (CustomerSerializer, CustomerAccountsSerializer, BankDe
                           MomoWithdrawalSerializer, BankWithdrawalSerializer,
                           ReportSerializer, \
                           AddToBlockListSerializer, NotificationSerializer,AgentAccountsSerializer,
-                          AgentsFloatSerializer, FraudSerializer, GroupMessageSerializer, PrivateUserMessageSerializer,
+                          AgentsFloatSerializer, FraudSerializer, GroupMessageSerializer, PrivateUserMessageSerializer,PayRequestedFloatSerializer,
                           AgentPreregistrationSerializer, RegisteredForFloatSerializer,
                           AuthenticateAgentPhoneSerializer, FreeTrialSerializer, MonthlyPaymentsSerializer,
                           MtnPayToSerializer,
@@ -1492,5 +1492,94 @@ def delete_float(request, id):
         owner_float = get_object_or_404(RequestFloat, id=id)
         owner_float.delete()
     except RequestFloat.DoesNotExist:
+        return Http404
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_all_owner_unapproved_floats(request):
+    owner_floats = RequestFloat.objects.filter(owner=request.user).filter(approved=False).order_by('-date_requested')
+    serializer = RequestFloatSerializer(owner_floats, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET', 'PUT'])
+@permission_classes([permissions.IsAuthenticated])
+def approve_float_request(request, pk):
+    float_req = get_object_or_404(RequestFloat, id=pk)
+    serializer = RequestFloatSerializer(float_req, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# payments
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def payment_summary(request):
+    user = get_object_or_404(User, username=request.user.username)
+    my_payments = PayRequestedFloat.objects.filter(agent=user).order_by('-date_created')
+    serializer = PayRequestedFloatSerializer(my_payments, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([permissions.AllowAny])
+def get_all_payments(request):
+    payments = PayRequestedFloat.objects.all().order_by('-date_created')
+    serializer = PayRequestedFloatSerializer(payments, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def make_payments(request):
+    serializer = PayRequestedFloatSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(agent=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'PUT'])
+@permission_classes([permissions.AllowAny])
+def approve_payment(request, id):
+    payment = get_object_or_404(PayRequestedFloat, id=id)
+    serializer = PayRequestedFloatSerializer(payment, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# admin update payment
+@api_view(['GET', 'PUT'])
+@permission_classes([permissions.AllowAny])
+def update_payment(request, id):
+    payment = get_object_or_404(PayRequestedFloat, id=id)
+    serializer = PayRequestedFloatSerializer(payment, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'PUT'])
+@permission_classes([permissions.IsAuthenticated])
+def update_bank_deposit(request, id):
+    deposit = get_object_or_404(PayRequestedFloat, id=id)
+    serializer = PayRequestedFloatSerializer(deposit, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'DELETE'])
+@permission_classes([permissions.IsAuthenticated])
+def delete_payment(request, id):
+    try:
+        user_payment = get_object_or_404(PayRequestedFloat, id=id)
+        user_payment.delete()
+    except PayRequestedFloat.DoesNotExist:
         return Http404
     return Response(status=status.HTTP_204_NO_CONTENT)

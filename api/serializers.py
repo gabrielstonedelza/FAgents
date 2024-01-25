@@ -1,10 +1,19 @@
 from rest_framework import serializers
-from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, Reports, AddToBlockList, Fraud,  Notifications, Floats, PrivateChatId, PrivateUserMessage, GroupMessage, AgentPreregistration, RegisteredForFloat, FreeTrial, MonthlyPayments, AuthenticateAgentPhone, MtnPayTo, SetUpMeeting, Complains, HoldAccounts,GroupOwnerMessage,AgentAndOwnerAccounts,GroupAgentsMessage,OwnerMtnPayTo,CheckAppVersion,CheckOwnerAppVersion,AgentAccounts,RequestFloat)
+from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit, MobileMoneyWithdraw, BankWithdrawal, Reports, AddToBlockList, Fraud,  Notifications, Floats, PrivateChatId, PrivateUserMessage, GroupMessage, AgentPreregistration, RegisteredForFloat, FreeTrial, MonthlyPayments, AuthenticateAgentPhone, MtnPayTo, SetUpMeeting, Complains, HoldAccounts,GroupOwnerMessage,AgentAndOwnerAccounts,GroupAgentsMessage,OwnerMtnPayTo,CheckAppVersion,CheckOwnerAppVersion,AgentAccounts,RequestFloat,PayRequestedFloat)
+
+class PayRequestedFloatSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PayRequestedFloat
+        fields = ['id', 'float_request','agent', 'mode_of_payment1', 'mode_of_payment2', 'cash_at_location1',
+                  'cash_at_location2', 'amount', 'amount1', 'amount2', 'bank1', 'bank2', 'transaction_id1',
+                  'transaction_id2', 'payment_action', 'payment_status', 'date_created', 'time_created', 'slug',
+                  'payment_month', 'payment_year', ]
+        read_only_fields = ['agent']
 
 class RequestFloatSerializer(serializers.ModelSerializer):
     class Meta:
         model = RequestFloat
-        fields = ['id','owner','float_request','date_requested','approved','get_owner_username']
+        fields = ['id','owner','amount','float_request','date_requested','approved','get_owner_username']
 
 
 class AgentAccountsSerializer(serializers.ModelSerializer):

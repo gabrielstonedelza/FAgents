@@ -140,6 +140,42 @@ AGENT_REQUEST_TYPE = (
     ("Cash", "Cash"),
 )
 
+PAYMENT_ACTIONS = (
+    ("Select payment action", "Select payment action"),
+    ("Not Closed", "Not Closed"),
+    ("Close Payment", "Close Payment"),
+)
+
+MODE_OF_PAYMENT = (
+    ("Select mode of payment", "Select mode of payment"),
+    ("Bank Payment", "Bank Payment"),
+    ("Mtn", "Mtn"),
+    ("AirtelTigo", "AirtelTigo"),
+    ("Vodafone", "Vodafone"),
+    ("Momo pay", "Momo pay"),
+    ("Agent to Agent", "Agent to Agent"),
+    ("Cash left @", "Cash left @"),
+    ("Own Accounts", "Own Accounts"),
+    ("Company Accounts", "Company Accounts"),
+)
+
+PAYMENT_OFFICES = (
+    ("Please select cash at location", "Please select cash at location"),
+    ("Cash @ location", "Cash @ location"),
+    ("DVLA", "DVLA"),
+    ("HEAD OFFICE", "HEAD OFFICE"),
+    ("KEJETIA", "KEJETIA"),
+    ("ECOBANK", "ECOBANK"),
+    ("PAN AFRICA", "PAN AFRICA"),
+    ("MELCOM SANTASI", "MELCOM SANTASI"),
+    ("MELCOM TANOSO", "MELCOM TANOSO"),
+    ("MELCOM MANHYIA", "MELCOM MANHYIA"),
+    ("MELCOM TAFO", "MELCOM TAFO"),
+    ("MELCOM AHODWO", "MELCOM AHODWO"),
+    ("MELCOM ADUM", "MELCOM ADUM"),
+    ("MELCOM SUAME", "MELCOM SUAME"),
+)
+
 class Customer(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=150, blank=True)
@@ -799,7 +835,8 @@ class AgentAccounts(models.Model):
 class RequestFloat(models.Model):
     administrator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='admin_owner',default=1)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    float_request = models.CharField(max_length=255, default="")
+    float_request = models.CharField(max_length=255, default="Mtn")
+    amount = models.DecimalField(max_digits=19, decimal_places=2, default=0.0)
     approved = models.BooleanField(default=False)
     date_requested = models.DateTimeField(auto_now_add=True)
 
@@ -808,4 +845,42 @@ class RequestFloat(models.Model):
 
     def get_owner_username(self):
         return self.owner.username
+
+class PayRequestedFloat(models.Model):
+    float_request = models.ForeignKey(RequestFloat,on_delete=models.CASCADE)
+    agent = models.ForeignKey(User, on_delete=models.CASCADE,related_name="user_requesting_float")
+    mode_of_payment1 = models.CharField(max_length=30, choices=MODE_OF_PAYMENT, blank=True)
+    mode_of_payment2 = models.CharField(max_length=30, choices=MODE_OF_PAYMENT, blank=True, default="")
+    cash_at_location1 = models.CharField(max_length=30, choices=PAYMENT_OFFICES, blank=True, default="")
+    cash_at_location2 = models.CharField(max_length=30, choices=PAYMENT_OFFICES, blank=True, default="")
+    bank1 = models.CharField(max_length=50, choices=BANKS, blank=True, default="")
+    bank2 = models.CharField(max_length=50, choices=BANKS, blank=True)
+    amount = models.DecimalField(max_digits=19, decimal_places=2, default=0.0, blank=True)
+    amount1 = models.DecimalField(max_digits=19, decimal_places=2, default=0.0)
+    amount2 = models.DecimalField(max_digits=19, decimal_places=2, default=0.0)
+    transaction_id1 = models.CharField(max_length=30, blank=True, default="")
+    transaction_id2 = models.CharField(max_length=30, blank=True, default="")
+    payment_action = models.CharField(max_length=50, choices=PAYMENT_ACTIONS, default="Close Payment")
+    payment_status = models.CharField(max_length=20, choices=REQUEST_STATUS, default="Pending")
+    payment_month = models.CharField(max_length=10, blank=True, default="")
+    payment_year = models.CharField(max_length=10, blank=True, default="")
+    date_created = models.DateField(auto_now_add=True)
+    time_created = models.TimeField(auto_now_add=True)
+
+    def get_agent_username(self):
+        return self.agent.username
+    def __str__(self):
+        if self.payment_status == "Pending":
+            return f"{self.agent.username}'s payment is pending"
+        return f"{self.agent.username}'s payment is approved"
+
+    def save(self, *args, **kwargs):
+        my_date = datetime.today()
+        de_date = my_date.date()
+        self.payment_month = de_date.month
+        self.payment_year = de_date.year
+
+        amount_total = Decimal(self.amount1) + Decimal(self.amount2)
+        self.amount = Decimal(amount_total)
+        super().save(*args, **kwargs)
 
