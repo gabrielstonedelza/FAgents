@@ -225,4 +225,6 @@ urlpatterns = [
     path("approve_float_request/<int:id>/",views.approve_float_request),
 #     payments
     path('make_payments/', views.make_payments),
+    path('payment_summary/', views.payment_summary),
+    path('get_all_payments/', views.get_all_payments),
 ]
