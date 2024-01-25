@@ -852,6 +852,7 @@ class RequestFloat(models.Model):
 
 class PayRequestedFloat(models.Model):
     float_request = models.ForeignKey(RequestFloat,on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE,related_name="owner_receiving_payments")
     agent = models.ForeignKey(User, on_delete=models.CASCADE,related_name="user_requesting_float")
     mode_of_payment1 = models.CharField(max_length=30, choices=MODE_OF_PAYMENT, blank=True)
     mode_of_payment2 = models.CharField(max_length=30, choices=MODE_OF_PAYMENT, blank=True, default="")
@@ -874,9 +875,7 @@ class PayRequestedFloat(models.Model):
     def get_agent_username(self):
         return self.agent.username
     def __str__(self):
-        if self.payment_status == "Pending":
-            return f"{self.agent.username}'s payment is pending"
-        return f"{self.agent.username}'s payment is approved"
+        return str(self.float_request.amount)
 
     def save(self, *args, **kwargs):
         my_date = datetime.today()

@@ -7,7 +7,7 @@ class PayRequestedFloatSerializer(serializers.ModelSerializer):
         fields = ['id', 'float_request','agent', 'mode_of_payment1', 'mode_of_payment2', 'cash_at_location1',
                   'cash_at_location2', 'amount', 'amount1', 'amount2', 'bank1', 'bank2', 'transaction_id1',
                   'transaction_id2', 'payment_action', 'payment_status', 'date_created', 'time_created', 'slug',
-                  'payment_month', 'payment_year', 'get_float_amount','get_float_type']
+                  'payment_month', 'payment_year', 'get_float_amount','get_float_type','owner']
         read_only_fields = ['agent']
 
 class RequestFloatSerializer(serializers.ModelSerializer):
