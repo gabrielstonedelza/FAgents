@@ -4,7 +4,7 @@ from .models import (Customer, CustomerAccounts, BankDeposit, MobileMoneyDeposit
 class PayRequestedFloatSerializer(serializers.ModelSerializer):
     class Meta:
         model = PayRequestedFloat
-        fields = ['id', 'float_request','agent', 'mode_of_payment1', 'mode_of_payment2', 'cash_at_location1',
+        fields = ['id','agent', 'mode_of_payment1', 'mode_of_payment2', 'cash_at_location1',
                   'cash_at_location2', 'amount', 'amount1', 'amount2', 'bank1', 'bank2', 'transaction_id1',
                   'transaction_id2', 'payment_action', 'payment_status', 'date_created', 'time_created', 'slug',
                   'payment_month', 'payment_year', 'get_float_amount','get_float_type','owner']
