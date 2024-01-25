@@ -874,7 +874,7 @@ class PayRequestedFloat(models.Model):
     def get_agent_username(self):
         return self.agent.username
     def __str__(self):
-        return str(self.float_request.amount)
+        return self.amount
 
     def save(self, *args, **kwargs):
         my_date = datetime.today()
@@ -885,9 +885,3 @@ class PayRequestedFloat(models.Model):
         amount_total = Decimal(self.amount1) + Decimal(self.amount2)
         self.amount = Decimal(amount_total)
         super().save(*args, **kwargs)
-
-    def get_float_amount(self):
-        return str(self.float_request.amount)
-
-    def get_float_type(self):
-        return self.float_request.float_request
