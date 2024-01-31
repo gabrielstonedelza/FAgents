@@ -1583,3 +1583,11 @@ def delete_payment(request, id):
     except PayRequestedFloat.DoesNotExist:
         return Http404
     return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_all_agent_payments(request):
+    agents_payments = PayRequestedFloat.objects.filter(owner=request.user).order_by('-date_created')
+    serializer = PayRequestedFloatSerializer(agents_payments, many=True)
+    return Response(serializer.data)

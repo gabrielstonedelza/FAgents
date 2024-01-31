@@ -227,4 +227,5 @@ urlpatterns = [
     path('make_payments/', views.make_payments),
     path('payment_summary/', views.payment_summary),
     path('get_all_payments/', views.get_all_payments),
+    path('get_all_agent_payments/', views.get_all_agent_payments),
 ]
