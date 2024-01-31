@@ -228,4 +228,5 @@ urlpatterns = [
     path('payment_summary/', views.payment_summary),
     path('get_all_payments/', views.get_all_payments),
     path('get_all_agent_payments/', views.get_all_agent_payments),
+    path('get_agents_float_payment_transactions_by_date/<str:username>/<str:d_month>/<str:d_year>/', views.get_agents_float_payment_transactions_by_date),
 ]

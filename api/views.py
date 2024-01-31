@@ -1591,3 +1591,12 @@ def get_all_agent_payments(request):
     agents_payments = PayRequestedFloat.objects.filter(owner=request.user).order_by('-date_created')
     serializer = PayRequestedFloatSerializer(agents_payments, many=True)
     return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_agents_float_payment_transactions_by_date(request, username, d_month, d_year):
+    user = get_object_or_404(User, username=username)
+    bank = PayRequestedFloat.objects.filter(agent=user).filter(payment_month=d_month).filter(
+        payment_year=d_year).order_by('-date_created')
+    serializer = PayRequestedFloatSerializer(bank, many=True)
+    return Response(serializer.data)
