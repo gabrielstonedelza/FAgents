@@ -219,6 +219,7 @@ urlpatterns = [
     path("get_all_my_floats/",views.get_all_my_floats),
     path("get_all_owner_unapproved_floats/",views.get_all_owner_unapproved_floats),
     path("get_all_unapproved_floats/",views.get_all_unapproved_floats),
+    path("get_all_approved_floats/",views.get_all_approved_floats),
     path("get_all_floats/",views.get_all_floats),
     path("update_float/<int:pk>/",views.update_float),
     path("delete_float/<int:id>/",views.delete_float),
