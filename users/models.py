@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, AbstractBaseUser
 from django.conf import settings
-import random
+import secrets
 
 DeUser = settings.AUTH_USER_MODEL
 USER_TYPE = (
@@ -34,7 +34,7 @@ class User(AbstractUser):
 
     def save(self, *args, **kwargs):
         a_unique = "EA"
-        a_code = a_unique + str(random.randint(0,9999)) + self.phone_number[4:9]
+        a_code = a_unique + str(secrets.SystemRandom().randint(0,9999)) + self.phone_number[4:9]
         self.agent_unique_code = a_code
         super().save(*args, **kwargs)
 
